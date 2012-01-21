@@ -1,4 +1,4 @@
-*/config/
+*/application/config/
 */logs/log-*.php
 */logs/!index.html
 */cache/*
