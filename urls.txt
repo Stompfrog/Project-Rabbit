@@ -1,0 +1,62 @@
+Home
+	/
+	
+Explore
+	/explore/
+	
+Artists
+	/artists/
+	/artists/artist_id/
+	/artists/add/
+	/artists/artist_id/edit/
+	/artists/latest/
+	/artist/popular/
+	/artists/(oils/watercolours/acrylic)/
+	/artist/search?q=query
+	
+Places
+	/places/
+	/places/place_id/
+	/places/add/
+	/places/place_id/edit/
+	/places/latest/
+	/places/popular/
+	/places/(shops/private residencies/gallery)/
+	/places/search?q=query
+
+Groups
+	/groups/
+	/groups/group_id/
+	/groups/add/
+	/groups/group_id/edit/
+	/groups/latest/
+	/groups/popular/
+	/groups/search?q=query
+
+Events
+	/events/
+	/events/event_id/
+	/events/add/
+	/events/event_id/edit/
+	/events/latest/
+	/events/popular/
+	/events/(workshop/exhibition/screening)/
+	/events/search?q=query
+	
+Account
+	/register/
+	/login/
+	/logout/
+	/forgotten-password/
+	/edit-details/
+	
+Search
+	/search?q=query
+	
+Contact
+	/contact/
+	/contact/thank-you/
+
+About
+	/about/
+	
