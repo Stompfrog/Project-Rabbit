@@ -11,7 +11,7 @@
 		   <li>Aliquam tincidunt mauris eu risus.</li>
 		   <li>Vestibulum auctor dapibus neque.</li>
 		</ul>
-		<a class="btn warning" href="reg1.html">Create a new group!</a>
+		<a class="btn warning" href="<?php echo base_url(); ?>index.php/auth/register">Create a new group!</a>
        <hr />
 		<h2>Latest Groups</h2>
 		<hr />

@@ -16,6 +16,15 @@ class Events extends CI_Controller
 		$this->load->view('events/index');
 		$this->load->view('templates/footer');
 	}
+
+
+	function render()
+	{
+		$this->load->view('templates/header');
+		$this->load->view('events/render');
+		$this->load->view('templates/footer');
+	}
+
 }
 
 /* End of file welcome.php */

@@ -11,51 +11,51 @@
 		   <li>Aliquam tincidunt mauris eu risus.</li>
 		   <li>Vestibulum auctor dapibus neque.</li>
 		</ul>
-		<a class="btn danger" href="reg1.html">Sign up as an artist!</a>
+		<a class="btn danger" href="<?php echo base_url(); ?>index.php/auth/register">Sign up as an artist!</a>
 	   <hr />
 		<h2>Latest Artists</h2>
 		<hr />
 		<ul class="search-results">
 			<li>
-				<ul class="media-grid"><li><a href="#"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<h3><a href="#">Artist Name</a></h3>
+				<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/artists/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
+				<h3><a href="<?php echo base_url(); ?>index.php/artists/render">Artist Name</a></h3>
 				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-				<span class="label important">Oils</span> <span class="label important">Watercolour</span> <a class="pull-right" href="#">View profile &raquo;</a>
+				<span class="label important">Oils</span> <span class="label important">Watercolour</span> <a class="pull-right" href="<?php echo base_url(); ?>index.php/artists/render">View profile &raquo;</a>
 			</li>
 			<li>
-				<ul class="media-grid"><li><a href="#"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<h3><a href="#">Artist Name</a></h3>
+				<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/artists/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
+				<h3><a href="<?php echo base_url(); ?>index.php/artists/render">Artist Name</a></h3>
 				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-				<span class="label important">Acrylic</span> <a class="pull-right" href="#">View profile &raquo;</a>
+				<span class="label important">Acrylic</span> <a class="pull-right" href="<?php echo base_url(); ?>index.php/artists/render">View profile &raquo;</a>
 			</li>
 			<li>
-				<ul class="media-grid"><li><a href="#"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<h3><a href="#">Artist Name</a></h3>
+				<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/artists/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
+				<h3><a href="<?php echo base_url(); ?>index.php/artists/render">Artist Name</a></h3>
 				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-				<span class="label important">Oils</span> <a class="pull-right" href="#">View profile &raquo;</a>
+				<span class="label important">Oils</span> <a class="pull-right" href="<?php echo base_url(); ?>index.php/artists/render">View profile &raquo;</a>
 			</li>
 			<li>
-				<ul class="media-grid"><li><a href="#"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<h3><a href="#">Artist Name</a></h3>
+				<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/artists/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
+				<h3><a href="<?php echo base_url(); ?>index.php/artists/render">Artist Name</a></h3>
 				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-				<span class="label important">Mixed media</span> <a class="pull-right" href="#">View profile &raquo;</a>
+				<span class="label important">Mixed media</span> <a class="pull-right" href="<?php echo base_url(); ?>index.php/artists/render">View profile &raquo;</a>
 			</li>
 			<li>
-				<ul class="media-grid"><li><a href="#"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<h3><a href="#">Artist Name</a></h3>
+				<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/artists/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
+				<h3><a href="<?php echo base_url(); ?>index.php/artists/render">Artist Name</a></h3>
 				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-				<span class="label important">Mixed media</span> <span class="label important">Oils</span> <a class="pull-right" href="#">View profile &raquo;</a>
+				<span class="label important">Mixed media</span> <span class="label important">Oils</span> <a class="pull-right" href="<?php echo base_url(); ?>index.php/artists/render">View profile &raquo;</a>
 			</li>
 		</ul>
 		<div class="pagination">
 			<ul>
-				<li class="prev disabled"><a href="#">&larr; Previous</a></li>
-				<li class="active"><a href="#">1</a></li>
-				<li><a href="#">2</a></li>
-				<li><a href="#">3</a></li>
-				<li><a href="#">4</a></li>
-				<li><a href="#">5</a></li>
-				<li class="next"><a href="#">Next &rarr;</a></li>
+				<li class="prev disabled"><a href="<?php echo base_url(); ?>index.php/artists/render">&larr; Previous</a></li>
+				<li class="active"><a href="<?php echo base_url(); ?>index.php/artists/render">1</a></li>
+				<li><a href="<?php echo base_url(); ?>index.php/artists/render">2</a></li>
+				<li><a href="<?php echo base_url(); ?>index.php/artists/render">3</a></li>
+				<li><a href="<?php echo base_url(); ?>index.php/artists/render">4</a></li>
+				<li><a href="<?php echo base_url(); ?>index.php/artists/render">5</a></li>
+				<li class="next"><a href="<?php echo base_url(); ?>index.php/artists/render">Next &rarr;</a></li>
 			</ul>
 		</div>						
 	</div>
@@ -65,11 +65,11 @@
 		<br /><br />
 		<h3>Popular Artists</h3>
 		<ul class="events unstyled">
-			<li><a href="#">Artist 1</a></li>
-			<li><a href="#">Artist 2</a></li>
-			<li><a href="#">Artist 3</a></li>
-			<li><a href="#">Artist 4</a></li>
-			<li><a href="#">Artist 5</a></li>
+			<li><a href="<?php echo base_url(); ?>index.php/artists/render">Artist 1</a></li>
+			<li><a href="<?php echo base_url(); ?>index.php/artists/render">Artist 2</a></li>
+			<li><a href="<?php echo base_url(); ?>index.php/artists/render">Artist 3</a></li>
+			<li><a href="<?php echo base_url(); ?>index.php/artists/render">Artist 4</a></li>
+			<li><a href="<?php echo base_url(); ?>index.php/artists/render">Artist 5</a></li>
 		</ul>
 	</div>
 </div>

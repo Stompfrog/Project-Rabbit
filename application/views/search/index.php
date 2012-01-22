@@ -7,39 +7,39 @@
 		<hr />
 		<ul class="search-results">
 			<li>
-				<ul class="media-grid"><li><a href="#"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<h3>Results title</h3>
+				<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/artists/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
+				<h3><a href="<?php echo base_url(); ?>index.php/artists/render">Artist name</a></h3>
 				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-				<span class="label important">Artist</span> <a href="#">More details</a>
+				<span class="label important">Artist</span> <a href="<?php echo base_url(); ?>index.php/artists/render">More details</a>
 			</li>
 			<li>
-				<ul class="media-grid"><li><a href="#"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<h3>Results title</h3>
+				<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/events/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
+				<h3><a href="<?php echo base_url(); ?>index.php/events/render">Event name</a></h3>
 				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-				<span class="label notice">Event</span> <a href="#">More details</a>
+				<span class="label notice">Event</span> <a href="<?php echo base_url(); ?>index.php/events/render">More details</a>
 			</li>
 			<li>
-				<ul class="media-grid"><li><a href="#"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<h3>Results title</h3>
+				<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/places/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
+				<h3><a href="<?php echo base_url(); ?>index.php/places/render">Place name</a></h3>
 				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-				<span class="label success">Place</span> <a href="#">More details</a>
+				<span class="label success">Place</span> <a href="<?php echo base_url(); ?>index.php/places/render">More details</a>
 			</li>
 			<li>
-				<ul class="media-grid"><li><a href="#"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<h3>Results title</h3>
+				<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/groups/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
+				<h3><a href="<?php echo base_url(); ?>index.php/groups/render">Group name</a></h3>
 				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-				<span class="label warning">Group</span> <a href="#">More details</a>
+				<span class="label warning">Group</span> <a href="<?php echo base_url(); ?>index.php/groups/render">More details</a>
 			</li>
 			<li>
-				<ul class="media-grid"><li><a href="#"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<h3>Results title</h3>
+				<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/events/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
+				<h3><a href="<?php echo base_url(); ?>index.php/events/render">Event name</a></h3>
 				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-				<span class="label notice">Event</span> <a href="#">More details</a>
+				<span class="label notice">Event</span> <a href="<?php echo base_url(); ?>index.php/events/render">More details</a>
 			</li>
 		</ul>
 		<div class="pagination">
 			<ul>
-				<li class="prev disabled"><a href="#">&larr; Previous</a></li>
+				<li class="prev disabled"><a href="<?php echo base_url(); ?>#">&larr; Previous</a></li>
 				<li class="active"><a href="#">1</a></li>
 				<li><a href="#">2</a></li>
 				<li><a href="#">3</a></li>

@@ -14,7 +14,7 @@
 	    <div class="tab-content">
 			<div class="active" id="artists">
 				<h3>Find local artists</h3>
-				<ul class="media-grid"><li><a href="#"><img alt="" src="http://placehold.it/550x300" class="thumbnail"></a></li></ul>
+				<ul class="media-grid"><li><a href="#"><img alt="" src="http://placehold.it/550x350" class="thumbnail"></a></li></ul>
 				<h4>Filter options</h4>
 				<input type="checkbox"/> Oils&nbsp;&nbsp;&nbsp; <input type="checkbox"/> Acryllic&nbsp;&nbsp;&nbsp; <input type="checkbox"/> watercolour&nbsp;&nbsp;&nbsp; <input type="checkbox"/> mixed media
 			</div>
@@ -48,12 +48,12 @@
 			<dt>Media</dt>
 			<dd>oils, watercolour, mixed media</dd>
 		</dl>
-		<a href="#">View full profile &raquo;</a>
+		<a href="<?php echo base_url(); ?>index.php/artists/render">View full profile &raquo;</a>
 		<hr />
 		<h3>Groups</h3>
 		<ul class="events unstyled">
-			<li><a href="#">Team Rocket</a></li>
-			<li><a href="#">Naked Painters</a></li>
+			<li><a href="<?php echo base_url(); ?>index.php/groups/render">Team Rocket</a></li>
+			<li><a href="<?php echo base_url(); ?>index.php/groups/render">Naked Painters</a></li>
 		</ul>
 	</div>
 </div>
