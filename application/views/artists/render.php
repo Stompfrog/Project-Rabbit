@@ -3,10 +3,16 @@
 </div>
 <div class="row">
 	<div class="span10">
-		<h2>Mark Robson <small>Member since April 10th 2001</small></h2>
+		<h2><?= $user['first_name']; ?> <?= $user['last_name']; ?> <small>Member since April 10th 2001</small></h2>
 		<hr />
 		<h3>Wizard with a paint brush</h3>
-		<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+		<p><?= $user['about_me']; ?></p>
+		<dl>
+			<dt>Country</dt>
+			<dd><?= $user['country']; ?></dd>
+			<dt>Website</dt>
+			<dd><?= anchor($user['website'],$user['website']); ?></dd>
+		</dl>
 		<h4>Interests</h4>
 		<ul>
 			<li>Oils</li>

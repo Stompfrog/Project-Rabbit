@@ -31,7 +31,7 @@
 							<li class="dropdown" data-dropdown="dropdown">
 								<?php echo anchor('artists/render',$user_name,'class="dropdown-toggle"'); ?>
 								<ul class="dropdown-menu">
-									<li><?php echo anchor('artists/render/'.$user_id,'View Profile'); ?></li>
+									<li><?php echo anchor('artists/'.$user_id,'View Profile'); ?></li>
 									<li><?php echo anchor('auth/update_profile','Edit Profile'); ?></li>
 									<li class="divider"></li>
 									<li><?php echo anchor('auth/logout','Log out'); ?></li>

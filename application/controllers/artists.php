@@ -9,6 +9,20 @@ class Artists extends CI_Controller
 		$this->load->helper('url');
 		$this->load->library('tank_auth');
 	}
+	
+	function _remap($method)
+	{
+	    if ($method == 'index')
+	    {
+	    	// domain/artists/
+	        $this->index();
+	    }
+	    else
+	    {
+	    	// domain/artists/artist_id/
+	        $this->render($method);
+	    }
+	}
 
 	function index()
 	{
@@ -17,11 +31,28 @@ class Artists extends CI_Controller
 		$this->load->view('templates/footer');
 	}
 	
-	function render()
+	function render($user_id)
 	{
-		$this->load->view('templates/header');
-		$this->load->view('artists/render');
-		$this->load->view('templates/footer');
+		$this->load->model('artists_model');
+		
+		$user = $this->artists_model->get_user_data($user_id);
+			
+		if($user){
+
+			$data['user'] = $user;
+			
+			$this->load->view('templates/header');
+			$this->load->view('artists/render',$data);
+			$this->load->view('templates/footer');
+
+		
+		}else{
+		
+			$this->load->view('templates/header');
+			$this->load->view('artists/not_found');
+			$this->load->view('templates/footer');
+		}
+
 	}
 }
 
