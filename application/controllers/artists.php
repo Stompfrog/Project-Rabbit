@@ -26,8 +26,13 @@ class Artists extends CI_Controller
 
 	function index()
 	{
+	
+		$this->load->model('artists_model');
+
+		$data['latest'] = $this->artists_model->latest_artists(5);
+	
 		$this->load->view('templates/header');
-		$this->load->view('artists/index');
+		$this->load->view('artists/index',$data);
 		$this->load->view('templates/footer');
 	}
 	

@@ -17,48 +17,15 @@
 		<h2>Latest Artists</h2>
 		<hr />
 		<ul class="search-results">
-			<li>
-				<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/artists/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<h3><a href="<?php echo base_url(); ?>index.php/artists/render">Artist Name</a></h3>
-				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-				<span class="label important">Oils</span> <span class="label important">Watercolour</span> <a class="pull-right" href="<?php echo base_url(); ?>index.php/artists/render">View profile &raquo;</a>
-			</li>
-			<li>
-				<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/artists/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<h3><a href="<?php echo base_url(); ?>index.php/artists/render">Artist Name</a></h3>
-				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-				<span class="label important">Acrylic</span> <a class="pull-right" href="<?php echo base_url(); ?>index.php/artists/render">View profile &raquo;</a>
-			</li>
-			<li>
-				<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/artists/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<h3><a href="<?php echo base_url(); ?>index.php/artists/render">Artist Name</a></h3>
-				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-				<span class="label important">Oils</span> <a class="pull-right" href="<?php echo base_url(); ?>index.php/artists/render">View profile &raquo;</a>
-			</li>
-			<li>
-				<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/artists/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<h3><a href="<?php echo base_url(); ?>index.php/artists/render">Artist Name</a></h3>
-				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-				<span class="label important">Mixed media</span> <a class="pull-right" href="<?php echo base_url(); ?>index.php/artists/render">View profile &raquo;</a>
-			</li>
-			<li>
-				<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/artists/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<h3><a href="<?php echo base_url(); ?>index.php/artists/render">Artist Name</a></h3>
-				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-				<span class="label important">Mixed media</span> <span class="label important">Oils</span> <a class="pull-right" href="<?php echo base_url(); ?>index.php/artists/render">View profile &raquo;</a>
-			</li>
+			<?php foreach($latest->result() as $row): ?>
+				<li>
+					<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/artists/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
+					<h3><a href="<?php echo base_url(); ?>index.php/artists/<?php echo $row->user_id; ?>"><?php echo $row->first_name; ?> <?php echo $row->last_name; ?></a></h3>
+					<p><?php echo $row->about_me; ?></p>
+					<span class="label important">Oils</span> <span class="label important">Watercolour</span> <a class="pull-right" href="<?php echo base_url(); ?>index.php/artists/render">View profile &raquo;</a>
+				</li>
+			<?php endforeach; ?>
 		</ul>
-		<div class="pagination">
-			<ul>
-				<li class="prev disabled"><a href="#">&larr; Previous</a></li>
-				<li class="active"><a href="#">1</a></li>
-				<li><a href="#">2</a></li>
-				<li><a href="#">3</a></li>
-				<li><a href="#">4</a></li>
-				<li><a href="#">5</a></li>
-				<li class="next"><a href="#">Next &rarr;</a></li>
-			</ul>
-		</div>						
 	</div>
 	<div class="span4">
 		<h3>Search artists</h3>
@@ -66,11 +33,11 @@
 		<br /><br />
 		<h3>Popular Artists</h3>
 		<ul class="events unstyled">
-			<li><a href="#">Artist 1</a></li>
-			<li><a href="#">Artist 2</a></li>
-			<li><a href="#">Artist 3</a></li>
-			<li><a href="#">Artist 4</a></li>
-			<li><a href="#">Artist 5</a></li>
+			<?php foreach($latest->result() as $row): ?>
+				<li>
+					<a href="<?php echo base_url(); ?>index.php/artists/<?php echo $row->user_id; ?>"><?php echo $row->first_name; ?> <?php echo $row->last_name; ?></a>
+				</li>
+			<?php endforeach; ?>
 		</ul>
 	</div>
 </div>

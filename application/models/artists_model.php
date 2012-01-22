@@ -9,12 +9,12 @@ class Artists_model extends CI_Model {
     {
         // Call the Model constructor
         parent::__construct();
+		$this->load->database();
     }
 
 	function get_user_data($user_id)
 	{
 		// Query the database to get the users details
-		$this->load->database();
 		$user = $this->db->query("SELECT * FROM user_profiles WHERE user_id = ?",array($user_id));
 		if ($user->num_rows() > 0)
 		{
@@ -26,18 +26,17 @@ class Artists_model extends CI_Model {
 		}
 	}
 	
-/*
-	function latest_mugs($limit){
+
+	function latest_artists($limit){
 		// Get the latest people to sign up
-		$this->load->database();
 		if($limit==0){
-			return $this->db->query("SELECT user_name, user_start_date FROM tea_table ORDER BY user_start_date DESC");
+			return $this->db->query("SELECT * FROM user_profiles ORDER BY id DESC");
 		}
 		else
 		{
-			return $this->db->query("SELECT user_name, user_start_date FROM tea_table ORDER BY user_start_date DESC LIMIT ".$limit);
+			return $this->db->query("SELECT * FROM user_profiles ORDER BY id DESC LIMIT ".$limit);
 		}
 	}
 
-*/    
+   
 }
