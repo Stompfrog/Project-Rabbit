@@ -44,6 +44,7 @@ class Auth extends CI_Controller
 			$this->form_validation->set_rules('login', 'Login', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('remember', 'Remember me', 'integer');
+			$this->form_validation->set_error_delimiters('<span class="help-inline">', '</span>');
 
 			// Get login for counting attempts to login
 			if ($this->config->item('login_count_attempts', 'tank_auth') AND
@@ -93,7 +94,10 @@ class Auth extends CI_Controller
 					$data['captcha_html'] = $this->_create_captcha();
 				}
 			}
+			
+			$this->load->view('templates/header');
 			$this->load->view('auth/login_form', $data);
+			$this->load->view('templates/footer', $data);
 		}
 	}
 
