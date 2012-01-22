@@ -20,10 +20,28 @@
 						<li><a href="<?= base_url(); ?>index.php/places/">Places</a></li>
 						<li><a href="<?= base_url(); ?>index.php/events/">Events</a></li>
 					</ul>
-					<form action="" class="pull-right">
-						<a href="<?php echo base_url(); ?>index.php/auth/login" class="btn primary" type="submit">Log in</a>
-						<a class="btn primary" href="<?php echo base_url(); ?>index.php/auth/register" type="submit">Register</a>
-					</form>
+
+					<ul class="nav secondary-nav">
+						<?php if ($this->tank_auth->is_logged_in()) { ?>
+							<?php 
+								$user_id = $this->tank_auth->get_user_id();
+								$user_name = $this->tank_auth->get_username();
+							?>
+
+							<li class="dropdown" data-dropdown="dropdown">
+								<?php echo anchor('artists/render',$user_name,'class="dropdown-toggle"'); ?>
+								<ul class="dropdown-menu">
+									<li><?php echo anchor('artists/render/'.$user_id,'View Profile'); ?></li>
+									<li><?php echo anchor('auth/update_profile','Edit Profile'); ?></li>
+									<li class="divider"></li>
+									<li><?php echo anchor('auth/logout','Log out'); ?></li>
+								</ul>
+				            </li>
+						<?php }else{ ?>
+							<li><?php echo anchor('auth/login','Log in'); ?></li>
+							<li><?php echo anchor('auth/register','Register'); ?></li>
+						<?php } ?>
+					</ul>
 				</div>
 			</div>
 		</div>

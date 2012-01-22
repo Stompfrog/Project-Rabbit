@@ -94,6 +94,9 @@ $submit = array(
 		<h3>Other options</h3>
 		<ul class="events unstyled">
 			<li><?php echo anchor('/artists/render/', 'View profile'); ?></li>
+			<li><?php echo anchor('/auth/change_password/', 'Change password'); ?></li>
+			<li><?php echo anchor('/auth/logout/', 'Logout'); ?></li>
+			<li><?php echo anchor('/auth/unregister/', 'Unregister'); ?></li>
 		</ul>
 	</div>
 </div>

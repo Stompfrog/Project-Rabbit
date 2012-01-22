@@ -12,21 +12,9 @@ class Welcome extends CI_Controller
 
 	function index()
 	{
-		/* 
-		if user is not logged in, just show normal site with login options
-		*/
 		$this->load->view('templates/header');
-		
-		if (!$this->tank_auth->is_logged_in()) {
-			//redirect('/auth/login/');
-			$this->load->view('welcome_message');
-		} else {
-			$data['user_id'] = $this->tank_auth->get_user_id();
-			$data['username'] = $this->tank_auth->get_username();
-			$this->load->view('welcome', $data);
-		}
+		$this->load->view('welcome_message');
 		$this->load->view('templates/footer');
-		
 	}
 }
 
