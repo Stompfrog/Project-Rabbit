@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 21, 2012 at 06:11 PM
+-- Generation Time: Jan 22, 2012 at 09:50 PM
 -- Server version: 5.1.44
 -- PHP Version: 5.3.2
 
@@ -68,13 +68,18 @@ CREATE TABLE `role_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `role_types`
 --
 
-INSERT INTO `role_types` VALUES(1, 'Painter');
+INSERT INTO `role_types` VALUES(1, 'Oils');
+INSERT INTO `role_types` VALUES(3, 'Acrylics');
+INSERT INTO `role_types` VALUES(4, 'Watercolours');
+INSERT INTO `role_types` VALUES(5, 'Sculpting');
+INSERT INTO `role_types` VALUES(6, 'Mixed media');
+INSERT INTO `role_types` VALUES(7, 'Venue owner');
 
 -- --------------------------------------------------------
 
@@ -105,7 +110,7 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` VALUES(1, 'roppa_uk', '$2a$08$vSOeF4KmPaXh/sTV6B9Ay.OAtMwn/4Rxci3PQHr6CNzi4wYcDJm3G', 'roppa_uk@hotmail.com', 1, 0, NULL, NULL, NULL, NULL, 'a5991f5072eaa2569d015d796cad4f6f', '127.0.0.1', '2012-01-21 16:38:48', '2012-01-21 13:34:48', '2012-01-21 16:38:48');
+INSERT INTO `users` VALUES(1, 'roppa_uk', '$2a$08$vSOeF4KmPaXh/sTV6B9Ay.OAtMwn/4Rxci3PQHr6CNzi4wYcDJm3G', 'roppa_uk@hotmail.com', 1, 0, NULL, NULL, NULL, NULL, 'a5991f5072eaa2569d015d796cad4f6f', '127.0.0.1', '2012-01-22 21:07:06', '2012-01-21 13:34:48', '2012-01-22 21:07:06');
 
 -- --------------------------------------------------------
 
@@ -140,14 +145,21 @@ CREATE TABLE `user_profiles` (
   `website` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `first_name` varchar(10) COLLATE utf8_bin NOT NULL,
   `last_name` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `avatar_filename` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `sex` char(1) COLLATE utf8_bin DEFAULT NULL,
   `about_me` text COLLATE utf8_bin,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+  `lat` double DEFAULT NULL,
+  `lon` double DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_user_id` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `user_profiles`
 --
 
+INSERT INTO `user_profiles` VALUES(1, 1, 'UK', 'http://www.whiteforest.co.uk', 'Mark', 'Robson', NULL, NULL, NULL, 0x486572652069732061206c6974746c65206269742061626f7574206d652e20416e6420736f6d65206d6f72652061626f7574206d652e, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -159,10 +171,21 @@ CREATE TABLE `user_roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `role_type_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `FK_role_user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `user_roles`
 --
 
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `user_profiles`
+--
+ALTER TABLE `user_profiles`
+  ADD CONSTRAINT `FK_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
