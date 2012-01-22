@@ -21,8 +21,8 @@
 						<li><a href="<?= base_url(); ?>index.php/events/">Events</a></li>
 					</ul>
 					<form action="" class="pull-right">
-						<a href="<?php echo base_url(); ?>/index.php/auth/login" class="btn primary" type="submit">Sign in</a>
-						<a class="btn primary" href="reg1.html" type="submit">Register</a>
+						<a href="<?php echo base_url(); ?>index.php/auth/login" class="btn primary" type="submit">Log in</a>
+						<a class="btn primary" href="<?php echo base_url(); ?>index.php/auth/register" type="submit">Register</a>
 					</form>
 				</div>
 			</div>

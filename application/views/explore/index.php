@@ -39,7 +39,7 @@
 	<div class="span4">
 		<h3>Explore stuff</h3>
 		<p>Pick an marker from the map to see more information, or do a search.</p>
-		<input class="span3" type="text" placeholder="Search..." /> <a href="results.html" class="btn primary" />Go</a>
+		<input class="span3" type="text" placeholder="Search..." /> <a href="<?= base_url(); ?>index.php/search/" class="btn primary" />Go</a>
 		<hr />
 		<h3>Mark Robson</h3>
 		<dl>

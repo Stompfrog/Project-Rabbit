@@ -61,7 +61,7 @@
 	</div>
 	<div class="span4">
 		<h3>Search groups</h3>
-		<input class="span3" type="text" placeholder="Search..." /> <a href="results.html" class="btn primary" />Go</a>
+		<input class="span3" type="text" placeholder="Search..." /> <a href="<?= base_url(); ?>index.php/search/" class="btn primary" />Go</a>
 		<br /><br />
 		<h3>Popular Groups</h3>
 		<ul class="events unstyled">
