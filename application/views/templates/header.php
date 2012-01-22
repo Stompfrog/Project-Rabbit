@@ -13,14 +13,13 @@
 				<div class="container">
 					<a class="brand" href="<?= base_url(); ?>">Project Rabbit</a>
 					<ul class="nav">
-						<li class="active"><a href="<?= base_url(); ?>">Home</a></li>
-						<li><a href="<?= base_url(); ?>index.php/explore/">Explore</a></li>
-						<li><a href="<?= base_url(); ?>index.php/artists/">Artists</a></li>
-						<li><a href="<?= base_url(); ?>index.php/groups/">Groups</a></li>
-						<li><a href="<?= base_url(); ?>index.php/places/">Places</a></li>
-						<li><a href="<?= base_url(); ?>index.php/events/">Events</a></li>
+						<li <?php if($this->uri->segment(1)=="welcome" || !$this->uri->segment(1)){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>">Home</a></li>
+						<li <?php if($this->uri->segment(1)=="explore"){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>index.php/explore/">Explore</a></li>
+						<li <?php if($this->uri->segment(1)=="artists"){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>index.php/artists/">Artists</a></li>
+						<li <?php if($this->uri->segment(1)=="groups"){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>index.php/groups/">Groups</a></li>
+						<li <?php if($this->uri->segment(1)=="places"){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>index.php/places/">Places</a></li>
+						<li <?php if($this->uri->segment(1)=="events"){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>index.php/events/">Events</a></li>
 					</ul>
-
 					<ul class="nav secondary-nav">
 						<?php if ($this->tank_auth->is_logged_in()) { ?>
 							<?php 
