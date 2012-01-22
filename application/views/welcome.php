@@ -78,6 +78,7 @@
 			<li><?php echo anchor('/auth/unregister/', 'Unregister'); ?></li>
 			<li><?php echo anchor('/auth/reset_email/', 'Reset email'); ?></li>
 			<li><?php echo anchor('/auth/change_password/', 'Change password'); ?></li>
+			<li><?php echo anchor('/auth/update_profile/', 'Update profile'); ?></li>
 		</ul>
 
 	</div>

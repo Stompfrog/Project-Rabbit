@@ -25,12 +25,36 @@ class Profiles extends CI_Model
 	 * @param	array
 	 * @return	array
 	 */
-	function update_profile($data) {
-
-		if ($this->db->insert($this->table_name, $data)) {
+	function update_profile($user_id, $data)
+	{
+		$this->db->where('user_id', (int) $user_id);
+		if ($this->db->update($this->profile_table_name, $data))
+		{
 			return TRUE;
 		}
 		return FALSE;
+	}
+	
+	/**
+	 * Get profile values
+ 	 *
+	 * @param	int
+	 * @return	array
+	 */
+	function get_profile($user_id) {
+
+		$query = $this->db->query("select first_name, about_me, country, website, last_name from " . $this->profile_table_name . ' where user_id = ' . $user_id);
+
+		if ($query->num_rows() > 0)
+		{
+		   return $query->row_array();
+		} else {		
+			return $data = array('first_name' => '', 
+							'about_me' => '', 
+							'country' => '', 
+							'website' => '', 
+							'last_name' => '');
+		}	
 	}
 }
 

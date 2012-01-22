@@ -71,7 +71,7 @@
 
 	<div id="body">
 		<p>More content to come soon, this stuff is all static.</p>
-		<p><a href="<?php echo base_url(); ?>/index.php/auth/login">Log in</a></p>
+		<p><a href="<?php echo base_url(); ?>index.php/auth/login">Log in</a></p>
 	</div>
 
 	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</p>

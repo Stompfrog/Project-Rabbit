@@ -453,9 +453,6 @@ class Auth extends CI_Controller
 		}
 	}
 
-
-
-
 	/**
 	 * Add, delete, update profile information
 	 *
@@ -463,41 +460,47 @@ class Auth extends CI_Controller
 	 */
 	function update_profile()
 	{
-		if (!$this->tank_auth->is_logged_in()) {								// not logged in or not activated
+		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
 			redirect('/auth/login/');
 		} else {
+			
+			$data = array();
+			
+			$user_id = $this->tank_auth->get_user_id();
+			$table_values = $this->profiles_model->get_profile($user_id);
+			
+			$data['table_values'] = $table_values;
 
-			$this->form_validation->set_rules('first_name', 'first_name', 'trim|required');
-			$this->form_validation->set_rules('about_me', 'about_me', 'trim|required');
+			$this->form_validation->set_rules('first_name', 'first_name', 'trim|required|xss_clean');
+			$this->form_validation->set_rules('about_me', 'about_me', 'trim|required|xss_clean');			
+			$this->form_validation->set_rules('country', 'country', 'trim|xss_clean');
+			$this->form_validation->set_rules('website', 'website', 'trim|xss_clean');
+			$this->form_validation->set_rules('last_name', 'last_name', 'trim|xss_clean');
 		
 			if ($this->form_validation->run() == FALSE)
 			{
-				$this->load->view('/auth/update_profile');
+				$this->load->view('/auth/update_profile', $data);
 			}
 			else
-			{
-				/*
-				$data = array(
-					'first_name'	=> $username,
-					'last_name'	=> $hashed_password,
-					'about_me'		=> $email,
-					'last_ip'	=> $this->ci->input->ip_address(),
-				);
-				*/
-				$this->load->view('/auth/update_profile');
-				
-				//$this->profiles_model->update_profile($data);
-				
+			{	
+				$updated_values = array(	
+					'first_name' => $this->form_validation->set_value('first_name'),		
+					'last_name' => $this->form_validation->set_value('last_name'),
+					'about_me' => $this->form_validation->set_value('about_me'),
+					'country' => $this->form_validation->set_value('country'),
+					'website' => $this->form_validation->set_value('website'));
+
+				if($this->profiles_model->update_profile($user_id, $updated_values))
+				{
+					$data['message'] = 'Your details were updated successfully!';
+					$this->load->view('/auth/update_profile', $data);
+				} else {
+					$data['message'] = 'Oops, there was a problem updating the database.';
+					$this->load->view('/auth/update_profile', $data);
+				}
 			}
 		}
 	}
-
-
-
-
-
-
-
 
 	/**
 	 * Show info message

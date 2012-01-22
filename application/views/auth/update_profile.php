@@ -2,39 +2,40 @@
 $first_name = array(
 	'name'	=> 'first_name',
 	'id'	=> 'first_name',
-	'value'	=> set_value('first_name'),
+	'value'	=> set_value('first_name', $table_values['first_name']),
 	'maxlength'	=> 30,
 	'size'	=> 10,
 );
 $last_name = array(
 	'name'	=> 'last_name',
 	'id'	=> 'last_name',
-	'value'	=> set_value('last_name'),
+	'value'	=> set_value('last_name', $table_values['last_name']),
 	'maxlength'	=> 30,
 	'size'	=> 20,
 );
 $about_me = array(
 	'name'	=> 'about_me',
 	'id'	=> 'about_me',
-	'value'	=> set_value('about_me'),
+	'value'	=> set_value('about_me', $table_values['about_me']),
 	'maxlength'	=> 80,
 	'size'	=> 30,
 );
 $country = array(
 	'name'	=> 'country',
 	'id'	=> 'country',
-	'value'	=> set_value('country'),
+	'value'	=> set_value('country', $table_values['country']),
 	'maxlength'	=> 80,
 	'size'	=> 30,
 );
 $website = array(
 	'name'	=> 'website',
 	'id'	=> 'website',
-	'value'	=> set_value('website'),
+	'value'	=> set_value('website', $table_values['website']),
 	'maxlength'	=> 80,
 	'size'	=> 30,
 );
 ?>
+<?php if (isset($message)) { echo $message; } ?>
 <?php echo form_open($this->uri->uri_string()); ?>
 <table>
 	<tr>
