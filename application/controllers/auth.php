@@ -483,7 +483,9 @@ class Auth extends CI_Controller
 			$this->form_validation->set_rules('country', 'country', 'trim|xss_clean');
 			$this->form_validation->set_rules('website', 'website', 'trim|xss_clean');
 			$this->form_validation->set_rules('last_name', 'last_name', 'trim|xss_clean');
+			$this->form_validation->set_error_delimiters('<span class="help-inline">', '</span>');
 		
+			$this->load->view('/templates/header', $data);
 			if ($this->form_validation->run() == FALSE)
 			{
 				$this->load->view('/auth/update_profile', $data);
@@ -506,6 +508,8 @@ class Auth extends CI_Controller
 					$this->load->view('/auth/update_profile', $data);
 				}
 			}
+			$this->load->view('/templates/footer', $data);
+
 		}
 	}
 

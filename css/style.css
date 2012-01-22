@@ -77,3 +77,6 @@ body {
 	left:-20px;
 }
 * {outline:none;!important;}
+textarea{
+	width:400px;
+}
