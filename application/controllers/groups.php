@@ -16,8 +16,6 @@ class Groups extends CI_Controller
 		$this->load->view('groups/index');
 		$this->load->view('templates/footer');
 	}
-<<<<<<< HEAD
-=======
 
 
 	function render()
@@ -27,7 +25,6 @@ class Groups extends CI_Controller
 		$this->load->view('templates/footer');
 	}
 
->>>>>>> 2b91b7a61b063b4df8998d6c8fd45c8aa3b56d0e
 }
 
 /* End of file welcome.php */
