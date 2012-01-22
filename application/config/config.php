@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://project-rabbit';
+$config['base_url']	= 'http://localhost/github/Project-Rabbit';
 
 /*
 |--------------------------------------------------------------------------

@@ -38,11 +38,11 @@
 		<ul class="artists unstyled">
 			<li>
 				<ul class="media-grid pull-left"><li><a href="#"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<a href="#" class="name">Chris Bewick</a>
+				<a href="<?php echo base_url(); ?>index.php/artists/render" class="name">Chris Bewick</a>
 			</li>
 			<li>
 				<ul class="media-grid pull-left"><li><a href="#"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<a href="#" class="name">Mark Robson</a>
+				<a href="<?php echo base_url(); ?>index.php/artists/render" class="name">Mark Robson</a>
 			</li>
 		</ul>
 		<h3>Upcoming Events</h3>
