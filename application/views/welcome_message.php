@@ -1,81 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>Welcome to CodeIgniter</title>
-
-	<style type="text/css">
-
-	::selection{ background-color: #E13300; color: white; }
-	::moz-selection{ background-color: #E13300; color: white; }
-	::webkit-selection{ background-color: #E13300; color: white; }
-
-	body {
-		background-color: #fff;
-		margin: 40px;
-		font: 13px/20px normal Helvetica, Arial, sans-serif;
-		color: #4F5155;
-	}
-
-	a {
-		color: #003399;
-		background-color: transparent;
-		font-weight: normal;
-	}
-
-	h1 {
-		color: #444;
-		background-color: transparent;
-		border-bottom: 1px solid #D0D0D0;
-		font-size: 19px;
-		font-weight: normal;
-		margin: 0 0 14px 0;
-		padding: 14px 15px 10px 15px;
-	}
-
-	code {
-		font-family: Consolas, Monaco, Courier New, Courier, monospace;
-		font-size: 12px;
-		background-color: #f9f9f9;
-		border: 1px solid #D0D0D0;
-		color: #002166;
-		display: block;
-		margin: 14px 0 14px 0;
-		padding: 12px 10px 12px 10px;
-	}
-
-	#body{
-		margin: 0 15px 0 15px;
-	}
-	
-	p.footer{
-		text-align: right;
-		font-size: 11px;
-		border-top: 1px solid #D0D0D0;
-		line-height: 32px;
-		padding: 0 10px 0 10px;
-		margin: 20px 0 0 0;
-	}
-	
-	#container{
-		margin: 10px;
-		border: 1px solid #D0D0D0;
-		-webkit-box-shadow: 0 0 8px #D0D0D0;
-	}
-	</style>
-</head>
-<body>
-
-<div id="container">
-	<h1>Welcome to project Rabbit public facing website</h1>
-
-	<div id="body">
-		<p>More content to come soon, this stuff is all static.</p>
-		<p><a href="<?php echo base_url(); ?>index.php/auth/login">Log in</a></p>
-	</div>
-
-	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</p>
+<div class="page-header">
+	<h1>Welcome to project rabbit!</h1>
 </div>
-
-</body>
-</html>
+<div class="row">
+	<div class="span10">
+		<h2>What's it all about?</h2>
+		<h3>Collaborate with like-minded, local artists.</h3>
+		<hr />
+		<div class="row">
+			<div class="span5">
+				<form class="form-stacked" action="">
+			        <fieldset>
+					<legend>Find artists near you</legend>
+						<div class="clearfix">
+							<label for="postcode">Enter your postcode</label>
+							<div class="input">
+								<input type="text" size="30" name="postcode" id="postcode">
+							</div>
+						</div>
+					</fieldset>
+					<div class="actions">
+						<button class="btn primary" type="submit">Find local artists</button></button>
+					</div>
+				</form>
+			</div>												
+			<div class="span5">
+				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget.</p>
+				<ul>
+					<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+					<li>Aliquam tincidunt mauris eu risus.</li>
+					<li>Vestibulum auctor dapibus neque.</li>
+				</ul>
+			</div>	
+		</div>
+	</div>
+	<div class="span4">
+		<h3>Newest Artists</h3>
+		<ul class="artists unstyled">
+			<li>
+				<ul class="media-grid pull-left"><li><a href="#"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
+				<a href="#" class="name">Chris Bewick</a>
+			</li>
+			<li>
+				<ul class="media-grid pull-left"><li><a href="#"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
+				<a href="#" class="name">Mark Robson</a>
+			</li>
+		</ul>
+		<h3>Upcoming Events</h3>
+		<ul class="events unstyled">
+			<li><a href="#">Ealing, London</a> -  22/01/12</li>
+			<li><a href="#">Reading</a> -  26/01/12</li>
+		</ul>
+		<h3>Popular Places</h3>
+		<ul class="places unstyled">
+			<li><a href="#">Jelly Arts</a> - Reading</li>
+			<li><a href="#">Robson Rooms</a> - Southbank, London</li>
+		</ul>
+	</div>
+</div>

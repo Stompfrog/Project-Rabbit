@@ -15,6 +15,8 @@ class Welcome extends CI_Controller
 		/* 
 		if user is not logged in, just show normal site with login options
 		*/
+		$this->load->view('templates/header');
+		
 		if (!$this->tank_auth->is_logged_in()) {
 			//redirect('/auth/login/');
 			$this->load->view('welcome_message');
@@ -23,6 +25,8 @@ class Welcome extends CI_Controller
 			$data['username'] = $this->tank_auth->get_username();
 			$this->load->view('welcome', $data);
 		}
+		$this->load->view('templates/footer');
+		
 	}
 }
 
