@@ -36,7 +36,17 @@ class Artists_model extends CI_Model {
 	
 	function get_user($user_id)
 	{
-		$query = $this->db->query("select users.username, users.created, users.modified, users.last_login, users.id, user_profiles.country, user_profiles.website, user_profiles.first_name, user_profiles.last_name, user_profiles.avatar_filename, user_profiles.status, user_profiles.sex, user_profiles.about_me, user_profiles.lat, user_profiles.lon from users join user_profiles on users.id = user_profiles.user_id where users.id = " . (int) $user_id);
+		$properties = array();
+		$properties['interests'] = array();
+		
+		$query = $this->db->query("SELECT users.username, users.created, users.modified, users.last_login, users.id, user_profiles.country, user_profiles.website, user_profiles.first_name, user_profiles.last_name, user_profiles.avatar_filename, user_profiles.status, user_profiles.sex, user_profiles.about_me, user_profiles.lat, user_profiles.lon FROM users JOIN user_profiles ON users.id = user_profiles.user_id WHERE users.id = " . (int) $user_id);
+		
+		$interests_query = $this->db->query("SELECT role_types.title AS 'title' FROM role_types, user_roles WHERE role_types.id = user_roles.role_type_id AND user_roles.user_id = " . (int) $user_id);
+
+		foreach ($interests_query->result_array() as $row)
+		{
+			array_push($properties['interests'], $row['title']);
+		}
 
 		if ($query->num_rows() > 0)
 		{

@@ -5,17 +5,25 @@
 	<div class="span10">
 		<h2><?= $user->get_name(); ?> <small>Member since <?= $user->get_member_since(); ?> </small></h2>
 		<hr />
-		<h3>&lt; USER TAGLINE GOES HERE &gt;</h3>
+		<h3><?= $user->get_status(); ?></h3>
 		<p><?= $user->get_about_me(); ?></p>
 		<dl>
 			<dt>Website</dt>
 			<dd><?= anchor($user->get_website(),$user->get_website()); ?></dd>
 		</dl>
 		<h4>Interests</h4>
-		<ul>
-			<li>Oils</li>
-			<li>Watercolours</li>
-		</ul>
+		<?php
+			//maybe add this into the User class, so we can use again elsewhere
+			$interests = $user->get_interests();
+			if(count($interests) > 0)
+			{
+				echo '<ul>';
+				foreach ($interests as $interest) {
+					echo '<li>' . $interest . "</li>\n";
+				}
+				echo '</ul>';
+			} 
+		?>
 		<h4>Portfolio</h4>
 		<ul class="media-grid">
 			<li><a href="#"><img alt="" src="http://placehold.it/110x110" class="thumbnail"></a></li>
