@@ -29,7 +29,6 @@
 			$this->object =& get_instance();
 			$this->id = $properties['id'];
 			$this->title = $properties['title'];
-			$this->product_id = $properties['product_id'];
 			$this->description = $properties['description'];
 			$this->alt = $properties['alt'];
 			$this->large_path = base_url() . $this->object->config->item('image_path') . $properties['large_path'];

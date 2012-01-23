@@ -8,6 +8,10 @@ class Artists extends CI_Controller
 
 		$this->load->helper('url');
 		$this->load->library('tank_auth');
+		$this->load->model('artists_model');
+		
+		include_once(APPPATH.'classes/Image.php');
+		include_once(APPPATH.'classes/User.php');
 	}
 	
 	function _remap($method)
@@ -16,6 +20,11 @@ class Artists extends CI_Controller
 	    {
 	    	// domain/artists/
 	        $this->index();
+	    }
+	    else if ($method == 'get_user')
+	    {
+	    	// domain/artists/
+	        $this->get_user($this->uri->segment(3));
 	    }
 	    else
 	    {
@@ -26,8 +35,6 @@ class Artists extends CI_Controller
 
 	function index()
 	{
-	
-		$this->load->model('artists_model');
 
 		$data['latest'] = $this->artists_model->latest_artists(5);
 	
@@ -38,26 +45,18 @@ class Artists extends CI_Controller
 	
 	function render($user_id)
 	{
-		$this->load->model('artists_model');
-		
-		$user = $this->artists_model->get_user_data($user_id);
-			
-		if($user){
-
-			$data['user'] = $user;
-			
-			$this->load->view('templates/header');
-			$this->load->view('artists/render',$data);
-			$this->load->view('templates/footer');
-
-		
-		}else{
-		
-			$this->load->view('templates/header');
-			$this->load->view('artists/not_found');
-			$this->load->view('templates/footer');
-		}
-
+		$data['user'] = $this->artists_model->get_user($user_id);
+		$this->load->view('templates/header');
+		$this->load->view('artists/render',$data);
+		$this->load->view('templates/footer');
+	}
+	
+	function get_user($user_id)
+	{
+		$data['user'] = $this->artists_model->get_user($user_id);
+		$this->load->view('templates/header');
+		$this->load->view('artists/render',$data);
+		$this->load->view('templates/footer');
 	}
 }
 

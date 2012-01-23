@@ -3,15 +3,13 @@
 </div>
 <div class="row">
 	<div class="span10">
-		<h2><?= $user['first_name']; ?> <?= $user['last_name']; ?> <small>Member since April 10th 2001</small></h2>
+		<h2><?= $user->get_name(); ?> <small>Member since <?= $user->get_member_since(); ?> </small></h2>
 		<hr />
-		<h3>Wizard with a paint brush</h3>
-		<p><?= $user['about_me']; ?></p>
+		<h3><?= $user->get_member_since() ?></h3>
+		<p><?= $user->get_about_me(); ?></p>
 		<dl>
-			<dt>Country</dt>
-			<dd><?= $user['country']; ?></dd>
 			<dt>Website</dt>
-			<dd><?= anchor($user['website'],$user['website']); ?></dd>
+			<dd><?= anchor($user->get_website(),$user->get_website()); ?></dd>
 		</dl>
 		<h4>Interests</h4>
 		<ul>
