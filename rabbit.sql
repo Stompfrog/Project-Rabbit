@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 22, 2012 at 09:50 PM
+-- Generation Time: Jan 23, 2012 at 07:07 PM
 -- Server version: 5.1.44
 -- PHP Version: 5.3.2
 
@@ -36,6 +36,28 @@ CREATE TABLE `ci_sessions` (
 
 --
 -- Dumping data for table `ci_sessions`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `gallery_images`
+--
+
+CREATE TABLE `gallery_images` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `alt` varchar(255) DEFAULT NULL,
+  `thumb_path` varchar(255) NOT NULL,
+  `large_path` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `order_num` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `gallery_images`
 --
 
 
@@ -110,7 +132,7 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` VALUES(1, 'roppa_uk', '$2a$08$vSOeF4KmPaXh/sTV6B9Ay.OAtMwn/4Rxci3PQHr6CNzi4wYcDJm3G', 'roppa_uk@hotmail.com', 1, 0, NULL, NULL, NULL, NULL, 'a5991f5072eaa2569d015d796cad4f6f', '127.0.0.1', '2012-01-22 21:07:06', '2012-01-21 13:34:48', '2012-01-22 21:07:06');
+INSERT INTO `users` VALUES(1, 'roppa_uk', '$2a$08$vSOeF4KmPaXh/sTV6B9Ay.OAtMwn/4Rxci3PQHr6CNzi4wYcDJm3G', 'roppa_uk@hotmail.com', 1, 0, NULL, NULL, NULL, NULL, 'a5991f5072eaa2569d015d796cad4f6f', '127.0.0.1', '2012-01-23 13:50:40', '2012-01-21 13:34:48', '2012-01-23 13:50:40');
 
 -- --------------------------------------------------------
 
@@ -173,12 +195,14 @@ CREATE TABLE `user_roles` (
   `role_type_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_role_user_id` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `user_roles`
 --
 
+INSERT INTO `user_roles` VALUES(1, 1, 3);
+INSERT INTO `user_roles` VALUES(2, 1, 4);
 
 --
 -- Constraints for dumped tables
