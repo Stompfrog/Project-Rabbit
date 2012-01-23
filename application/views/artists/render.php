@@ -5,7 +5,7 @@
 	<div class="span10">
 		<h2><?= $user->get_name(); ?> <small>Member since <?= $user->get_member_since(); ?> </small></h2>
 		<hr />
-		<h3><?= $user->get_member_since() ?></h3>
+		<h3>&lt; USER TAGLINE GOES HERE &gt;</h3>
 		<p><?= $user->get_about_me(); ?></p>
 		<dl>
 			<dt>Website</dt>

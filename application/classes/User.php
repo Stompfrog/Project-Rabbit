@@ -68,10 +68,12 @@
 			return $this->about_me;
 		}
 
-		public function get_member_since()
+		// You can pass optional date format string to this method, defaults to "26th February, 1983"
+		public function get_member_since($format = "dS F, Y")
 		{
-			return $this->created;
-			//for "member since dd/mm/yyyy"
+			$oDate = new DateTime($this->created);
+			$sDate = $oDate->format($format);
+			return $sDate;
 		}
 
 		public function get_last_login()
