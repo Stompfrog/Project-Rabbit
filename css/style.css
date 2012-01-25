@@ -59,9 +59,16 @@ body {
 .events, .places{
 	border-top:1px solid #eee;
 }
-.events li, .places li{
+.events>li, .places>li{
 	padding:10px 0;
 	border-bottom:1px solid #eee;
+}
+.events ul{
+	margin:10px 0 0 25px;
+}
+.events ul li{
+	padding:5px 0;
+	border-top:1px solid #eee;
 }
 .search-results>li{
 	padding-left:70px;
