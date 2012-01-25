@@ -33,6 +33,7 @@
 		protected $lat;
 		protected $lon;
 		protected $object;
+		protected $interests;
 
 		public function __construct($properties)
 		{
@@ -50,7 +51,8 @@
 			$this->about_me = $properties['about_me'];
 			$this->sex = $properties['sex'];
 			$this->lat = $properties['lat'];
-			$this->lon = $properties['lon'];			
+			$this->lon = $properties['lon'];
+			$this->interests = $properties['interests'];		
 		}
 
 		public function get_id()
@@ -66,6 +68,11 @@
 		public function get_about_me()
 		{
 			return $this->about_me;
+		}
+
+		public function get_status()
+		{
+			return $this->status;
 		}
 
 		// You can pass optional date format string to this method, defaults to "26th February, 1983"
@@ -99,6 +106,11 @@
 		public function get_lon()
 		{
 			return $this->lon;
+		}
+
+		public function get_interests()
+		{
+			return $this->interests;
 		}
 
 		public function get_avatar($attributes = '')
