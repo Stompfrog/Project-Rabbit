@@ -20,13 +20,6 @@ $about_me = array(
 	'maxlength'	=> 80,
 	'size'	=> 30,
 );
-$country = array(
-	'name'	=> 'country',
-	'id'	=> 'country',
-	'value'	=> set_value('country', $table_values['country']),
-	'maxlength'	=> 80,
-	'size'	=> 30,
-);
 $website = array(
 	'name'	=> 'website',
 	'id'	=> 'website',
@@ -71,13 +64,19 @@ $submit = array(
 						<?php echo form_textarea($about_me); ?>
 						<?php echo form_error($about_me['name']); ?><?php echo isset($errors[$about_me['name']])?$errors[$about_me['name']]:''; ?>
 					</div>
+				</div>				
+				<div class="clearfix">
+					<?php echo form_label('Website', $website['id']); ?>
+					<div class="input">
+						<?php echo form_input($website); ?>
+					</div>
 				</div>
 				<div class="clearfix">
-					<?php echo form_label('Country', $country['id']); ?>
+					<?php echo form_label('Sex', $sex['id']); ?>
 					<div class="input">
-						<?php echo form_input($country); ?>
+						<?php echo form_input($sex); ?>
 					</div>
-				</div>				
+				</div>
 				<div class="clearfix">
 					<?php echo form_label('Website', $website['id']); ?>
 					<div class="input">

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 23, 2012 at 09:55 PM
+-- Generation Time: Jan 27, 2012 at 11:19 PM
 -- Server version: 5.1.44
 -- PHP Version: 5.3.2
 
@@ -18,6 +18,31 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- Database: `rabbit`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `address`
+--
+
+CREATE TABLE `address` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `is_venue` tinyint(4) NOT NULL,
+  `address_type` varchar(50) NOT NULL,
+  `address_1` varchar(100) DEFAULT NULL,
+  `address_2` varchar(100) DEFAULT NULL,
+  `postcode` varchar(10) NOT NULL,
+  `lat` double NOT NULL,
+  `lng` double NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_address_user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `address`
+--
+
 
 -- --------------------------------------------------------
 
@@ -42,22 +67,128 @@ CREATE TABLE `ci_sessions` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `gallery_images`
+-- Table structure for table `friends`
 --
 
-CREATE TABLE `gallery_images` (
+CREATE TABLE `friends` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `u1_id` int(11) NOT NULL,
+  `u2_id` int(11) NOT NULL,
+  `status` varchar(20) NOT NULL,
+  `befriended` date NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_user1_id` (`u1_id`),
+  KEY `FK_user2_id` (`u2_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `friends`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `gallery`
+--
+
+CREATE TABLE `gallery` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `gallery`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `gallery_image`
+--
+
+CREATE TABLE `gallery_image` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `gallery_id` int(11) NOT NULL,
+  `image_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_gallery_id` (`gallery_id`),
+  KEY `FK_image_id` (`image_id`),
+  KEY `FK_user_image_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `gallery_image`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group`
+--
+
+CREATE TABLE `group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_name` varchar(255) NOT NULL,
+  `formed_date` date NOT NULL,
+  `mission_statement` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `group`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_users`
+--
+
+CREATE TABLE `group_users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `is_admin` char(1) NOT NULL,
+  `join_date` date NOT NULL,
+  `is_creator` char(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_group_users_user_id` (`user_id`),
+  KEY `FK_group_id` (`group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `group_users`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `image`
+--
+
+CREATE TABLE `image` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `alt` varchar(255) DEFAULT NULL,
   `thumb_path` varchar(255) NOT NULL,
   `large_path` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `order_num` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `FK_image_user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `gallery_images`
+-- Dumping data for table `image`
 --
 
 
@@ -90,7 +221,7 @@ CREATE TABLE `role_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `role_types`
@@ -163,7 +294,6 @@ CREATE TABLE `user_autologin` (
 CREATE TABLE `user_profiles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `country` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `website` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `first_name` varchar(10) COLLATE utf8_bin NOT NULL,
   `last_name` varchar(20) COLLATE utf8_bin DEFAULT NULL,
@@ -181,7 +311,7 @@ CREATE TABLE `user_profiles` (
 -- Dumping data for table `user_profiles`
 --
 
-INSERT INTO `user_profiles` VALUES(1, 1, 'UK', 'http://www.whiteforest.co.uk', 'Mark', 'Robson', NULL, 'Painting a pretty picture', 'm', 0x486572652069732061206c6974746c65206269742061626f7574206d652e20416e6420736f6d65206d6f72652061626f7574206d652e, NULL, NULL);
+INSERT INTO `user_profiles` VALUES(1, 1, 'http://www.whiteforest.co.uk', 'Mark', 'Robson', NULL, 'Painting a pretty picture', 'm', 0x486572652069732061206c6974746c65206269742061626f7574206d652e20416e6420736f6d65206d6f72652061626f7574206d652e, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -194,8 +324,9 @@ CREATE TABLE `user_roles` (
   `user_id` int(11) NOT NULL,
   `role_type_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_role_user_id` (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+  KEY `FK_role_user_id` (`user_id`),
+  KEY `FK_role_type_id` (`role_type_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `user_roles`
@@ -209,7 +340,47 @@ INSERT INTO `user_roles` VALUES(2, 1, 4);
 --
 
 --
+-- Constraints for table `address`
+--
+ALTER TABLE `address`
+  ADD CONSTRAINT `FK_address_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `friends`
+--
+ALTER TABLE `friends`
+  ADD CONSTRAINT `FK_user2_id` FOREIGN KEY (`u2_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_user1_id` FOREIGN KEY (`u1_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `gallery_image`
+--
+ALTER TABLE `gallery_image`
+  ADD CONSTRAINT `FK_gallery_id` FOREIGN KEY (`gallery_id`) REFERENCES `gallery` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_image_id` FOREIGN KEY (`image_id`) REFERENCES `image` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `group_users`
+--
+ALTER TABLE `group_users`
+  ADD CONSTRAINT `FK_group_id` FOREIGN KEY (`group_id`) REFERENCES `group` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_group_users_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `image`
+--
+ALTER TABLE `image`
+  ADD CONSTRAINT `FK_image_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `user_profiles`
 --
 ALTER TABLE `user_profiles`
   ADD CONSTRAINT `FK_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `user_roles`
+--
+ALTER TABLE `user_roles`
+  ADD CONSTRAINT `FK_role_type_id` FOREIGN KEY (`role_type_id`) REFERENCES `role_types` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_role_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

@@ -39,7 +39,7 @@ class Artists_model extends CI_Model {
 		$properties = array();
 		$properties['interests'] = array();
 		
-		$query = $this->db->query("SELECT users.username, users.created, users.modified, users.last_login, users.id, user_profiles.country, user_profiles.website, user_profiles.first_name, user_profiles.last_name, user_profiles.avatar_filename, user_profiles.status, user_profiles.sex, user_profiles.about_me, user_profiles.lat, user_profiles.lon FROM users JOIN user_profiles ON users.id = user_profiles.user_id WHERE users.id = " . (int) $user_id);
+		$query = $this->db->query("SELECT users.username, users.created, users.modified, users.last_login, users.id, user_profiles.website, user_profiles.first_name, user_profiles.last_name, user_profiles.avatar_filename, user_profiles.status, user_profiles.sex, user_profiles.about_me, user_profiles.lat, user_profiles.lon FROM users JOIN user_profiles ON users.id = user_profiles.user_id WHERE users.id = " . (int) $user_id);
 		
 		$interests_query = $this->db->query("SELECT role_types.title AS 'title' FROM role_types, user_roles WHERE role_types.id = user_roles.role_type_id AND user_roles.user_id = " . (int) $user_id);
 
