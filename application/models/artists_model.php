@@ -71,6 +71,16 @@ class Artists_model extends CI_Model {
 	}
 
 	function latest_artists($limit){
+	
+		/*
+		hit a problem getting interests in one query:
+		SELECT user_profiles.* , GROUP_CONCAT(role_types.title SEPARATOR ', ') AS 'interests'
+				FROM user_profiles, role_types, user_roles
+				WHERE role_types.id = user_roles.role_type_id
+				AND user_roles.user_id = user_profiles.user_id ORDER BY user_profiles.user_id
+		
+		*/
+	
 		// Get the latest people to sign up
 		if($limit==0){
 			return $this->db->query("SELECT * FROM user_profiles ORDER BY user_id DESC");
@@ -79,6 +89,8 @@ class Artists_model extends CI_Model {
 		{
 			return $this->db->query("SELECT * FROM user_profiles ORDER BY user_id DESC LIMIT ".$limit);
 		}
+		
+		
 	}
 
 
@@ -176,6 +188,20 @@ class Artists_model extends CI_Model {
 	*/
 	function get_friends ($user_id, $limit = 5)
 	{
+	
+		$friends = array();
+	
+		$query = $this->db->query("SELECT `friends`.`u2_id`, `user_profiles`.`first_name`, `user_profiles`.`last_name` FROM `friends`, `user_profiles` WHERE `user_profiles`.`user_id` = `friends`.`u2_id` AND u1_id = " . $user_id);
+		
+		foreach ($query->result_array() as $row)
+		{
+			$data = array();
+			$data['id'] = $row['u2_id'];
+			$data['name'] = $row['first_name'] . ' ' . $row['last_name'];
+			array_push($friends, $data);
+		}
+		
+		return $friends;
 		
 	}
 

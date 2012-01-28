@@ -46,6 +46,8 @@ class Artists extends CI_Controller
 	function render($user_id)
 	{
 		$data['user'] = $this->artists_model->get_user($user_id);
+		$data['friends'] = $this->artists_model->get_friends($user_id);
+		
 		$this->load->view('templates/header');
 		$this->load->view('artists/render',$data);
 		$this->load->view('templates/footer');

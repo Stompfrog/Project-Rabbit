@@ -50,10 +50,18 @@
 			<li><a href="#">Jelly Arts</a> - Reading</li>
 			<li><a href="#">Robson Rooms</a> - Southbank, London</li>
 		</ul>
-		<h3>Friends</h3>
-		<ul class="events unstyled">
-			<li><a href="#">Mark Robson</a></li>
-			<li><a href="#">Chris Bewick</a></li>
-		</ul>
+		<?php
+		if (isset($friends) && sizeof($friends) > 0)
+		{?>
+			<h3>Friends</h3>
+			<ul class="events unstyled">
+			<?php foreach($friends as $fr)
+			{ 
+				echo '<li><a href="' . $fr['id'] . '"> ' . $fr['name'] . '</a></li>';
+			} ?>
+			</ul>
+		<?php
+		}
+		?>
 	</div>
 </div>
