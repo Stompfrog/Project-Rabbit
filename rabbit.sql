@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 28, 2012 at 02:54 PM
+-- Generation Time: Jan 28, 2012 at 07:43 PM
 -- Server version: 5.1.44
 -- PHP Version: 5.3.2
 
@@ -79,13 +79,14 @@ CREATE TABLE `friends` (
   PRIMARY KEY (`id`),
   KEY `FK_user1_id` (`u1_id`),
   KEY `FK_user2_id` (`u2_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `friends`
 --
 
-INSERT INTO `friends` VALUES(1, 1, 2, 'requested', '0000-00-00');
+INSERT INTO `friends` VALUES(1, 1, 2, 'friend', '2012-01-28');
+INSERT INTO `friends` VALUES(2, 1, 3, 'friend', '2012-01-28');
 
 -- --------------------------------------------------------
 
@@ -330,7 +331,7 @@ CREATE TABLE `user_roles` (
   PRIMARY KEY (`id`),
   KEY `FK_role_user_id` (`user_id`),
   KEY `FK_role_type_id` (`role_type_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `user_roles`
@@ -338,6 +339,8 @@ CREATE TABLE `user_roles` (
 
 INSERT INTO `user_roles` VALUES(1, 1, 3);
 INSERT INTO `user_roles` VALUES(2, 1, 4);
+INSERT INTO `user_roles` VALUES(3, 3, 3);
+INSERT INTO `user_roles` VALUES(4, 3, 6);
 
 --
 -- Constraints for dumped tables
