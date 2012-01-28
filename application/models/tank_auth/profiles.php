@@ -43,15 +43,14 @@ class Profiles extends CI_Model
 	 */
 	function get_profile($user_id) {
 
-		$query = $this->db->query("select first_name, about_me, country, website, last_name from " . $this->profile_table_name . ' where user_id = ' . $user_id);
+		$query = $this->db->query("select first_name, about_me, website, last_name from " . $this->profile_table_name . ' where user_id = ' . $user_id);
 
 		if ($query->num_rows() > 0)
 		{
 		   return $query->row_array();
 		} else {		
 			return $data = array('first_name' => '', 
-							'about_me' => '', 
-							'country' => '', 
+							'about_me' => '',
 							'website' => '', 
 							'last_name' => '');
 		}	

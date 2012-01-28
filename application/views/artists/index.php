@@ -18,14 +18,19 @@
 		<h2>Latest Artists</h2>
 		<hr />
 		<ul class="search-results">
-			<?php foreach($latest->result() as $row): ?>
+			<?php foreach($latest as $row): ?>
 				<li>
 					<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/artists/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
 					<h3><a href="<?php echo base_url(); ?>index.php/artists/<?php echo $row->user_id; ?>"><?php echo $row->first_name; ?> <?php echo $row->last_name; ?></a></h3>
 					<p><?php echo $row->about_me; ?></p>
 					
-					<span class="label important">Oils</span>
-					<span class="label important">Watercolour</span>
+					<?php
+					
+						foreach ($row->interests as $interest)
+						{
+							echo '<span class="label important">' . $interest . '</span> ';
+						}
+					?>
 					
 					<a class="pull-right" href="<?php echo base_url(); ?>index.php/artists/<?php echo $row->user_id; ?>">View profile &raquo;</a>
 
@@ -39,7 +44,7 @@
 		<br /><br />
 		<h3>Popular Artists</h3>
 		<ul class="events unstyled">
-			<?php foreach($latest->result() as $row): ?>
+			<?php foreach($latest as $row): ?>
 				<li>
 					<a href="<?php echo base_url(); ?>index.php/artists/<?php echo $row->user_id; ?>"><?php echo $row->first_name; ?> <?php echo $row->last_name; ?></a>
 				</li>

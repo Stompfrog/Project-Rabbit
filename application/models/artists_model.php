@@ -36,16 +36,10 @@ class Artists_model extends CI_Model {
 	function get_user($user_id)
 	{
 		$properties = array();
-		$properties['interests'] = array();
-		
-		$query = $this->db->query("SELECT users.username, users.created, users.modified, users.last_login, users.id, user_profiles.website, user_profiles.first_name, user_profiles.last_name, user_profiles.avatar_filename, user_profiles.status, user_profiles.sex, user_profiles.about_me, user_profiles.lat, user_profiles.lon FROM users JOIN user_profiles ON users.id = user_profiles.user_id WHERE users.id = " . (int) $user_id);
-		
-		$interests_query = $this->db->query("SELECT role_types.title AS 'title' FROM role_types, user_roles WHERE role_types.id = user_roles.role_type_id AND user_roles.user_id = " . (int) $user_id);
 
-		foreach ($interests_query->result_array() as $row)
-		{
-			array_push($properties['interests'], $row['title']);
-		}
+		$query = $this->db->query("SELECT users.username, users.created, users.modified, users.last_login, users.id, user_profiles.website, user_profiles.first_name, user_profiles.last_name, user_profiles.avatar_filename, user_profiles.status, user_profiles.sex, user_profiles.about_me, user_profiles.lat, user_profiles.lon FROM users JOIN user_profiles ON users.id = user_profiles.user_id WHERE users.id = " . (int) $user_id);
+
+		$properties['interests'] = $this->get_interests($user_id);
 
 		if ($query->num_rows() > 0)
 		{
@@ -80,19 +74,52 @@ class Artists_model extends CI_Model {
 				AND user_roles.user_id = user_profiles.user_id ORDER BY user_profiles.user_id
 		
 		*/
-	
+		/*
+		$results = array();
+		
+		$interests_query = $this->db->query("SELECT role_types.title AS 'title' FROM role_types, user_roles WHERE role_types.id = user_roles.role_type_id AND user_roles.user_id = " . (int) $user_id);
+
+		foreach ($interests_query->result_array() as $row)
+		{
+			array_push($properties['interests'], $row['title']);
+		}	
+		*/
+		
+		
+		$results = array();
+		$query;
+		
 		// Get the latest people to sign up
-		if($limit==0){
-			return $this->db->query("SELECT * FROM user_profiles ORDER BY user_id DESC");
+		if($limit==0)
+		{
+			$query = $this->db->query("SELECT * FROM user_profiles ORDER BY user_id DESC");
 		}
 		else
 		{
-			return $this->db->query("SELECT * FROM user_profiles ORDER BY user_id DESC LIMIT ".$limit);
+			$query = $this->db->query("SELECT * FROM user_profiles ORDER BY user_id DESC LIMIT ".$limit);
 		}
 		
+		foreach ($query->result() as $row)
+		{
+			$row->interests = $this->get_interests($row->user_id);
+			array_push($results, $row);
+		}
 		
+		return $results;
 	}
 
+	function get_interests($user_id)
+	{
+		$interests = array();
+		$interests_query = $this->db->query("SELECT role_types.title AS 'title' FROM role_types, user_roles WHERE role_types.id = user_roles.role_type_id AND user_roles.user_id = " . (int) $user_id);
+
+		foreach ($interests_query->result_array() as $row)
+		{
+			array_push($interests, $row['title']);
+		}
+		
+		return $interests;
+	}
 
 
 	/******* Friends section ********

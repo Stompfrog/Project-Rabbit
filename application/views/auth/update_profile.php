@@ -20,6 +20,13 @@ $about_me = array(
 	'maxlength'	=> 80,
 	'size'	=> 30,
 );
+$sex = array(
+	'name'	=> 'sex',
+	'id'	=> 'sex',
+	'value'	=> set_value('sex', $table_values['sex']),
+	'maxlength'	=> 80,
+	'size'	=> 30,
+);
 $website = array(
 	'name'	=> 'website',
 	'id'	=> 'website',
@@ -75,12 +82,6 @@ $submit = array(
 					<?php echo form_label('Sex', $sex['id']); ?>
 					<div class="input">
 						<?php echo form_input($sex); ?>
-					</div>
-				</div>
-				<div class="clearfix">
-					<?php echo form_label('Website', $website['id']); ?>
-					<div class="input">
-						<?php echo form_input($website); ?>
 					</div>
 				</div>
 			</fieldset>
