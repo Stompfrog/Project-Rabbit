@@ -28,12 +28,11 @@ class Artists_model extends CI_Model {
 			return false;		
 		}
 	}
-	
-	
 
-	
-	
-	
+	/*
+		Parameters: user_id (will probably change it to be either username or id, username can refer to url /artists/roppa
+		Returns: User object
+	*/
 	function get_user($user_id)
 	{
 		$properties = array();
@@ -74,13 +73,110 @@ class Artists_model extends CI_Model {
 	function latest_artists($limit){
 		// Get the latest people to sign up
 		if($limit==0){
-			return $this->db->query("SELECT * FROM user_profiles ORDER BY id DESC");
+			return $this->db->query("SELECT * FROM user_profiles ORDER BY user_id DESC");
 		}
 		else
 		{
-			return $this->db->query("SELECT * FROM user_profiles ORDER BY id DESC LIMIT ".$limit);
+			return $this->db->query("SELECT * FROM user_profiles ORDER BY user_id DESC LIMIT ".$limit);
 		}
 	}
 
-   
+
+
+	/******* Friends section ********
+	*/
+	
+	/* 
+		DB Table structure
+		------------------------------------------------------
+		u1_id		#user id of person requesting
+		u2_id		#user id of friend who was requested
+		status		#varchar: 'requested', 'ignored', 'friend'
+		befriended	#date u2_id accepted
+	*/
+	function add_friend ($u1_id, $u2_id)
+	{
+		/*
+			u1_id #user id of person requesting
+			u2_id #user id of friend who was requested
+			status #varchar requested, ignore, friends
+			befriended #date u2_id accepted
+		*/
+		
+		//find out if both users exist
+		$u1_id_query = $this->db->query('SELECT COUNT(id) AS id FROM users where id = ' . $u1_id);
+		$u2_id_query = $this->db->query('SELECT COUNT(id) AS id FROM users where id = ' . $u2_id);
+		
+		$u1 = $u1_id_query->row();
+		$u2 = $u2_id_query->row();
+		
+		if($u1->id == 1 && $u2->id == 1)
+		{
+			//check to see if record already exists first
+			$query = $this->db->query('SELECT COUNT(id) AS id FROM friends where u1_id = ' . $u1_id . ' AND u2_id = ' . $u2_id);
+			$row = $query->row();
+			if ($row->id == 0)
+			{
+				//if true, insert into friends table
+				$sql = 'INSERT INTO friends (u1_id, u2_id, status) VALUES (' . $u1_id . ', ' . $u2_id . ', \'requested\')';
+				$this->db->query($sql);
+				if($this->db->affected_rows() > 0)
+				{
+					return true;
+				}
+			}
+			
+		}
+		
+		return false;
+	}
+
+	
+	/*
+		update status record to have 'friend' and the date
+		make sure we add user ids in right order
+		requester is u1_id and new friend is u2_id
+		so user_id becomes u2_id, and u1_id is friend_id
+	*/
+	function confirm_friend ($user_id, $friend_id)
+	{
+		$data = array(
+           'status' => 'friend',
+           'befriended' => date('Y-m-d H:i:s')
+        );
+		$this->db->where('u1_id', $friend_id);
+		$this->db->where('u2_id', $user_id);
+		$this->db->update('friends', $data);
+		
+		/*
+			now, create 2 way friendship by inserting a new record for user_id
+		*/
+		
+		$data = array(
+		   'u1_id' => $user_id,
+		   'u2_id' => $friend_id,
+		   'status' => 'friends' ,
+		   'befriended' => date('Y-m-d H:i:s')
+		);
+		$this->db->insert('friends', $data);
+		
+		return true;
+	}
+	
+	/*
+		
+	*/
+	function unfriend ($user_id, $friend_id)
+	{
+		//update status record to have 'friend' and the date
+	}
+	
+	/*
+		if no limit parameter, default is 5
+	*/
+	function get_friends ($user_id, $limit = 5)
+	{
+		
+	}
+
 }
