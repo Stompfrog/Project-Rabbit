@@ -15,20 +15,6 @@ class Artists_model extends CI_Model {
 		include_once(APPPATH.'classes/User.php');
     }
 
-	function get_user_data($user_id)
-	{
-		// Query the database to get the users details
-		$user = $this->db->query("SELECT * FROM user_profiles WHERE user_id = ?",array($user_id));
-		if ($user->num_rows() > 0)
-		{
-			return $user->row_array();
-		}
-		else
-		{
-			return false;		
-		}
-	}
-
 	/*
 		Parameters: user_id (will probably change it to be either username or id, username can refer to url /artists/roppa
 		Returns: User object
@@ -66,26 +52,6 @@ class Artists_model extends CI_Model {
 
 	function latest_artists($limit){
 	
-		/*
-		hit a problem getting interests in one query:
-		SELECT user_profiles.* , GROUP_CONCAT(role_types.title SEPARATOR ', ') AS 'interests'
-				FROM user_profiles, role_types, user_roles
-				WHERE role_types.id = user_roles.role_type_id
-				AND user_roles.user_id = user_profiles.user_id ORDER BY user_profiles.user_id
-		
-		*/
-		/*
-		$results = array();
-		
-		$interests_query = $this->db->query("SELECT role_types.title AS 'title' FROM role_types, user_roles WHERE role_types.id = user_roles.role_type_id AND user_roles.user_id = " . (int) $user_id);
-
-		foreach ($interests_query->result_array() as $row)
-		{
-			array_push($properties['interests'], $row['title']);
-		}	
-		*/
-		
-		
 		$results = array();
 		$query;
 		

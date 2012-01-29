@@ -20,7 +20,7 @@
 		<ul class="search-results">
 			<?php foreach($latest as $row): ?>
 				<li>
-					<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/artists/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
+					<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/artists/get_user"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
 					<h3><a href="<?php echo base_url(); ?>index.php/artists/<?php echo $row->user_id; ?>"><?php echo $row->first_name; ?> <?php echo $row->last_name; ?></a></h3>
 					<p><?php echo $row->about_me; ?></p>
 					

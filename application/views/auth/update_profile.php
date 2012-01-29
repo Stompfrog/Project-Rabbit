@@ -21,11 +21,8 @@ $about_me = array(
 	'size'	=> 30,
 );
 $sex = array(
-	'name'	=> 'sex',
 	'id'	=> 'sex',
-	'value'	=> set_value('sex', $table_values['sex']),
-	'maxlength'	=> 80,
-	'size'	=> 30,
+	'value'	=> set_value('sex', $table_values['sex'])
 );
 $website = array(
 	'name'	=> 'website',
@@ -78,12 +75,25 @@ $submit = array(
 						<?php echo form_input($website); ?>
 					</div>
 				</div>
+				
+				
+				
 				<div class="clearfix">
+					<?php 
+						$options = array(
+						  'o' => 'Prefer not to say',
+		                  'm' => 'Male',
+		                  'f' => 'Female'
+		                );
+					 ?>
 					<?php echo form_label('Sex', $sex['id']); ?>
 					<div class="input">
-						<?php echo form_input($sex); ?>
+						<?php echo form_dropdown('sex', $options, $sex['value'], 'id="sex"'); ?>
 					</div>
 				</div>
+				
+				
+
 			</fieldset>
 			<div class="actions">
 				<?php echo form_submit($submit, 'Update profile'); ?>
