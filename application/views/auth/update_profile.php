@@ -75,9 +75,6 @@ $submit = array(
 						<?php echo form_input($website); ?>
 					</div>
 				</div>
-				
-				
-				
 				<div class="clearfix">
 					<?php 
 						$options = array(
@@ -91,9 +88,6 @@ $submit = array(
 						<?php echo form_dropdown('sex', $options, $sex['value'], 'id="sex"'); ?>
 					</div>
 				</div>
-				
-				
-
 			</fieldset>
 			<div class="actions">
 				<?php echo form_submit($submit, 'Update profile'); ?>
