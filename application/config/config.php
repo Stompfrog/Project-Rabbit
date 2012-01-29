@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://project-rabbit';
+$config['base_url']	= 'http://localhost/github/Rabbit/';
 //added these to config so we can change them system wide if we want to move them somewhere else
 $config['image_path'] = 'img/';
 $config['thumb_path'] = 'img/thumbs/';
