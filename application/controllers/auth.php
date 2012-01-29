@@ -484,7 +484,7 @@ class Auth extends CI_Controller
 
 			$this->form_validation->set_rules('first_name', 'first_name', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('about_me', 'about_me', 'trim|required|xss_clean');			
-			$this->form_validation->set_rules('country', 'country', 'trim|xss_clean');
+			$this->form_validation->set_rules('sex', 'sex', 'trim|xss_clean');
 			$this->form_validation->set_rules('website', 'website', 'trim|xss_clean');
 			$this->form_validation->set_rules('last_name', 'last_name', 'trim|xss_clean');
 			$this->form_validation->set_error_delimiters('<span class="help-inline">', '</span>');
@@ -500,7 +500,7 @@ class Auth extends CI_Controller
 					'first_name' => $this->form_validation->set_value('first_name'),		
 					'last_name' => $this->form_validation->set_value('last_name'),
 					'about_me' => $this->form_validation->set_value('about_me'),
-					'country' => $this->form_validation->set_value('country'),
+					'sex' => $this->form_validation->set_value('sex'),
 					'website' => $this->form_validation->set_value('website'));
 
 				if($this->profiles_model->update_profile($user_id, $updated_values))

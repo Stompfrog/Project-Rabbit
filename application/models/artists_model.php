@@ -21,6 +21,12 @@ class Artists_model extends CI_Model {
 	*/
 	function get_user($user_id)
 	{
+	
+		if(!is_numeric ($user_id))
+		{
+			//the username would have been used instead
+		}
+	
 		$properties = array();
 
 		$query = $this->db->query("SELECT users.username, users.created, users.modified, users.last_login, users.id, user_profiles.website, user_profiles.first_name, user_profiles.last_name, user_profiles.avatar_filename, user_profiles.status, user_profiles.sex, user_profiles.about_me, user_profiles.lat, user_profiles.lon FROM users JOIN user_profiles ON users.id = user_profiles.user_id WHERE users.id = " . (int) $user_id);
