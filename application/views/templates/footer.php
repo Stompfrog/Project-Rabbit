@@ -11,6 +11,19 @@
 			<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
 			<script src="<?= base_url(); ?>/js/explore.js"></script></script>
 		<?php } ?>
-		
+		<?php if($this->uri->segment(1)=="api"){ ?>
+		<script>
+			$(function(){
+				$('#api-links a').on('click',function(e){
+					e.preventDefault();
+					var url = this.href;
+					$('#result').text('Loading...');
+					$.getJSON(url, function(data) {
+						$('#result').text(JSON.stringify(data));
+					});
+				});
+			});
+		</script>
+		<?php } ?>
   </body>
 </html>

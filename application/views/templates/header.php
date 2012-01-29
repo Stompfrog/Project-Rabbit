@@ -19,6 +19,7 @@
 						<li <?php if($this->uri->segment(1)=="groups"){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>index.php/groups/">Groups</a></li>
 						<li <?php if($this->uri->segment(1)=="places"){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>index.php/places/">Places</a></li>
 						<li <?php if($this->uri->segment(1)=="events"){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>index.php/events/">Events</a></li>
+						<li <?php if($this->uri->segment(1)=="api"){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>index.php/api/">API</a></li>
 					</ul>
 					<ul class="nav secondary-nav">
 						<?php if ($this->tank_auth->is_logged_in()) { ?>
