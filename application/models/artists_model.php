@@ -56,6 +56,20 @@ class Artists_model extends CI_Model {
 		return false;
 	}
 
+	function get_user_data($user_id)
+	{
+		// Query the database to get the users details
+		$user = $this->db->query("SELECT * FROM user_profiles WHERE user_id = ?",array($user_id));
+		if ($user->num_rows() > 0)
+		{
+		 	return $user->row_array();
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	function latest_artists($limit){
 	
 		$results = array();
