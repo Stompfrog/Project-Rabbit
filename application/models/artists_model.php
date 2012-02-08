@@ -69,6 +69,19 @@ class Artists_model extends CI_Model {
 			return false;
 		}
 	}
+	
+	function all_artists($params = array())
+	{
+		$users = $this->db->query("SELECT * FROM user_profiles");
+		if ($users->num_rows() > 0)
+		{
+		 	return $users->result_array();
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 	function latest_artists($limit){
 	

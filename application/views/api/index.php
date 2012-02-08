@@ -9,6 +9,7 @@
 		<ul id="api-links">
 			<li>Get the 2 latest artists as JSON = <?php echo anchor('/api/artists/2', '/api/artists/2'); ?></li>
 			<li>Get the artist with id 2 as JSON = <?php echo anchor('/api/artist/2', '/api/artist/2'); ?></li>
+			<li>Get the all artists JSON = <?php echo anchor('/api/allartists', '/api/allartists'); ?></li>
 		</ul>
 		<pre id="result">Results of API call will be loaded here...</pre>
 	</div>

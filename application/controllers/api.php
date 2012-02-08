@@ -21,7 +21,8 @@ class Api extends CI_Controller
 		$this->load->view('templates/footer');
 	}
 	
-	function artist(){
+	function artist()
+	{
 	
 		$artist = $this->artists_model->get_user_data($this->uri->segment(3));
 		
@@ -37,5 +38,19 @@ class Api extends CI_Controller
 		$data['encoded_data'] = json_encode($latest);		
 		$this->load->view('api/json',$data);
 	}
+
+	function allartists()
+	{
+		$all_artists = $this->artists_model->all_artists();
+
+		$data['encoded_data'] = json_encode($all_artists);		
+		$this->load->view('api/json',$data);
+	}
+	
+	//artists with a particular interest
+	
+	//get artists friends
+	
+	//
 		
 }
