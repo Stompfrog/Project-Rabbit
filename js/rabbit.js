@@ -70,7 +70,7 @@ RABBIT.map = {
 		//if available, set geoLocation, otherwise defaults will display
 		this.getGeoLocation();
 		//draw the map
-		this.mapObj = new google.maps.Map(document.getElementById('map_canvas'), this.mapOptions);
+		this.mapObj = new google.maps.Map(document.getElementById('map'), this.mapOptions);
 		this.getArtists();
 	},
 	

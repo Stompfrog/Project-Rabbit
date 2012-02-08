@@ -6,10 +6,14 @@
 		<script src="<?= base_url(); ?>/js/jquery.1.7.1.min.js"></script>
 		<script src="<?= base_url(); ?>/js/bootstrap-tabs.js"></script></script>
 		<script src="<?= base_url(); ?>/js/bootstrap-dropdown.js"></script></script>
+		<script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.5&amp;sensor=false"></script>
 		<script src="<?= base_url(); ?>/js/rabbit.js"></script></script>
 		<?php if($this->uri->segment(1)=="explore"){ ?>
-			<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
-			<script src="<?= base_url(); ?>/js/explore.js"></script></script>
+			<script>
+				$(function() {
+					RABBIT.map.init();
+				});
+			</script>
 		<?php } ?>
 		<?php if($this->uri->segment(1)=="api"){ ?>
 		<script>
