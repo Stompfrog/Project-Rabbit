@@ -14,7 +14,12 @@ class Artists_model extends CI_Model {
 		include_once(APPPATH.'classes/Image.php');
 		include_once(APPPATH.'classes/User.php');
     }
-
+    
+    /****** Artist/user section *********************************
+    	
+    
+    *************************************************************/
+    
 	/*
 		Parameters: user_id (will probably change it to be either username or id, username can refer to url /artists/roppa
 		Returns: User object
@@ -121,17 +126,18 @@ class Artists_model extends CI_Model {
 	}
 
 
-	/******* Friends section ********
-	*/
+	/******* Friends section *********************************
 	
-	/* 
 		DB Table structure
 		------------------------------------------------------
 		u1_id		#user id of person requesting
 		u2_id		#user id of friend who was requested
 		status		#varchar: 'requested', 'ignored', 'friend'
 		befriended	#date u2_id accepted
-	*/
+		------------------------------------------------------
+		
+    *************************************************************/
+
 	function add_friend ($u1_id, $u2_id)
 	{
 		/*
@@ -163,13 +169,11 @@ class Artists_model extends CI_Model {
 					return true;
 				}
 			}
-			
 		}
 		
 		return false;
 	}
 
-	
 	/*
 		update status record to have 'friend' and the date
 		make sure we add user ids in right order
@@ -202,11 +206,12 @@ class Artists_model extends CI_Model {
 	}
 	
 	/*
-		
+		I think we should just remove the records rather than setting the status
 	*/
 	function unfriend ($user_id, $friend_id)
 	{
-		//update status record to have 'friend' and the date
+		$this->db->delete('friends', array('u1_id' => $user_id, 'u2_id' => $friend_id));
+		$this->db->delete('friends', array('u2_id' => $user_id, 'u1_id' => $friend_id));
 	}
 	
 	/*
@@ -214,7 +219,6 @@ class Artists_model extends CI_Model {
 	*/
 	function get_friends ($user_id, $limit = 5)
 	{
-	
 		$friends = array();
 	
 		$query = $this->db->query("SELECT `friends`.`u2_id`, `user_profiles`.`first_name`, `user_profiles`.`last_name` FROM `friends`, `user_profiles` WHERE `user_profiles`.`user_id` = `friends`.`u2_id` AND u1_id = " . $user_id);
@@ -230,5 +234,30 @@ class Artists_model extends CI_Model {
 		return $friends;
 		
 	}
+	
+    /****** Geolocational section ********************************
+    	
+    
+    *************************************************************/
+
+
+
+
+    /****** Groups section ***************************************
+    
+    //Create group
+    
+    *************************************************************/
+    
+    
+    
+    
+    
+    /****** Image methods ****************************************
+    	
+    
+    *************************************************************/
+    
+    
 
 }
