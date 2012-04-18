@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 28, 2012 at 07:43 PM
+-- Generation Time: Apr 18, 2012 at 03:27 PM
 -- Server version: 5.1.44
 -- PHP Version: 5.3.2
 
@@ -37,12 +37,13 @@ CREATE TABLE `address` (
   `lng` double NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_address_user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `address`
 --
 
+INSERT INTO `address` VALUES(1, 1, 0, '', '23 QUEENS COURT, BARRACK ROAD', 'NEWCASTLE UPON TYNE', 'NE4 6BJ', 54.9759321700125, -1.62853858465576);
 
 -- --------------------------------------------------------
 
@@ -79,14 +80,18 @@ CREATE TABLE `friends` (
   PRIMARY KEY (`id`),
   KEY `FK_user1_id` (`u1_id`),
   KEY `FK_user2_id` (`u2_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=63 ;
 
 --
 -- Dumping data for table `friends`
 --
 
 INSERT INTO `friends` VALUES(1, 1, 2, 'friend', '2012-01-28');
-INSERT INTO `friends` VALUES(2, 1, 3, 'friend', '2012-01-28');
+INSERT INTO `friends` VALUES(3, 2, 1, 'friend', '2012-02-08');
+INSERT INTO `friends` VALUES(58, 3, 1, 'friend', '2012-03-30');
+INSERT INTO `friends` VALUES(59, 1, 3, 'friend', '2012-03-30');
+INSERT INTO `friends` VALUES(61, 1, 4, 'requested', '0000-00-00');
+INSERT INTO `friends` VALUES(62, 1, 5, 'requested', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -239,6 +244,27 @@ INSERT INTO `role_types` VALUES(7, 'Venue owner');
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `timeline`
+--
+
+CREATE TABLE `timeline` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `table` varchar(100) DEFAULT NULL,
+  `record_id` int(11) DEFAULT NULL,
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `description` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `timeline`
+--
+
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -259,15 +285,17 @@ CREATE TABLE `users` (
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` VALUES(1, 'roppa_uk', '$2a$08$vSOeF4KmPaXh/sTV6B9Ay.OAtMwn/4Rxci3PQHr6CNzi4wYcDJm3G', 'roppa_uk@hotmail.com', 1, 0, NULL, NULL, NULL, NULL, 'a5991f5072eaa2569d015d796cad4f6f', '127.0.0.1', '2012-01-23 21:12:29', '2012-01-21 13:34:48', '2012-01-23 21:12:29');
+INSERT INTO `users` VALUES(1, 'roppa_uk', '$2a$08$vSOeF4KmPaXh/sTV6B9Ay.OAtMwn/4Rxci3PQHr6CNzi4wYcDJm3G', 'roppa_uk@hotmail.com', 1, 0, NULL, NULL, NULL, NULL, 'a5991f5072eaa2569d015d796cad4f6f', '127.0.0.1', '2012-04-18 15:10:41', '2012-01-21 13:34:48', '2012-04-18 15:10:41');
 INSERT INTO `users` VALUES(2, 'sompfrog', '$2a$08$xxAl6ZwZGAMkeO2KLBcpHO3PVpIDULTm7b6w/Gc8pCOPjjP0YLslK', 'chrisbewick@gmail.com', 1, 0, NULL, NULL, NULL, NULL, '700c92cfe378fdd91ef7b89fdb3a2d03', '127.0.0.1', '0000-00-00 00:00:00', '2012-01-28 10:12:30', '2012-01-28 10:12:59');
-INSERT INTO `users` VALUES(3, 'neslisever', '$2a$08$lL2NJTtvb4N1HICUOsDDgOpMDchwSmD5HthcFozB1xburUlG9.WFW', 'neslisever@yahoo.com', 1, 0, NULL, NULL, NULL, NULL, 'a629e15716b12a16846e1416c5fd7453', '127.0.0.1', '0000-00-00 00:00:00', '2012-01-28 14:33:48', '2012-01-28 14:34:58');
+INSERT INTO `users` VALUES(3, 'neslisever', '$2a$08$lL2NJTtvb4N1HICUOsDDgOpMDchwSmD5HthcFozB1xburUlG9.WFW', 'neslisever@yahoo.com', 1, 0, NULL, NULL, NULL, NULL, 'a629e15716b12a16846e1416c5fd7453', '127.0.0.1', '2012-01-28 23:02:47', '2012-01-28 14:33:48', '2012-01-28 23:02:47');
+INSERT INTO `users` VALUES(4, 'joch', '$2a$08$.QkhtqleQeoibY0NmVKyr.2L4f44k/kP9A4u0sbRRfQq68FZV56YO', 'joch@talktalk.net', 1, 0, NULL, NULL, NULL, NULL, '9a84fd9df2da3d9b71729212fb0f9a76', '127.0.0.1', '2012-03-31 18:38:45', '2012-02-10 20:59:22', '2012-03-31 18:38:45');
+INSERT INTO `users` VALUES(5, 'maribell64', '$2a$08$vbejdYwcB12ALKiPsSaPKeTNI/AsXboX.310lJx.SoHh3l9uBTofm', 'maribell_vargas7@hotmail.com', 1, 0, NULL, NULL, NULL, NULL, '4cd08f03e2527ac592a2d1a047420711', '127.0.0.1', '2012-04-17 11:37:08', '2012-04-06 17:59:23', '2012-04-17 11:37:08');
 
 -- --------------------------------------------------------
 
@@ -314,9 +342,11 @@ CREATE TABLE `user_profiles` (
 -- Dumping data for table `user_profiles`
 --
 
-INSERT INTO `user_profiles` VALUES(1, 'http://www.whiteforest.co.uk', 'Mark', 'Robson', NULL, 'Painting a pretty picture', 'm', 0x486572652069732061206c6974746c65206269742061626f7574206d652e20416e6420736f6d65206d6f72652061626f7574206d652e, NULL, NULL);
-INSERT INTO `user_profiles` VALUES(2, 'http://chrisbewick.com/blog/', 'Chris', 'Bewick', NULL, 'Creativity', 'm', 0x486572652069732061206c6974746c65206269742061626f7574206d652e20416e6420736f6d65206d6f72652061626f7574206d652e, NULL, NULL);
-INSERT INTO `user_profiles` VALUES(3, 'http://www.neslisever.com/', 'Nesli', 'Sever', NULL, 'Kurdish art', 'f', 0x416476656e747572657320696e746f204b757264697368206172742e, NULL, NULL);
+INSERT INTO `user_profiles` VALUES(1, 'http://www.whiteforest.co.uk', 'Mark', 'Robson', NULL, 'Painting a pretty picture', 'm', 0x486572652069732061206c6974746c65206269742061626f7574206d652e20416e6420736f6d65206d6f72652061626f7574206d652e207465737420746573742074657374, 54.3272532765991, -3.73821410000005);
+INSERT INTO `user_profiles` VALUES(2, 'http://chrisbewick.com/blog/', 'Chris', 'Bewick', NULL, 'Creativity', 'm', 0x486572652069732061206c6974746c65206269742061626f7574206d652e20416e6420736f6d65206d6f72652061626f7574206d652e, 49.4511846, -2.5695965);
+INSERT INTO `user_profiles` VALUES(3, 'http://www.neslihansever.com/', 'Nesli', 'Sever', NULL, 'Kurdish art', 'f', 0x416476656e747572657320696e746f204b757264697368206172742e, 51.2703785915549, 1.07603845454071);
+INSERT INTO `user_profiles` VALUES(4, 'http://www.google.co.uk', 'Joachim', 'Sefzik', NULL, NULL, NULL, 0x746869732069732061626f7574206d65, 48.1903468, 1.02);
+INSERT INTO `user_profiles` VALUES(5, 'http://www.google.co.uk', 'Maribel', 'Vargas', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -350,14 +380,14 @@ INSERT INTO `user_roles` VALUES(4, 3, 6);
 -- Constraints for table `address`
 --
 ALTER TABLE `address`
-  ADD CONSTRAINT `FK_address_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_address_user_id` FOREIGN KEY (`user_id`) REFERENCES `user_profiles` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `friends`
 --
 ALTER TABLE `friends`
-  ADD CONSTRAINT `FK_user2_id` FOREIGN KEY (`u2_id`) REFERENCES `user_profiles` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_user1_id` FOREIGN KEY (`u1_id`) REFERENCES `user_profiles` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_user1_id` FOREIGN KEY (`u1_id`) REFERENCES `user_profiles` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_user2_id` FOREIGN KEY (`u2_id`) REFERENCES `user_profiles` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `gallery_image`
@@ -371,13 +401,13 @@ ALTER TABLE `gallery_image`
 --
 ALTER TABLE `group_users`
   ADD CONSTRAINT `FK_group_id` FOREIGN KEY (`group_id`) REFERENCES `group` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_group_users_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_group_users_user_id` FOREIGN KEY (`user_id`) REFERENCES `user_profiles` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `image`
 --
 ALTER TABLE `image`
-  ADD CONSTRAINT `FK_image_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_image_user_id` FOREIGN KEY (`user_id`) REFERENCES `user_profiles` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `user_profiles`
@@ -390,4 +420,4 @@ ALTER TABLE `user_profiles`
 --
 ALTER TABLE `user_roles`
   ADD CONSTRAINT `FK_role_type_id` FOREIGN KEY (`role_type_id`) REFERENCES `role_types` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_role_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_role_user_id` FOREIGN KEY (`user_id`) REFERENCES `user_profiles` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
