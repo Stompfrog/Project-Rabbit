@@ -7,8 +7,8 @@
 | These details are used in emails sent by authentication library.
 |--------------------------------------------------------------------------
 */
-$config['website_name'] = 'Project Rabbit';
-$config['webmaster_email'] = 'webmaster@your-site.com';
+$config['website_name'] = 'Artify.co';
+$config['webmaster_email'] = 'webmaster@artify.co';
 
 /*
 |--------------------------------------------------------------------------

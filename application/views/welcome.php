@@ -67,7 +67,7 @@
 <body>
 
 <div id="container">
-	<h1>Welcome to project Rabbit!</h1>
+	<h1>Welcome to Artify.co!</h1>
 
 	<div id="body">
 		Hi, <strong><?php echo $username; ?></strong>! You are logged in now. <?php echo anchor('/auth/logout/', 'Logout'); ?>

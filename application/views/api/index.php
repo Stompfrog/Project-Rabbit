@@ -1,5 +1,5 @@
 <div class="page-header">
-        <h1>Welcome to project rabbit!</h1>
+        <h1>Welcome to Artify.co!</h1>
 </div>
 <div class="row">
 	<div class="span10">
@@ -20,6 +20,7 @@
 		</ul>
 		<ul id="api-links">     
 		        <li>User 3 requesting user 1 to be friends = <?php echo anchor('/api/addfriend/3/1/', '/api/addfriend/3/1/'); ?></li>
+		        <li>User 3 has already requested user 1 = <?php echo anchor('/api/already_requested/3/1/', '/api/already_requested/3/1/'); ?></li>
 		        <li>User 1 confirming user 3 as a friend = <?php echo anchor('/api/confirmfriend/1/3/', '/api/confirmfriend/1/3/'); ?></li>
 		        <li>User 1 removing user 3 as a friend = <?php echo anchor('/api/unfriend/1/3/', '/api/unfriend/1/3/'); ?></li>
 		        <li>User 1 is friends with user 3 = <?php echo anchor('/api/already_friends/1/3/', '/api/already_friends/1/3/'); ?></li>

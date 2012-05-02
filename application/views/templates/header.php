@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<title>Project Rabbit</title>
+		<title>Artify.co</title>
 		<link rel="stylesheet" href="<?= base_url(); ?>/css/bootstrap.css">		
 		<link rel="stylesheet" href="<?= base_url(); ?>/css/style.css" />
 	</head>
@@ -11,7 +11,7 @@
 		<div class="topbar">
 			<div class="fill">
 				<div class="container">
-					<a class="brand" href="<?= base_url(); ?>">Project Rabbit</a>
+					<a class="brand" href="<?= base_url(); ?>">Artify.co</a>
 					<ul class="nav">
 						<li <?php if($this->uri->segment(1)=="welcome" || !$this->uri->segment(1)){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>">Home</a></li>
 						<li <?php if($this->uri->segment(1)=="explore"){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>index.php/explore/">Explore</a></li>

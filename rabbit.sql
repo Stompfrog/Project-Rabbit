@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 18, 2012 at 03:27 PM
+-- Generation Time: May 02, 2012 at 06:39 PM
 -- Server version: 5.1.44
 -- PHP Version: 5.3.2
 
@@ -80,7 +80,7 @@ CREATE TABLE `friends` (
   PRIMARY KEY (`id`),
   KEY `FK_user1_id` (`u1_id`),
   KEY `FK_user2_id` (`u2_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=63 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=86 ;
 
 --
 -- Dumping data for table `friends`
@@ -88,10 +88,10 @@ CREATE TABLE `friends` (
 
 INSERT INTO `friends` VALUES(1, 1, 2, 'friend', '2012-01-28');
 INSERT INTO `friends` VALUES(3, 2, 1, 'friend', '2012-02-08');
-INSERT INTO `friends` VALUES(58, 3, 1, 'friend', '2012-03-30');
-INSERT INTO `friends` VALUES(59, 1, 3, 'friend', '2012-03-30');
-INSERT INTO `friends` VALUES(61, 1, 4, 'requested', '0000-00-00');
-INSERT INTO `friends` VALUES(62, 1, 5, 'requested', '0000-00-00');
+INSERT INTO `friends` VALUES(82, 4, 1, 'friend', '2012-04-19');
+INSERT INTO `friends` VALUES(83, 1, 4, 'friend', '2012-04-19');
+INSERT INTO `friends` VALUES(84, 1, 3, 'requested', '0000-00-00');
+INSERT INTO `friends` VALUES(85, 1, 5, 'requested', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -221,6 +221,25 @@ CREATE TABLE `login_attempts` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `profile_image`
+--
+
+CREATE TABLE `profile_image` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `image_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_img_user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `profile_image`
+--
+
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `role_types`
 --
 
@@ -285,13 +304,13 @@ CREATE TABLE `users` (
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` VALUES(1, 'roppa_uk', '$2a$08$vSOeF4KmPaXh/sTV6B9Ay.OAtMwn/4Rxci3PQHr6CNzi4wYcDJm3G', 'roppa_uk@hotmail.com', 1, 0, NULL, NULL, NULL, NULL, 'a5991f5072eaa2569d015d796cad4f6f', '127.0.0.1', '2012-04-18 15:10:41', '2012-01-21 13:34:48', '2012-04-18 15:10:41');
+INSERT INTO `users` VALUES(1, 'roppa_uk', '$2a$08$vSOeF4KmPaXh/sTV6B9Ay.OAtMwn/4Rxci3PQHr6CNzi4wYcDJm3G', 'roppa_uk@hotmail.com', 1, 0, NULL, NULL, NULL, NULL, 'a5991f5072eaa2569d015d796cad4f6f', '127.0.0.1', '2012-05-02 18:35:36', '2012-01-21 13:34:48', '2012-05-02 18:35:36');
 INSERT INTO `users` VALUES(2, 'sompfrog', '$2a$08$xxAl6ZwZGAMkeO2KLBcpHO3PVpIDULTm7b6w/Gc8pCOPjjP0YLslK', 'chrisbewick@gmail.com', 1, 0, NULL, NULL, NULL, NULL, '700c92cfe378fdd91ef7b89fdb3a2d03', '127.0.0.1', '0000-00-00 00:00:00', '2012-01-28 10:12:30', '2012-01-28 10:12:59');
 INSERT INTO `users` VALUES(3, 'neslisever', '$2a$08$lL2NJTtvb4N1HICUOsDDgOpMDchwSmD5HthcFozB1xburUlG9.WFW', 'neslisever@yahoo.com', 1, 0, NULL, NULL, NULL, NULL, 'a629e15716b12a16846e1416c5fd7453', '127.0.0.1', '2012-01-28 23:02:47', '2012-01-28 14:33:48', '2012-01-28 23:02:47');
 INSERT INTO `users` VALUES(4, 'joch', '$2a$08$.QkhtqleQeoibY0NmVKyr.2L4f44k/kP9A4u0sbRRfQq68FZV56YO', 'joch@talktalk.net', 1, 0, NULL, NULL, NULL, NULL, '9a84fd9df2da3d9b71729212fb0f9a76', '127.0.0.1', '2012-03-31 18:38:45', '2012-02-10 20:59:22', '2012-03-31 18:38:45');
@@ -328,7 +347,7 @@ CREATE TABLE `user_profiles` (
   `website` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `first_name` varchar(10) COLLATE utf8_bin NOT NULL,
   `last_name` varchar(20) COLLATE utf8_bin DEFAULT NULL,
-  `avatar_filename` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `avatar` int(11) DEFAULT NULL,
   `status` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `sex` char(1) COLLATE utf8_bin DEFAULT NULL,
   `about_me` text COLLATE utf8_bin,
@@ -408,6 +427,12 @@ ALTER TABLE `group_users`
 --
 ALTER TABLE `image`
   ADD CONSTRAINT `FK_image_user_id` FOREIGN KEY (`user_id`) REFERENCES `user_profiles` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `profile_image`
+--
+ALTER TABLE `profile_image`
+  ADD CONSTRAINT `FK_img_user_id` FOREIGN KEY (`user_id`) REFERENCES `user_profiles` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `user_profiles`

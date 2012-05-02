@@ -1,6 +1,6 @@
 		        </div>
 		        <footer>
-		                <p>&copy; Project Rabbit 2012</p>
+		                <p>&copy; Artify.co 2012</p>
 		        </footer>
 		</div>
 		<script src="<?= base_url(); ?>/js/jquery.1.7.1.min.js"></script>
@@ -15,30 +15,30 @@
 		
 		//footer should receive parameters for what js to be included, not do any conditional code
 		if($this->uri->segment(1)==""){ ?>
-		        <script>
-		                $(function() {
-		                        RABBIT.map.init();
-		                });
-		        </script>
+				<script>
+				    $(function() {
+				    	RABBIT.map.init();
+				    });
+				</script>
 		<?php } else if($this->uri->segment(1)=="explore" || $this->uri->segment(1)=="" || $this->uri->segment(2)=="update_profile"){ ?>
 		        <script>
-		                $(function() {
-		                        RABBIT.map.userInit();
-		                });
+					$(function() {
+					    RABBIT.map.userInit();
+					});
 		        </script>
 		<?php } ?>
 		<?php if($this->uri->segment(1)=="api"){ ?>
 		<script>
-		        $(function(){
-		                $('#api-links a').on('click',function(e){
-		                        e.preventDefault();
-		                        var url = this.href;
-		                        $('#result').text('Loading...');
-		                        $.getJSON(url, function(data) {
-		                                $('#result').text(JSON.stringify(data));
-		                        });
-		                });
-		        });
+			$(function(){
+			    $('#api-links a').on('click',function(e){
+			        e.preventDefault();
+			        var url = this.href;
+			        $('#result').text('Loading...');
+			        $.getJSON(url, function(data) {
+			                $('#result').text(JSON.stringify(data));
+			        });
+			    });
+			});
 		</script>
 		<?php } ?>
 	</body>

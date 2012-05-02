@@ -47,7 +47,7 @@ RABBIT.map = {
                                 website
                                 first_name
                                 last_name
-                                avatar_filename
+                                avatar
                                 status
                                 sex
                                 about_me

@@ -1,5 +1,5 @@
 <div class="page-header">
-        <h1>Welcome to project rabbit!</h1>
+	<h1>Welcome to Artify.co!</h1>
 </div>
 <div class="row">
 	<div class="span10">

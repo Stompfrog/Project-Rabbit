@@ -28,7 +28,7 @@ class Artists_model extends CI_Model {
         {
                 $properties = array();
 
-                $query = $this->db->query("SELECT users.username, users.email, users.created, users.modified, users.last_login, users.id, user_profiles.website, user_profiles.first_name, user_profiles.last_name, user_profiles.avatar_filename, user_profiles.status, user_profiles.sex, user_profiles.about_me, user_profiles.lat, user_profiles.lon 
+                $query = $this->db->query("SELECT users.username, users.email, users.created, users.modified, users.last_login, users.id, user_profiles.website, user_profiles.first_name, user_profiles.last_name, user_profiles.avatar, user_profiles.status, user_profiles.sex, user_profiles.about_me, user_profiles.lat, user_profiles.lon 
                                                                         FROM users 
                                                                         JOIN user_profiles ON users.id = user_profiles.user_id 
                                                                         WHERE users.id = " . (int) $user_id);
@@ -45,7 +45,7 @@ class Artists_model extends CI_Model {
                         $properties['website'] = $row['website'];
                         $properties['first_name'] = $row['first_name'];
                         $properties['last_name'] = $row['last_name'];
-                        $properties['avatar_filename'] = $row['avatar_filename'];
+                        $properties['avatar_filename'] = $row['avatar'];
                         $properties['status'] = $row['status'];
                         $properties['sex'] = $row['sex'];
                         $properties['about_me'] = $row['about_me'];
@@ -220,11 +220,12 @@ class Artists_model extends CI_Model {
         function confirm_friend ($user_id, $friend_id)
         {
                 if($this->already_friends($user_id, $friend_id)) return 'you are already friends';
-        
+                if(! $this->friend_requested($friend_id, $user_id)) return 'friendship was not requested from that user';
+
                 $data = array(
-           'status' => 'friend',
-           'befriended' => date('Y-m-d H:i:s')
-        );
+				   'status' => 'friend',
+				   'befriended' => date('Y-m-d H:i:s')
+				);
                 $this->db->where('u1_id', $friend_id);
                 $this->db->where('u2_id', $user_id);
                 $this->db->update('friends', $data);
@@ -299,13 +300,13 @@ class Artists_model extends CI_Model {
                                                                         AND u2_id = " . $user_id);
 
                 if (sizeof($query->result_array()) > 0) {
-                        foreach ($query->result_array() as $row)
-                        {
-                                $data = array();
-                                $data['id'] = $row['u1_id'];
-                                $data['name'] = $row['first_name'] . ' ' . $row['last_name'];
-                                array_push($friends, $data);
-                        }
+					foreach ($query->result_array() as $row)
+					{
+						$data = array();
+						$data['id'] = $row['u1_id'];
+						$data['name'] = $row['first_name'] . ' ' . $row['last_name'];
+						array_push($friends, $data);
+					}
                 } else {
                         $friends == null;
                 }
@@ -341,7 +342,7 @@ class Artists_model extends CI_Model {
                 if ($query->num_rows() > 0)
                 {
                    $row = $query->row();
-                   if($row->friend_requested == 1) return true;
+                   if ($row->friend_requested == 1) return true;
                 }
                 
                 return false;
