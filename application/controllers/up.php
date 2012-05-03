@@ -26,12 +26,18 @@ class Up extends CI_Controller
 	*/
 	function profile_image() 
 	{
-		$data = array();
 		//if posted
-		if ($this->input->post('upload')) {
-			$data = $this->upload_model->profile_img_upload();
+		if ($this->tank_auth->is_logged_in()) {
+			$data = array();
+			if ($this->input->post('upload')) {
+				$data = $this->upload_model->profile_img_upload();
+			}
+			
+			$this->load->view('profile_image', $data);
+			
+		} else {
+			redirect('/auth/login/');
 		}
-		$this->load->view('profile_image', $data);
 	}
 	
 }

@@ -10,6 +10,7 @@ class Upload_model extends CI_Model {
         // Call the Model constructor
         parent::__construct();
         $this->load->model('artists_model');
+        $this->load->library('tank_auth');
         //image paths
         //temp
         $this->temp_path = realpath(APPPATH . '../pb/tmp');
@@ -79,7 +80,10 @@ class Upload_model extends CI_Model {
 		//delete original
 		unlink($image_data['full_path']);
 		
-		return array('success' => 'Everything is ok');
+		//update database
+		$this->artists_model->add_profile_image($this->tank_auth->get_user_id(), $filename);
+		
+		return array('success' => '/pb/prf/' . $filename);
     }
 
 	/*
@@ -131,8 +135,13 @@ class Upload_model extends CI_Model {
 		//resize library
 		$this->load->library('image_lib', $config);
 		$this->image_lib->resize();
-		return array('success' => 'Everything is ok');
-
+		
+		return array('success' => $this->img_path);
+    }
+    
+    function generate_filename ()
+    {
+    
     }
 
 }

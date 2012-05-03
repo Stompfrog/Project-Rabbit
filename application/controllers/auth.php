@@ -11,6 +11,7 @@ class Auth extends CI_Controller
 		$this->load->library('security');
 		$this->load->library('tank_auth');
 		$this->lang->load('tank_auth');
+		$this->load->model('upload_model'); 
 		$this->load->model('tank_auth/profiles', 'profiles_model');
 	}
 
@@ -514,6 +515,22 @@ class Auth extends CI_Controller
 			}
 			$this->load->view('/templates/footer', $data);
 
+		}
+	}
+	
+	function add_profile_image()
+	{
+		//if posted
+		if ($this->tank_auth->is_logged_in()) {
+			$data = array();
+			if ($this->input->post('upload')) {
+				$data = $this->upload_model->profile_img_upload();
+			}
+			$this->load->view('/templates/header', $data);
+			$this->load->view('profile_image', $data);
+			$this->load->view('/templates/footer', $data);
+		} else {
+			redirect('/auth/login/');
 		}
 	}
 

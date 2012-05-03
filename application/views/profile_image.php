@@ -1,15 +1,10 @@
-<html>
-<head>
-<title>Upload Profile Image</title>
-</head>
-<body>
 <?php
-	if (isset($result['success']))
-		echo '<p>successfully uploaded</p>';
+	if (isset($success))
+		echo '<img src="' . $success . '" />';
 	else if (isset($error))
 		echo $error;
 
-	echo form_open_multipart('up/profile_image'); ?>
+	echo form_open_multipart('/auth/add_profile_image'); ?>
 	<div class="control-group">
 	    <?php echo form_label('Profile image', 'profile_img'); ?>
 	    <div class="controls">
@@ -32,7 +27,3 @@
 		</form>
 	*/
 	?>
-	
-	
-</body>
-</html>

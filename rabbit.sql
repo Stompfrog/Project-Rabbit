@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 02, 2012 at 06:39 PM
+-- Generation Time: May 03, 2012 at 02:24 AM
 -- Server version: 5.1.44
 -- PHP Version: 5.3.2
 
@@ -187,17 +187,17 @@ CREATE TABLE `image` (
   `user_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `alt` varchar(255) DEFAULT NULL,
-  `thumb_path` varchar(255) NOT NULL,
-  `large_path` varchar(255) NOT NULL,
+  `file_name` varchar(255) NOT NULL,
   `description` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_image_user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `image`
 --
 
+INSERT INTO `image` VALUES(2, 1, '', '', '20694224174fa1d78cbd2448.81117954.jpg', '');
 
 -- --------------------------------------------------------
 
@@ -229,13 +229,15 @@ CREATE TABLE `profile_image` (
   `user_id` int(11) NOT NULL,
   `image_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_img_user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  KEY `FK_img_user_id` (`user_id`),
+  KEY `FK_prof_image_id` (`image_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `profile_image`
 --
 
+INSERT INTO `profile_image` VALUES(2, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -361,7 +363,7 @@ CREATE TABLE `user_profiles` (
 -- Dumping data for table `user_profiles`
 --
 
-INSERT INTO `user_profiles` VALUES(1, 'http://www.whiteforest.co.uk', 'Mark', 'Robson', NULL, 'Painting a pretty picture', 'm', 0x486572652069732061206c6974746c65206269742061626f7574206d652e20416e6420736f6d65206d6f72652061626f7574206d652e207465737420746573742074657374, 54.3272532765991, -3.73821410000005);
+INSERT INTO `user_profiles` VALUES(1, 'http://www.whiteforest.co.uk', 'Mark', 'Robson', 2, 'Painting a pretty picture', 'm', 0x486572652069732061206c6974746c65206269742061626f7574206d652e20416e6420736f6d65206d6f72652061626f7574206d652e207465737420746573742074657374, 54.3272532765991, -3.73821410000005);
 INSERT INTO `user_profiles` VALUES(2, 'http://chrisbewick.com/blog/', 'Chris', 'Bewick', NULL, 'Creativity', 'm', 0x486572652069732061206c6974746c65206269742061626f7574206d652e20416e6420736f6d65206d6f72652061626f7574206d652e, 49.4511846, -2.5695965);
 INSERT INTO `user_profiles` VALUES(3, 'http://www.neslihansever.com/', 'Nesli', 'Sever', NULL, 'Kurdish art', 'f', 0x416476656e747572657320696e746f204b757264697368206172742e, 51.2703785915549, 1.07603845454071);
 INSERT INTO `user_profiles` VALUES(4, 'http://www.google.co.uk', 'Joachim', 'Sefzik', NULL, NULL, NULL, 0x746869732069732061626f7574206d65, 48.1903468, 1.02);
@@ -432,7 +434,7 @@ ALTER TABLE `image`
 -- Constraints for table `profile_image`
 --
 ALTER TABLE `profile_image`
-  ADD CONSTRAINT `FK_img_user_id` FOREIGN KEY (`user_id`) REFERENCES `user_profiles` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_prof_image_id` FOREIGN KEY (`image_id`) REFERENCES `image` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `user_profiles`
