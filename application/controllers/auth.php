@@ -11,7 +11,7 @@ class Auth extends CI_Controller
 		$this->load->library('security');
 		$this->load->library('tank_auth');
 		$this->lang->load('tank_auth');
-		$this->load->model('upload_model'); 
+		$this->load->model('upload_model');
 		$this->load->model('tank_auth/profiles', 'profiles_model');
 	}
 
@@ -523,6 +523,9 @@ class Auth extends CI_Controller
 		//if posted
 		if ($this->tank_auth->is_logged_in()) {
 			$data = array();
+			//get all current profile images
+			$data['profile_images'] = $this->artists_model->get_all_profile_images($this->tank_auth->get_user_id());
+			//if the user is uploading a new image
 			if ($this->input->post('upload')) {
 				$data = $this->upload_model->profile_img_upload();
 			}

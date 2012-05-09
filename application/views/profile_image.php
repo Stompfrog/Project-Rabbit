@@ -1,4 +1,13 @@
 <?php
+
+	/*
+		get all avatar images, display in a grid. have edit/delete image button
+	*/
+	if (isset($profile_images)) {
+	?><ul class="media-grid">
+		<?= $profile_images ?>
+	</ul><?php }
+
 	if (isset($success))
 		echo '<img src="' . $success . '" />';
 	else if (isset($error))

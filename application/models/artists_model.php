@@ -31,7 +31,7 @@ class Artists_model extends CI_Model {
 	    $query = $this->db->query("SELECT users.username, users.email, users.created, users.modified, users.last_login, users.id, user_profiles.website, user_profiles.first_name, user_profiles.last_name, image.file_name AS avatar_filename, user_profiles.status, user_profiles.sex, user_profiles.about_me, user_profiles.lat, user_profiles.lon 
                                     FROM users 
                                     JOIN user_profiles ON users.id = user_profiles.user_id 
-                                    JOIN image ON image.id = user_profiles.avatar
+                                    LEFT JOIN image ON image.id = user_profiles.avatar
                                     WHERE users.id = " . (int) $user_id);
 	
 	    if ($query->num_rows() > 0)
@@ -378,9 +378,28 @@ class Artists_model extends CI_Model {
 		
 	}
 	
-	function set_avatar ($user_id, $img_id)
+	/*
+	    get all profile images
+	*/
+    function get_all_profile_images ($user_id)
+    {
+    	$query = $this->db->query("SELECT `profile_image`.`image_id`, `image`.`file_name` FROM `profile_image`, `image` WHERE `profile_image`.`user_id` = " . $user_id . " AND `profile_image`.`image_id` = `image`.`id`");
+	
+		if (sizeof($query->result_array()) > 0)
+		{
+			$images = '';
+			foreach ($query->result_array() as $row)
+			{
+				$images .= '<li><a href="#"><img class="thumbnail" src="' . base_url() . $this->config->item('profile_thumb_path') . $row['file_name'] . '" alt=""></a></li>';
+			}
+			return $images;
+	    }
+	    return false;
+    }
+	
+	function set_profile_image ($user_id, $img_id)
 	{
-		//update user_profiles set avatar to be $img_id
+		//update user_profiles set avatar to be $img_id where user_id = $user_id
 	}
 	
 	function add_profile_image ($user_id, $file)
@@ -408,6 +427,11 @@ class Artists_model extends CI_Model {
 		);
 		$this->db->where('user_id', $user_id);
 		$this->db->update('user_profiles', $data);
+	}
+	
+	function delete_profile_image ()
+	{
+		//
 	}
 	
 	/****** Timeline methods ****************************************

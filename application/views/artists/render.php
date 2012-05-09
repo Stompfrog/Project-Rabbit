@@ -29,9 +29,15 @@
 	<div class="span4">
 		<ul class="media-grid pull-left">
 			<li><a href="#"><img src="http://www.gravatar.com/avatar/<?= md5( strtolower( trim( $user->get_email() ) ) )?>?s=210" /></a></li>
+			<?php if ($user->get_large_avatar()) { ?>
 			<li><a href="#"><?= $user->get_large_avatar() ?></a></li>
+			<?php } ?>
 		</ul>
-		<a href="#">Upload/edit profile picture</a>
+		<?php if ($this->tank_auth->is_logged_in()) {
+		//if the user is logged in, and this is the users profile
+		?>
+		<a href="<?= base_url() ?>index.php/auth/add_profile_image">Upload/edit profile picture</a>
+		<?php } ?>
 		<hr />
 		<h3>Events attended</h3>
 		<ul class="events unstyled">

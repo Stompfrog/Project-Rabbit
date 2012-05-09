@@ -23,9 +23,9 @@ class Artists extends CI_Controller
 		} else {
 		    //need to move this logic in the get_user instead of having conditionals all over the place
 		    if (!is_numeric ($this->uri->segment(2))) {
-		            $this->get_user($this->artists_model->get_user_id_from_username($this->uri->segment(2)));
+		    	$this->get_user($this->artists_model->get_user_id_from_username($this->uri->segment(2)));
 		    } else {
-		            $this->get_user($this->uri->segment(2));
+		    	$this->get_user($this->uri->segment(2));
 		    }
 		}
 	}

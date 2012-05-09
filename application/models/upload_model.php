@@ -47,6 +47,7 @@ class Upload_model extends CI_Model {
 		
 		//generate unique filename
 		$filename = '';
+		//$filename = $this->generate_filename ($this->profile_img_path, $image_data['file_ext']);
 		while (true) {
 			$filename = uniqid(mt_rand(), true) . $image_data['file_ext'];
 			if (!file_exists($this->profile_img_path . '/' . $filename)) break;
@@ -139,11 +140,15 @@ class Upload_model extends CI_Model {
 		return array('success' => $this->img_path);
     }
     
-    function generate_filename ()
+    function generate_filename ($path, $ext)
     {
-    
+    	$filename = '';
+		while (true) {
+			$filename = uniqid(mt_rand(), true) . $ext;
+			if (!file_exists($path . '/' . $filename)) break;
+		}
+		return $filename; 
     }
-
 }
 
 
