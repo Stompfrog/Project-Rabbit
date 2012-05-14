@@ -13,6 +13,7 @@ class Auth extends CI_Controller
 		$this->lang->load('tank_auth');
 		$this->load->model('upload_model');
 		$this->load->model('tank_auth/profiles', 'profiles_model');
+		$this->load->model('artists_model');
 	}
 
 	function index()
@@ -517,7 +518,120 @@ class Auth extends CI_Controller
 
 		}
 	}
+
+	/**
+	 * 	Address -  show list of addresses, with links to edit/delete, provide link to add address
+	 *
+	 *  @return void
+	 */
+	function address ()
+	{
+		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
+			redirect('/auth/login/');
+		} else {
+			$data = array();
+		    $this->load->view('templates/header');
+		    $this->load->view('auth/address_list',$data);
+		    $this->load->view('templates/footer');
+		}
+	}
 	
+	/**
+	 * 	 Add address - form and error handling for entering address
+	 *
+	 * @return void
+	 */
+	
+	function add_address ()
+	{
+		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
+			redirect('/auth/login/');
+		} else {
+
+		}
+	}
+
+	/**
+	 * 	 Edit address - if no address_id, show error message, else show edit form
+	 *
+	 * @return void
+	 */
+
+	function edit_address ()
+	{
+		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
+			redirect('/auth/login/');
+		} else {
+	
+			$data = array();
+			$user_id = $this->tank_auth->get_user_id();
+			$table_values = $this->profiles_model->get_address($user_id);
+					
+			$data['table_values'] = $table_values;
+	
+			$this->form_validation->set_rules('is_venue', 'is_venue', 'trim|xss_clean');
+			$this->form_validation->set_rules('address_type', 'address_type', 'trim|xss_clean');
+	
+			$this->form_validation->set_rules('address_1', 'address_1', 'trim|required|xss_clean');
+			$this->form_validation->set_rules('address_2', 'address_2', 'trim|xss_clean');
+			$this->form_validation->set_rules('city', 'city', 'trim|required|xss_clean');
+			$this->form_validation->set_rules('postcode', 'postcode', 'trim|required|xss_clean');
+			$this->form_validation->set_rules('lat', 'lat', 'trim|xss_clean');
+			$this->form_validation->set_rules('lon', 'lon', 'trim|xss_clean');
+			$this->form_validation->set_error_delimiters('<span class="help-inline">', '</span>');
+		
+			$this->load->view('/templates/header', $data);
+			if ($this->form_validation->run() == FALSE)
+			{
+				$this->load->view('/auth/address', $data);
+			}
+			else
+			{	
+				//temp
+				$address_id = 1;
+				$updated_values = array(
+					'is_venue' => $this->form_validation->set_value('is_venue'),		
+					'address_type' => $this->form_validation->set_value('address_type'),
+					'address_1' => $this->form_validation->set_value('address_1'),		
+					'address_2' => $this->form_validation->set_value('address_2'),
+					'city' => $this->form_validation->set_value('city'),
+					'postcode' => $this->form_validation->set_value('postcode'),
+					'lat' => $this->form_validation->set_value('lat'),
+					'lon' => $this->form_validation->set_value('lon'));
+	
+				if($this->profiles_model->update_address($user_id, $address_id, $updated_values))
+				{
+					$data['message'] = 'Your details were updated successfully!';
+					$this->load->view('/auth/address', $data);
+				} else {
+					$data['message'] = 'Oops, there was a problem updating the database.';
+					$this->load->view('/auth/address', $data);
+				}
+			}
+			$this->load->view('/templates/footer', $data);
+		}
+	}
+
+	/**
+	 * 	 Delete address - if no address_id, show error message, else prompt, and if yes, delete address
+	 *
+	 * @return void
+	 */
+
+	function delete_address ()
+	{
+		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
+			redirect('/auth/login/');
+		} else {
+
+		}
+	}
+
+	/**
+	 * Add, delete, update profile images
+	 *
+	 * @return void
+	 */
 	function add_profile_image()
 	{
 		if ($this->tank_auth->is_logged_in()) {

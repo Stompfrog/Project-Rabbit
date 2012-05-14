@@ -20,7 +20,7 @@
 				    	RABBIT.map.init();
 				    });
 				</script>
-		<?php } else if($this->uri->segment(1)=="explore" || $this->uri->segment(1)=="" || $this->uri->segment(2)=="update_profile"){ ?>
+		<?php } else if($this->uri->segment(1)=="explore" || $this->uri->segment(1)=="" || $this->uri->segment(2)=="address"){ ?>
 		        <script>
 					$(function() {
 					    RABBIT.map.userInit();

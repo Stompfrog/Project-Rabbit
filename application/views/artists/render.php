@@ -33,10 +33,11 @@
 			<li><a href="#"><?= $user->get_large_avatar() ?></a></li>
 			<?php } ?>
 		</ul>
-		<?php if ($this->tank_auth->is_logged_in()) {
+		<?php 
 		//if the user is logged in, and this is the users profile
+		if ($this->tank_auth->is_logged_in() && $this->tank_auth->get_user_id() == $user->get_id()) {
 		?>
-		<a href="<?= base_url() ?>index.php/auth/add_profile_image">Upload/edit profile picture</a>
+			<a href="<?= base_url() ?>index.php/auth/add_profile_image">Upload/edit profile picture</a>
 		<?php } ?>
 		<hr />
 		<h3>Events attended</h3>

@@ -201,6 +201,7 @@ class Artists_model extends CI_Model {
 					{
 					    return 'We have sent a request to the user';
 					}
+				//they are friends
 			    } else {
 			    	return 'you are already friends';
 			    }
@@ -350,6 +351,49 @@ class Artists_model extends CI_Model {
 	
 	}
 	
+	/****** Address section ***************************************
+	
+	//Create address
+	
+	//get address
+	
+	//add address
+	
+	//update address
+	
+	*************************************************************/
+
+	function get_address ($user_id, $address_id = null) {
+		$and = '';
+		if ($address_id)
+			$and = ' AND `id` = ' . $address_id;
+		$query = $this->db->query('SELECT * FROM `address` WHERE `user_id` = ' . $user_id . $and);
+	    if ($query->num_rows() > 0)
+	    {
+			return $query->row_array();
+	    }
+	    return false;
+	}
+	
+	function get_addresses ($user_id) {
+		$addresses = array();
+		if ($address_id)
+		$query = $this->db->query('SELECT * FROM `address` WHERE `user_id` = ' . $user_id);
+	    if ($query->num_rows() > 0)
+	    {
+			foreach ($query->row_array() as $row) {
+				array_push($addresses, $row);
+			}
+			return $addresses;
+	    }
+	    return false;
+	}
+	
+	function add_address ($user_id) {
+		
+	}
+		
+	
 	/****** Geolocational section ********************************
 	
 	
@@ -373,7 +417,7 @@ class Artists_model extends CI_Model {
 	
 	*************************************************************/
 	
-	function get_avatar ()
+	function get_profile_image ()
 	{
 		
 	}

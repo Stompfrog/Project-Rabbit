@@ -104,3 +104,7 @@ textarea{
 #map {
         height: 400px;
 }
+
+.address {
+	float: left;
+}

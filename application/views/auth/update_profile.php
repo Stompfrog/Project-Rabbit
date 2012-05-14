@@ -24,27 +24,6 @@ $sex = array(
 	'id'    => 'sex',
 	'value' => set_value('sex', $table_values['sex'])
 );
-$address = array(
-	'name'  => 'address',
-	'id'    => 'address',
-	'value' => set_value('address'),
-	'maxlength'     => 100,
-	'size'  => 30,
-);
-$lat = array(
-    'name'  => 'lat',
-    'id'    => 'lat',
-    'value' => set_value('lat'),
-    'maxlength'     => 40,
-    'size'  => 30,
-);
-$lon = array(
-    'name'  => 'lon',
-    'id'    => 'lon',
-    'value' => set_value('lon'),
-    'maxlength'     => 40,
-    'size'  => 30,
-);
 $website = array(
     'name'  => 'website',
     'id'    => 'website',
@@ -59,7 +38,7 @@ $submit = array(
 );
 ?>
 <div class="page-header">
-	<h1>Welcome to Artify.co!</h1>
+	<h1>Artify.co</h1>
 </div>
 <div class="row">
 	<div class="span10">
@@ -90,6 +69,8 @@ $submit = array(
 			            <?php echo form_error($about_me['name']); ?><?php echo isset($errors[$about_me['name']])?$errors[$about_me['name']]:''; ?>
 				    </div>
 				</div>
+				
+<!--
 				<div class="clearfix">
 				    <?php echo form_label('Address', $address['id']); ?>
 				    <div class="input">
@@ -109,6 +90,8 @@ $submit = array(
 				    	<?php echo form_input($lon); ?>
 				    </div>
 				</div>
+-->
+				
 				<div class="clearfix">
 				    <?php echo form_label('Website', $website['id']); ?>
 				    <div class="input">
@@ -134,13 +117,5 @@ $submit = array(
 			</div>
 		<?php echo form_close(); ?>
 	</div>
-	<div class="span4">
-		<h3>Other options</h3>
-		<ul class="events unstyled">
-			<li><?php echo anchor('/artists/' . $this->tank_auth->get_user_id(), 'View profile'); ?></li>
-			<li><?php echo anchor('/auth/change_password/', 'Change password'); ?></li>
-			<li><?php echo anchor('/auth/logout/', 'Logout'); ?></li>
-			<li><?php echo anchor('/auth/unregister/', 'Unregister'); ?></li>
-		</ul>
-	</div>
+	<?php $this->load->view('auth/sidebar'); ?>
 </div>
