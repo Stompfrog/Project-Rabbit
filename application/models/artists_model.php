@@ -199,17 +199,17 @@ class Artists_model extends CI_Model {
 					$this->db->query($sql);
 					if($this->db->affected_rows() > 0)
 					{
-					    return "We have sent a request to the user";
+					    return 'We have sent a request to the user';
 					}
 			    } else {
-			    	return "you are already friends";
+			    	return 'you are already friends';
 			    }
 			} else {
-			    return "you have already requested to be friends";
+			    return 'you have already requested to be friends';
 			}
 	    }
 	    
-	    return "It was not possible to add this user as a friend";
+	    return 'It was not possible to add this user as a friend';
 	}
 	
 	/*

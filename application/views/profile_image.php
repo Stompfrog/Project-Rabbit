@@ -1,7 +1,7 @@
 <?php
 
 	/*
-		get all avatar images, display in a grid. have edit/delete image button
+		get all avatar images, display in a grid. link will take user to delete image
 	*/
 	if (isset($profile_images)) {
 	?><ul class="media-grid">

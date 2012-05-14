@@ -65,6 +65,7 @@ class Artists extends CI_Controller
 	    if ($this->tank_auth->is_logged_in()) {
 			$data['already_friends'] = $this->artists_model->already_friends($this->tank_auth->get_user_id(), $user_id);
 			$data['friend_requested'] = $this->artists_model->friend_requested($this->tank_auth->get_user_id(), $user_id);
+			$data['friend_requested_reverse'] = $this->artists_model->friend_requested($user_id, $this->tank_auth->get_user_id());
 	    }
 	    
 	    $this->load->view('templates/header');

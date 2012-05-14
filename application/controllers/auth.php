@@ -520,7 +520,6 @@ class Auth extends CI_Controller
 	
 	function add_profile_image()
 	{
-		//if posted
 		if ($this->tank_auth->is_logged_in()) {
 			$data = array();
 			//get all current profile images

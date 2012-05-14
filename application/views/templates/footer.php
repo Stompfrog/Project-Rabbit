@@ -30,13 +30,29 @@
 		<?php if($this->uri->segment(1)=="api"){ ?>
 		<script>
 			$(function(){
-			    $('#api-links a').on('click',function(e){
+			    $('#api-links a').on('click',function(e) {
 			        e.preventDefault();
 			        var url = this.href;
 			        $('#result').text('Loading...');
 			        $.getJSON(url, function(data) {
 			                $('#result').text(JSON.stringify(data));
 			        });
+			    });
+			});
+		</script>
+		<?php } ?>
+		<?php if($this->tank_auth->is_logged_in()) { ?>
+		<script>
+			$(function(){			    
+			    $('a.friend').on('click', function (e) {
+				    e.preventDefault();
+				    var parentEl = $(this).parent();
+					$.ajax({
+					  url: this.href
+					}).done(function( html ) {
+					  $(this).remove();
+					  $(parentEl).html(html);
+					});
 			    });
 			});
 		</script>
