@@ -24,7 +24,7 @@ if ($this->tank_auth->is_logged_in()) {
 	//if this isn't the logged in user
 	if($this->tank_auth->get_user_id() != $user_id) {
 		if (isset($already_friends) && $already_friends) {
-			echo '<p>You are already friends</p>';
+			echo '<p><a href="' . base_url() . 'index.php/api/unfriend/' . $this->tank_auth->get_user_id() . '/' . $user_id . '/" class="btn success friend">Unfriend</a></p>';
 		} else if (isset($friend_requested_reverse) && $friend_requested_reverse) {
 			echo '<p><a href="' . base_url() . 'index.php/api/confirmfriend/' . $this->tank_auth->get_user_id() . '/' . $user_id . '/" class="btn success friend">Confirm friend</a></p>';
 		} else { //not friends, so
