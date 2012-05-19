@@ -7,6 +7,28 @@
 		<hr />
 		<div class="span10">
 		
+		
+		<?php
+		
+		if (isset($addresses)) {
+		
+			foreach ($addresses as $address) {
+				echo '<div class="span5 address">';
+				echo $address->get_vcard();
+				
+				?><ul class="events unstyled">
+					<li><a href="<?= base_url() ?>index.php/admin/addresses/edit_address/<?= $address->get_id() ?>" class="btn success">Edit address</a></li>
+					<li><a href="<?= base_url() ?>index.php/admin/addresses/delete_address/<?= $address->get_id() ?>" class="btn danger">Delete address</a></li>
+				</ul><?php
+				
+				echo '</div>';
+			}
+		
+		} else
+			echo 'there are no addresses';
+		?>
+		
+<!--
 			<div class="span5 address">
 				<div id="hcard-Mark-Robson" class="vcard">
 					<a class="url fn" href="http://www.whiteforest.co.uk">Mark Robson</a>
@@ -32,6 +54,7 @@
 					</div>
 				</div>	
 			</div>
+-->
 
 	
 		</div>

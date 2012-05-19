@@ -11,7 +11,15 @@
 		
 		<script src="<?= base_url(); ?>/js/jsont.js"></script></script>
 		<script src="<?= base_url(); ?>/js/rabbit.js"></script></script>
-		<?php 
+		<?php
+		if (isset($loadmap) && $loadmap == TRUE) {
+		?>
+			<script>
+				$(function() {
+				    RABBIT.map.userInit();
+				});
+			</script>
+		<?php }
 		
 		//footer should receive parameters for what js to be included, not do any conditional code
 		if($this->uri->segment(1)==""){ ?>
@@ -20,7 +28,7 @@
 				    	RABBIT.map.init();
 				    });
 				</script>
-		<?php } else if($this->uri->segment(1)=="explore" || $this->uri->segment(1)=="" || $this->uri->segment(2)=="address"){ ?>
+		<?php } else if($this->uri->segment(1)=="explore" || $this->uri->segment(1)=="" || $this->uri->segment(2)=="edit_address"){ ?>
 		        <script>
 					$(function() {
 					    RABBIT.map.userInit();

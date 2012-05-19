@@ -13,6 +13,7 @@ class Artists_model extends CI_Model {
         //load in classes
         include_once(APPPATH.'classes/Image.php');
         include_once(APPPATH.'classes/User.php');
+        include_once(APPPATH.'classes/Address.php');
     }
     
     /****** Artist/user section *********************************
@@ -327,9 +328,8 @@ class Artists_model extends CI_Model {
 	       $row = $query->row();
 	       if($row->is_friend == 1) return true;
 	    }
-	    
+
 	    return false;
-	    
 	}
 	
 	/*
@@ -390,9 +390,36 @@ class Artists_model extends CI_Model {
 	}
 	
 	function add_address ($user_id) {
-		
+		//add image to image table
+/*
+		$data = array(
+		   'user_id' => $user_id,
+		   'title' => '',
+		   'alt' => '',
+		   'file_name' => $file,
+		   'description' => ''
+		);
+		$this->db->insert('image', $data);
+		//foreign key for profile_image table
+		$img_id = $this->db->insert_id();
+*/
 	}
-		
+	
+	function valid_address ($address_id, $user_id) {
+	
+		if (isset($address_id) && is_numeric($address_id)) {
+	    	$query = $this->db->query("SELECT COUNT(id) AS address_exists FROM address where id = " . $address_id . " AND user_id = " . $user_id);
+		    if ($query->num_rows() > 0)
+		    {
+		       $row = $query->row();
+		       if($row->address_exists > 0) return true;
+		    } else {
+		    	return false;
+		    }    	
+		}
+
+	    return false;
+	}	
 	
 	/****** Geolocational section ********************************
 	

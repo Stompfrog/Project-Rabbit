@@ -237,8 +237,8 @@ RABBIT.map = {
                       },
                       //This bit is executed upon selection of an address
                       select: function(event, ui) {
-                        $("#latitude").val(ui.item.latitude);
-                        $("#longitude").val(ui.item.longitude);
+                        $("#lat").val(ui.item.latitude);
+                        $("#lon").val(ui.item.longitude);
                         var location = new google.maps.LatLng(ui.item.latitude, ui.item.longitude);
                         self.marker.setPosition(location);
                         self.mapObj.setCenter(location);

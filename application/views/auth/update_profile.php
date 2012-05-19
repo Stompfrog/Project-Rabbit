@@ -17,7 +17,6 @@ $about_me = array(
 	'name'  => 'about_me',
 	'id'    => 'about_me',
 	'value' => set_value('about_me', $table_values['about_me']),
-	'maxlength'     => 80,
 	'size'  => 30,
 );
 $sex = array(
@@ -38,11 +37,11 @@ $submit = array(
 );
 ?>
 <div class="page-header">
-	<h1>Artify.co</h1>
+	<h1>Your Profile</h1>
 </div>
 <div class="row">
 	<div class="span10">
-		<h2>Edit your profile</h2>
+		<h2>Basic Information</h2>
 		<hr />
 		<?php if (isset($message)) { echo $message; } ?>
 		<?php echo form_open($this->uri->uri_string()); ?>

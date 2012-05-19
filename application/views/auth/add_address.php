@@ -19,42 +19,42 @@ $address = array(
 $address_1 = array(
 	'name'  => 'address_1',
 	'id'    => 'address_1',
-	'value' => set_value('address_1', $table_values['address_1']),
+	'value' => set_value('address_1'),
 	'maxlength' => 100,
 	'size'  => 30,
 );
 $address_2 = array(
 	'name'  => 'address_2',
 	'id'    => 'address_2',
-	'value' => set_value('address_2', $table_values['address_2']),
+	'value' => set_value('address_2'),
 	'maxlength' => 100,
 	'size'  => 30,
 );
 $city = array(
 	'name'  => 'city',
 	'id'    => 'city',
-	'value' => set_value('city', $table_values['city']),
+	'value' => set_value('city'),
 	'maxlength' => 100,
 	'size'  => 30,
 );
 $postcode = array(
     'name'  => 'postcode',
     'id'    => 'postcode',
-    'value' => set_value('postcode', $table_values['postcode']),
+    'value' => set_value('postcode'),
     'maxlength'     => 10,
     'size'  => 10,
 );
 $lat = array(
     'name'  => 'lat',
     'id'    => 'lat',
-    'value' => set_value('lat', $table_values['lat']),
+    'value' => set_value('lat'),
     'maxlength'     => 40,
     'size'  => 30,
 );
 $lon = array(
     'name'  => 'lon',
     'id'    => 'lon',
-    'value' => set_value('lon', $table_values['lon']),
+    'value' => set_value('lon'),
     'maxlength'     => 40,
     'size'  => 30,
 );
@@ -69,7 +69,7 @@ $submit = array(
 </div>
 <div class="row">
 	<div class="span10">
-		<h2>Update Address</h2>
+		<h2>Add Address</h2>
 		<hr />
 		<?php if (isset($message)) { echo $message; } ?>
 		<?php echo form_open($this->uri->uri_string()); ?>
@@ -129,7 +129,7 @@ $submit = array(
 				</div>
 	        </fieldset>
 			<div class="actions">
-				<?php echo form_submit($submit, 'Update address'); ?>
+				<?php echo form_submit($submit, 'Add address'); ?>
 			</div>
 		<?php echo form_close(); ?>
 	</div>

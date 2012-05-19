@@ -16,6 +16,7 @@ class Profiles extends CI_Model
 		
 		$ci =& get_instance();
 		$this->profile_table_name = $ci->config->item('db_table_prefix', 'tank_auth').$this->profile_table_name;
+		include_once(APPPATH.'classes/Address.php');
 	}
 	
 	/**
@@ -34,10 +35,34 @@ class Profiles extends CI_Model
         }
         return FALSE;
 	}
-	
-	function add_address ($user_id, $data) {
-	        
+
+	/**
+	 * Add address
+	 *
+	 * @param       int
+	 * @param       array
+	 * @return      array
+	 */
+	function add_address ($data) {
+		if ($this->db->insert('address', $data))
+			return true;
+		return false;
 	}
+	
+	function get_addresses ($user_id) {
+		$addresses = array();
+		$query = $this->db->query('SELECT * FROM address WHERE user_id = ' . $user_id);
+	    if ($query->num_rows() > 0)
+	    {
+		    foreach ($query->result_array() as $row)
+		    {
+				$address = new Address($row);
+				array_push($addresses, $address);
+		    }
+			return $addresses;
+	    }
+	    return false;
+	}	
 	
 	function get_address ($user_id, $address_id = null) {
 		$and = '';
@@ -60,8 +85,11 @@ class Profiles extends CI_Model
         return FALSE;
 	}
 	
-	function remove_address ($user_id, $address_id) {
-	        
+	function delete_address ($address_id, $user_id) {
+		if ($this->db->delete('address', array('id' => $address_id, 'user_id' => $user_id)))
+			return true;
+		else
+			return false;
 	}
 	
 	/**
@@ -71,19 +99,18 @@ class Profiles extends CI_Model
 	 * @return      array
 	 */
 	function get_profile($user_id) {
-	
-	        $query = $this->db->query("select first_name, about_me, website, sex, last_name from " . $this->profile_table_name . ' where user_id = ' . $user_id);
-	
-	        if ($query->num_rows() > 0)
-	        {
-	           return $query->row_array();
-	        } else {                
-				return $data = array('first_name' => '', 
-				                        'about_me' => '',
-				                        'website' => '', 
-				                        'sex' => '', 
-				                        'last_name' => '');
-	        }
+		$query = $this->db->query("select first_name, about_me, website, sex, last_name from " . $this->profile_table_name . ' where user_id = ' . $user_id);
+		
+		if ($query->num_rows() > 0)
+		{
+			return $query->row_array();
+		} else {                
+			return $data = array('first_name' => '', 
+		                    'about_me' => '',
+		                    'website' => '', 
+		                    'sex' => '', 
+		                    'last_name' => '');
+		}
 	}
 }
 
