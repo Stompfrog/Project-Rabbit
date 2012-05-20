@@ -17,35 +17,31 @@
            <hr />
                 <h2>Latest Artists</h2>
                 <hr />
-                <ul class="search-results">
-                        <?php foreach($artists as $row): ?>
-                                <li>
-                                        <ul class="media-grid">
-                                                <li><a href="<?php echo base_url(); ?>index.php/artists/get_user"><img src="http://www.gravatar.com/avatar/<?= md5( strtolower( trim( $row->email ) ) )?>?s=60" class="thumbnail" /></a></li>
-                                        </ul>
-                                        <h3><a href="<?php echo base_url(); ?>index.php/artists/<?php echo $row->user_id; ?>"><?php echo $row->first_name; ?> <?php echo $row->last_name; ?></a></h3>
-                                        <p><?php echo $row->about_me; ?></p>
-                                        
-                                        <?php
-                                                foreach ($row->interests as $interest)
-                                                {
-                                                        echo '<span class="label important">' . $interest . '</span> ';
-                                                }
-                                        ?>
-                                        
-                                        <a class="pull-right" href="<?php echo base_url(); ?>index.php/artists/<?php echo $row->user_id; ?>">View profile &raquo;</a>
-
-                                </li>
-                        <?php endforeach; ?>
-                </ul>
+				<ul class="search-results">
+					<?php foreach($artists as $row): ?>
+					    <li>
+							<ul class="media-grid">
+								<li><a href="<?php echo base_url(); ?>index.php/artists/get_user"><img src="http://www.gravatar.com/avatar/<?= md5( strtolower( trim( $row->email ) ) )?>?s=60" class="thumbnail" /></a></li>
+							</ul>
+							<h3><a href="<?php echo base_url(); ?>index.php/artists/<?php echo $row->user_id; ?>"><?php echo $row->first_name; ?> <?php echo $row->last_name; ?></a></h3>
+							<p><?php echo $row->about_me; ?></p>
+							
+							<?php
+							foreach ($row->interests as $interest) {
+							    echo '<span class="label important">' . $interest . '</span> ';
+							}?>
+							<a class="pull-right" href="<?php echo base_url(); ?>index.php/artists/<?php echo $row->user_id; ?>">View profile &raquo;</a>
+					    </li>
+					<?php endforeach; ?>
+				</ul>
 
                 <?php if (isset($pagination)) echo $pagination; ?>
                 
-                <?php
-                        if (isset($pag)) {
-                                echo $pag;
-                        }
-                ?>
+				<?php
+				if (isset($pag)) {
+				    echo $pag;
+				}
+				?>
                 
         </div>
         <div class="span4">

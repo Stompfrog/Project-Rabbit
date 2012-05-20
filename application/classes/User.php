@@ -31,8 +31,7 @@
 		protected $status;
 		protected $about_me;
 		protected $sex;
-		protected $lat;
-		protected $lon;
+		protected $addresses;
 		protected $object;
 		protected $interests;
 		
@@ -52,8 +51,7 @@
 			$this->status = $properties['status'];
 			$this->about_me = $properties['about_me'];
 			$this->sex = $properties['sex'];
-			$this->lat = $properties['lat'];
-			$this->lon = $properties['lon'];
+			$this->addresses = $properties['addresses'];
 			$this->interests = $properties['interests'];            
 		}
 		
@@ -104,17 +102,18 @@
 		{
 			return $this->first_name . ' ' . $this->last_name;
 		}
-		
-		public function get_lat()
+
+		public function get_addresses ()
 		{
-			return $this->lat;
+			if (sizeof($this->addresses) > 0) {
+				$address_string = '';
+				foreach($this->addresses as $address)
+					$address_string .= $address->get_vcard();
+				return $address_string;
+			}
+			return false;
 		}
-		
-		public function get_lon()
-		{
-			return $this->lon;
-		}
-		
+	
 		public function get_interests()
 		{
 			return $this->interests;

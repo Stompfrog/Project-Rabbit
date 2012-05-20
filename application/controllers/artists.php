@@ -37,7 +37,7 @@ class Artists extends CI_Controller
 	    
 	    $url = base_url() . 'index.php/artists/';
 	    $page = (isset($params['page'])) ? $params['page'] : 1;
-	    $offset = (isset($params['offset'])) ? $params['offset'] : 1;
+	    $offset = (isset($params['offset'])) ? $params['offset'] : 2;
 	    $pagination_config = array(
 	            'url' => $url,
 	            'total' => $this->artists_model->get_total_artists(),

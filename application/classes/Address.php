@@ -55,11 +55,21 @@
 					'	<span class="locality">' . $this->city . '</span>, ' .
 					'	<span class="postal-code">' . $this->postcode . '</span>' .
 					'</div>' .
-				'</div>';
+					'</div>';
 		}
 		
 		function get_map () {
 			
+		}
+		
+		public function get_lat()
+		{
+			return $this->lat;
+		}
+		
+		public function get_lon()
+		{
+			return $this->lon;
 		}
 
 	}

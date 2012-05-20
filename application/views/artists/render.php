@@ -40,6 +40,8 @@
 			<a href="<?= base_url() ?>index.php/auth/add_profile_image">Upload/edit profile picture</a>
 		<?php } ?>
 		<hr />
+		<h3>Addresses</h3>
+		<?= $user->get_addresses() ?>
 		<h3>Events attended</h3>
 		<ul class="events unstyled">
 			<li><a href="#">Ealing, London</a> - 22/01/12</li>

@@ -29,7 +29,17 @@ class Artists_model extends CI_Model {
 	{
 	    $properties = array();
 	
-	    $query = $this->db->query("SELECT users.username, users.email, users.created, users.modified, users.last_login, users.id, user_profiles.website, user_profiles.first_name, user_profiles.last_name, image.file_name AS avatar_filename, user_profiles.status, user_profiles.sex, user_profiles.about_me, user_profiles.lat, user_profiles.lon 
+		//get all artists addresses
+		$addresses = array();
+		$address_query = $this->db->query("SELECT * FROM address WHERE user_id = " . $user_id);
+		if ($address_query->num_rows() > 0) {
+			foreach ($address_query->result_array() as $row) {
+				$address = new Address($row);
+				array_push($addresses, $address);
+			}
+		}
+	
+	    $query = $this->db->query("SELECT users.username, users.email, users.created, users.modified, users.last_login, users.id, user_profiles.website, user_profiles.first_name, user_profiles.last_name, image.file_name AS avatar_filename, user_profiles.status, user_profiles.sex, user_profiles.about_me  
                                     FROM users 
                                     JOIN user_profiles ON users.id = user_profiles.user_id 
                                     LEFT JOIN image ON image.id = user_profiles.avatar
@@ -51,8 +61,7 @@ class Artists_model extends CI_Model {
             $properties['status'] = $row['status'];
             $properties['sex'] = $row['sex'];
             $properties['about_me'] = $row['about_me'];
-            $properties['lat'] = $row['lat'];
-            $properties['lon'] = $row['lon'];
+            $properties['addresses'] = $addresses;
             $user = new User($properties);
             return $user;
 	    }
@@ -89,7 +98,7 @@ class Artists_model extends CI_Model {
 	
 	function all_artists($params = array())
 	{
-	    $users = $this->db->query("SELECT * FROM user_profiles");
+	    $users = $this->db->query("SELECT * FROM user_profiles, address where address.user_id = user_profiles.user_id");
 	    if ($users->num_rows() > 0)
 	    {
 	    	return $users->result_array();

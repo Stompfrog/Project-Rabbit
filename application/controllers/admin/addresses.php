@@ -12,11 +12,11 @@ class Addresses extends CI_Controller
 		$this->load->library('tank_auth');
 
 		$this->lang->load('tank_auth');
-		
+
 	    $this->load->model('artists_model');
 		$this->load->model('upload_model');
 		$this->load->model('tank_auth/profiles', 'profiles_model');
-	    
+
 	    include_once(APPPATH.'classes/Image.php');
 	    include_once(APPPATH.'classes/User.php');
 	    include_once(APPPATH.'classes/Address.php');	    
@@ -34,7 +34,7 @@ class Addresses extends CI_Controller
 		} else {
 			$data = array();
 			//get addresses
-			
+
 			$addresses = $this->profiles_model->get_addresses($this->tank_auth->get_user_id());
 
 			if ($addresses)
