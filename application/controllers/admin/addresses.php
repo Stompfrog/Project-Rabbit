@@ -24,8 +24,6 @@ class Addresses extends CI_Controller
 	
 	/**
 	 * 	Address -  show list of addresses, with links to edit/delete, provide link to add address
-	 *
-	 *  @return void
 	 */
 	function index ()
 	{
@@ -47,8 +45,6 @@ class Addresses extends CI_Controller
 	
 	/**
 	 * 	 Add address - form and error handling for entering address
-	 *
-	 * @return void
 	 */
 	function add_address ()
 	{
@@ -106,7 +102,6 @@ class Addresses extends CI_Controller
 	/**
 	 * 	 Edit address - if no address_id, show error message, else show edit form
 	 *
-	 * @return void
 	 */
 	function edit_address ()
 	{
@@ -173,8 +168,6 @@ class Addresses extends CI_Controller
 
 	/**
 	 * 	 Delete address - if no address_id, show error message, else prompt, and if yes, delete address
-	 *
-	 * @return void
 	 */
 
 	function delete_address ()

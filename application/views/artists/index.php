@@ -38,8 +38,8 @@
                 <?php if (isset($pagination)) echo $pagination; ?>
                 
 				<?php
-				if (isset($pag)) {
-				    echo $pag;
+				if (isset($page)) {
+				    echo $page;
 				}
 				?>
                 

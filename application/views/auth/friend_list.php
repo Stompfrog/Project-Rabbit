@@ -3,7 +3,7 @@
 </div>
 <div class="row">
 	<div class="span10">
-		<h2>Friends</h2>
+		<h2>Friend list</h2>
 		<hr />
 		<div class="span10">
 		<?php if (isset($pending_friends) && sizeof($pending_friends) > 0) { ?>
@@ -15,7 +15,8 @@
 			} ?>
 			</ul><?php
 		}
-
+/*
+		//all friends
 		if (isset($friends) && sizeof($friends) > 0) { ?>
 	     	<h3>Friends</h3>
 			<ul class="events unstyled">
@@ -27,7 +28,26 @@
 		
 		} else
 			echo '<h3>No friends at the moment</h3>';
+*/
 		?>
+		
+		<?php 
+		if (isset($friends_paginated)) {
+			echo '<ul class="events unstyled">';
+			foreach($friends_paginated as $fr)
+			{
+				echo '<li>' . $fr['name'] . ' <a href="' . base_url() . 'index.php/api/unfriend/' . $this->tank_auth->get_user_id() . '/' . $fr['id'] . '/" class="btn danger friend">Unfriend</a></li>';
+			} ?>
+			</ul><?php
+		}
+		?>
+		<?php if (isset($pagination)) echo $pagination; ?>
+		<?php
+		if (isset($pag)) {
+		    echo $pag;
+		}
+		?>
+		
 		</div>
 	</div>
 	<?php $this->load->view('auth/sidebar'); ?>

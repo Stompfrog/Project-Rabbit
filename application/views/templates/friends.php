@@ -1,7 +1,7 @@
 <?php
 if (isset($friends) && sizeof($friends) > 0)
 {?>
-	<h3>Friends</h3>        
+	<h3>Friends <?php if (isset($total_friends)) echo '(' . $total_friends . ')'; ?></h3>        
 	<ul class="events unstyled">
 	<?php foreach($friends as $fr)
 	{

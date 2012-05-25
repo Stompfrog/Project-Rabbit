@@ -18,7 +18,30 @@ class Profiles extends CI_Model
 		$this->profile_table_name = $ci->config->item('db_table_prefix', 'tank_auth').$this->profile_table_name;
 		include_once(APPPATH.'classes/Address.php');
 	}
+
+	/****************************** Profile section ******************************/
 	
+	/**
+	 * Get profile values
+	 *
+	 * @param       int
+	 * @return      array
+	 */
+	function get_profile($user_id) {
+		$query = $this->db->query("select first_name, about_me, website, sex, last_name from " . $this->profile_table_name . ' where user_id = ' . $user_id);
+		
+		if ($query->num_rows() > 0)
+		{
+			return $query->row_array();
+		} else {                
+			return $data = array('first_name' => '', 
+		                    'about_me' => '',
+		                    'website' => '', 
+		                    'sex' => '', 
+		                    'last_name' => '');
+		}
+	}
+		
 	/**
 	 * Update profile
 	 *
@@ -35,6 +58,8 @@ class Profiles extends CI_Model
         }
         return FALSE;
 	}
+	
+	/****************************** Address section ******************************/
 
 	/**
 	 * Add address
@@ -70,47 +95,62 @@ class Profiles extends CI_Model
 			$and = ' AND `id` = ' . $address_id;
 		$query = $this->db->query('SELECT * FROM `address` WHERE `user_id` = ' . $user_id . $and);
 	    if ($query->num_rows() > 0)
-	    {
 			return $query->row_array();
-	    }
 	    return false;
 	}
 	
 	function update_address ($user_id, $address_id, $data) {
         $this->db->where('user_id', (int) $user_id);
         if ($this->db->update('address', $data))
-        {
         	return TRUE;
-        }
         return FALSE;
 	}
 	
 	function delete_address ($address_id, $user_id) {
 		if ($this->db->delete('address', array('id' => $address_id, 'user_id' => $user_id)))
 			return true;
-		else
-			return false;
+		return false;
 	}
 	
-	/**
-	 * Get profile values
-	 *
-	 * @param       int
-	 * @return      array
-	 */
-	function get_profile($user_id) {
-		$query = $this->db->query("select first_name, about_me, website, sex, last_name from " . $this->profile_table_name . ' where user_id = ' . $user_id);
+	/****************************** Gallery section ******************************/
+	
+	function add_gallery ($data) 
+	{
+		if ($this->db->insert('gallery', $data))
+			return true;
+		return false;
+	}
+
+	function delete_gallery ($gallery_id, $user_id) 
+	{
+		if ($this->db->delete('gallery', array('id' => $gallery_id, 'user_id' => $user_id)))
+			return true;
+		return false;
+	}
+	
+	function update_gallery ($user_id, $gallery_id, $data) {
+        $this->db->where('user_id', (int) $user_id);
+        if ($this->db->update('gallery', $data))
+        	return TRUE;
+        return FALSE;
+	}
+	
+	function get_gallery ($user_id, $gallery_id) {
 		
-		if ($query->num_rows() > 0)
-		{
-			return $query->row_array();
-		} else {                
-			return $data = array('first_name' => '', 
-		                    'about_me' => '',
-		                    'website' => '', 
-		                    'sex' => '', 
-		                    'last_name' => '');
+	}
+	
+	function get_galleries ($user_id) {
+		$galleries = array();
+		$query = $this->db->query('SELECT * FROM gallery WHERE user_id = ' . $user_id);
+		if ($query->num_rows() > 0) {
+			foreach ($query->result_array() as $row) {
+				$gallery = new Gallery($row);
+				array_push ($galleries, $gallery);
+			}
+			return $galleries;
 		}
+			
+		return false;
 	}
 }
 

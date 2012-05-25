@@ -44,7 +44,7 @@ class Artists_model extends CI_Model {
                                     JOIN user_profiles ON users.id = user_profiles.user_id 
                                     LEFT JOIN image ON image.id = user_profiles.avatar
                                     WHERE users.id = " . (int) $user_id);
-	
+
 	    if ($query->num_rows() > 0)
 	    {
             $row = $query->row_array();
@@ -136,7 +136,6 @@ class Artists_model extends CI_Model {
 	{
 	    $offset = ($page - 1) * $limit;
 	    $results = array();
-	    //$query = $this->db->query("SELECT * FROM user_profiles ORDER BY user_id DESC LIMIT " . $offset . ", " . $limit);
 	    $query = $this->db->query("SELECT user_profiles.*, users.email FROM user_profiles, users WHERE users.id = user_profiles.user_id ORDER BY user_profiles.user_id DESC LIMIT " . $offset . ", " . $limit);
 	    
 	    foreach ($query->result() as $row)
@@ -164,10 +163,10 @@ class Artists_model extends CI_Model {
 	function get_interests($user_id)
 	{
 	    $interests = array();
-	    $interests_query = $this->db->query("SELECT role_types.title AS 'title' 
-                                            FROM role_types, user_roles 
-                                            WHERE role_types.id = user_roles.role_type_id 
-                                            AND user_roles.user_id = " . (int) $user_id);
+	    $interests_query = $this->db->query("SELECT interests.title AS 'title' 
+                                            FROM interests, user_interests 
+                                            WHERE interests.id = user_interests.role_type_id 
+                                            AND user_interests.user_id = " . (int) $user_id);
 	
 	    foreach ($interests_query->result_array() as $row)
 	    {
@@ -299,6 +298,40 @@ class Artists_model extends CI_Model {
 	}
 	
 	/*
+	    page = current page
+	    limit = number of artists to get
+	    offset = number of artists to get from
+	    
+	    100 artists (total), 10 artists per page (limit) , current page is 5 (offset = page * limit)
+	    offset will be 50, and 10 records brought back
+	*/
+	function get_friends_paginated ($user_id, $page = 1, $limit = 5)
+	{
+	    $offset = ($page - 1) * $limit;
+	    $friends = array();
+	    
+		$query = $this->db->query("SELECT `friends`.`u2_id`, `user_profiles`.`first_name`, `user_profiles`.`last_name` 
+		    FROM `friends`, `user_profiles` 
+		    WHERE `user_profiles`.`user_id` = `friends`.`u2_id` 
+		    AND `friends`.`u1_id` = " . $user_id . " 
+		    AND `friends`.`status` = 'friend' LIMIT " . $offset . ", " . $limit);
+	    
+		if (sizeof($query->result_array()) > 0) {
+		    foreach ($query->result_array() as $row)
+		    {
+				$data = array();
+				$data['id'] = $row['u2_id'];
+				$data['name'] = $row['first_name'] . ' ' . $row['last_name'];
+				array_push($friends, $data);
+		    }
+		} else {
+		    $friends == null;
+		}
+
+	    return $friends;
+	}
+	
+	/*
 	    
 	*/
 	function get_pending_friends ($user_id)
@@ -358,6 +391,22 @@ class Artists_model extends CI_Model {
 	    
 	    return false;
 	
+	}
+
+	/*
+	    Get total number of friends for user
+	*/
+	function get_total_friends ($user_id) {
+	    
+	    $query = $this->db->query("SELECT COUNT(u1_id) AS total_friends FROM friends where status = 'friend' and u1_id = " . $user_id);
+	
+	    if ($query->num_rows() > 0)
+	    {
+	       $row = $query->row();
+	       return $row->total_friends;
+	    }
+	    
+	    return false;
 	}
 	
 	/****** Address section ***************************************

@@ -28,15 +28,16 @@
 	</div>
 	<div class="span4">
 		<ul class="media-grid pull-left">
-			<li><a href="#"><img src="http://www.gravatar.com/avatar/<?= md5( strtolower( trim( $user->get_email() ) ) )?>?s=210" /></a></li>
+			<?php /*
+			//old gravatar icon
+			<li><a href="#"><img src="http://www.gravatar.com/avatar/<?= md5( strtolower( trim( $user->get_email() ) ) )?>?s=210" /></a></li> */ ?>
 			<?php if ($user->get_large_avatar()) { ?>
 			<li><a href="#"><?= $user->get_large_avatar() ?></a></li>
 			<?php } ?>
 		</ul>
 		<?php 
 		//if the user is logged in, and this is the users profile
-		if ($this->tank_auth->is_logged_in() && $this->tank_auth->get_user_id() == $user->get_id()) {
-		?>
+		if ($this->tank_auth->is_logged_in() && $this->tank_auth->get_user_id() == $user->get_id()) { ?>
 			<a href="<?= base_url() ?>index.php/auth/add_profile_image">Upload/edit profile picture</a>
 		<?php } ?>
 		<hr />
@@ -55,6 +56,7 @@
 		<?php
 	        $data = array();
 	        $data['friends'] = $friends;
+	        $data['total_friends'] = $total_friends;
 	        $data['pending_friends'] = $pending_friends;
 	        $data['user_id'] =  $user->get_id();
 	        $this->load->view('templates/friends', $data);
