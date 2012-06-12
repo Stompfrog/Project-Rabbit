@@ -493,7 +493,15 @@ class Artists_model extends CI_Model {
 	
 	*************************************************************/
 	
-	
+	function get_groups () {
+
+		$query = $this->db->query('SELECT * FROM `groups`');
+	    if ($query->num_rows() > 0)
+	    {
+			return $query->row_array();
+	    }
+	    return false;
+	}
 	
 	
 	

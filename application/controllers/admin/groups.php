@@ -24,6 +24,15 @@ class Groups extends CI_Controller
 	 */
 	function index ()
 	{
-	
+		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
+			redirect('/auth/login/');
+		} else {
+			$user_id = $this->tank_auth->get_user_id();
+			$data = array();
+		    
+		    $this->load->view('templates/header');
+		    $this->load->view('auth/group_list',$data);
+		    $this->load->view('templates/footer');
+	    }
 	}
 }
