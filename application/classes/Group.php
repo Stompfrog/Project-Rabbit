@@ -42,7 +42,7 @@
 		
 		public function get_join_date ()
 		{
-		
+			return $this->join_date;
 		}
 		
 		public function get_title()

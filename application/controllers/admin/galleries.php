@@ -46,7 +46,7 @@ class Galleries extends CI_Controller
 		
 			$data = array();
 			
-			$this->form_validation->set_rules('name', 'name', 'trim|xss_clean|required');
+			$this->form_validation->set_rules('title', 'title', 'trim|xss_clean|required');
 			$this->form_validation->set_rules('description', 'description', 'trim|xss_clean');
 
 			$this->form_validation->set_error_delimiters('<span class="help-inline">', '</span>');
@@ -59,7 +59,7 @@ class Galleries extends CI_Controller
 			else
 			{
 				$data = array(
-					'name' => $this->form_validation->set_value('name'),
+					'title' => $this->form_validation->set_value('title'),
 					'description' => $this->form_validation->set_value('description'),
 					'user_id' => $this->tank_auth->get_user_id());
 	

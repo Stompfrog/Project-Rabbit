@@ -13,7 +13,6 @@
 		<h3>Interests</h3>
 		<ul class="events unstyled">
 			<li><?php echo anchor('/admin/interests/', 'Your interests'); ?></li>
-			<li><?php echo anchor('/admin/interests/add_interest/', 'Add interest'); ?></li>
 		</ul>
 		<h3>Address/s</h3>
 		<ul class="events unstyled">

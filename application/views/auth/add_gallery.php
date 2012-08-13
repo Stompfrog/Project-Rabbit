@@ -1,9 +1,9 @@
 <?php
 
-$name = array(
-	'name'  => 'name',
-	'id'    => 'name',
-	'value' => set_value('name'),
+$title = array(
+	'name'  => 'title',
+	'id'    => 'title',
+	'value' => set_value('title'),
 	'maxlength' => 100,
 	'size'  => 30,
 );
@@ -30,11 +30,11 @@ $submit = array(
 		<?php echo form_open($this->uri->uri_string()); ?>
 			<fieldset>
 				<div class="clearfix">
-				    <?php echo form_label('Gallery name', $name['id']); ?>
+				    <?php echo form_label('Gallery title', $title['id']); ?>
 				    <div class="input">
-			            <?php echo form_input($name); ?>
-			            <?php echo form_error($name['name']); ?>
-			            <?php echo isset($errors[$name['name']])?$errors[$name['name']]:''; ?>
+			            <?php echo form_input($title); ?>
+			            <?php echo form_error($title['name']); ?>
+			            <?php echo isset($errors[$title['name']])?$errors[$title['name']]:''; ?>
 				    </div>
 				</div>
 				<div class="clearfix">
