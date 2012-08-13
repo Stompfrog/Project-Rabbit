@@ -165,7 +165,7 @@ class Artists_model extends CI_Model {
 	    $interests = array();
 	    $interests_query = $this->db->query("SELECT interests.title AS 'title' 
                                             FROM interests, user_interests 
-                                            WHERE interests.id = user_interests.role_type_id 
+                                            WHERE interests.id = user_interests.interest_type_id 
                                             AND user_interests.user_id = " . (int) $user_id);
 	
 	    foreach ($interests_query->result_array() as $row)
@@ -174,6 +174,16 @@ class Artists_model extends CI_Model {
 	    }
 	    
 	    return $interests;
+	}
+	
+	function get_all_interests ()
+	{
+		$query = $this->db->query("SELECT * FROM interests");
+	    if ($query->num_rows() > 0)
+	    {
+	    	return $query->result_array();
+	    }
+	    return false;
 	}
 	
 	/******* Friends section *********************************

@@ -22,13 +22,63 @@ class Interests extends CI_Controller
 	/**
 	 * 	Interests -  show list of interests, with links to edit/delete
 	 *  
+	 	This will be ideal when site is up and running, for now (13 August 2012) just have series of checkboxes:
+	 	---------------------------------------------------------------------------------------------------------
 	 	The user starts typing, and autosuggest pulls in data from the interests table.
 	 	Once selected, a record is inserted into the user_interests table with the user_id and interest_id
 	 	If no interest exists, a temporary one is created until authorised by admin
+	 	---------------------------------------------------------------------------------------------------------
 	 */
 	function index ()
 	{
-	
+		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
+			redirect('/auth/login/');
+		} else {
+			$data = array();
+			
+			$dump = '';
+
+			$interests = $this->profiles_model->get_full_user_interests($this->tank_auth->get_user_id());
+			
+			if (!$this->input->post(NULL, TRUE))
+			{
+				if ($interests)
+					$data['interests'] = $interests;
+			}
+			else
+			{
+				//put all post values into array for easy comparason
+				$post = array();
+				foreach ( $_POST as $key => $value )
+				{
+					$post[$key] = $this->input->post($key);
+				}
+				
+				//for all interests that exist
+				foreach ($interests as $interest) {
+					//if the user has the interest already
+					if (is_null($interest['interest_type_id']) && in_array($interest['id'], $post)) {
+						//check if it exists in the $_POST
+						//if it is there, continue. if it isnt, delete the record
+						$this->profiles_model->add_user_interest($this->tank_auth->get_user_id(), $interest['id']);
+					} else if (!is_null($interest['interest_type_id']) && !in_array($interest['id'], $post)) {
+						//if the user does not have the interest, check if it exists
+						$this->profiles_model->delete_user_interest($this->tank_auth->get_user_id(), $interest['id']);
+					}
+					//if it does, create new record in the user_interests table
+				}
+				//now get the updated records
+				$interests = $this->profiles_model->get_full_user_interests($this->tank_auth->get_user_id());
+				$data['interests'] = $interests;
+				
+				//select exists (select interest_type_id from user_interests where user_id = 1)
+			}
+
+		    $this->load->view('templates/header');
+		    $this->load->view('auth/interests_list',$data);
+		    $this->load->view('templates/footer');
+		    echo $dump;
+		}
 	}
 	
 }

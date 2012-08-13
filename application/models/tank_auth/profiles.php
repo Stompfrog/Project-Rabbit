@@ -112,6 +112,35 @@ class Profiles extends CI_Model
 		return false;
 	}
 	
+	/****************************** Interests section ******************************/
+	
+	function get_user_interests ($user_id) {
+		$query = $this->db->query('SELECT * FROM `user_interests` WHERE `user_id` = ' . $user_id);
+	    if ($query->num_rows() > 0)
+			return $query->row_array();
+	    return false;
+	}
+	
+	function get_full_user_interests ($user_id) {
+		$query = $this->db->query('SELECT interests.id, interests.title, user_interests.user_id, user_interests.interest_type_id FROM interests LEFT JOIN user_interests ON interests.id = user_interests.interest_type_id AND user_interests.user_id = ' . $user_id);
+
+	    if ($query->num_rows() > 0)
+			return $query->result_array();
+	    return false;
+	}
+	
+	function add_user_interest ($user_id, $interest_id) {
+		if ($this->db->insert('user_interests', array('user_id' => $user_id, 'interest_type_id' => $interest_id)))
+			return true;
+		return false;
+	}
+	
+	function delete_user_interest ($user_id, $interest_id) {
+		if ($this->db->delete('user_interests', array('user_id' => $user_id, 'interest_type_id' => $interest_id)))
+			return true;
+		return false;
+	}
+	
 	/****************************** Gallery section ******************************/
 	
 	function add_gallery ($data) 
@@ -261,33 +290,23 @@ class Profiles extends CI_Model
 	A user gets notified that a message has been sent
 	the user can delete the message (also block this person?)
 	the user can view the message thread which is organised by date sent
+	Get all messages sent/recieved by user
+	get all users that have sent a message
+	get users that user_id has sent a message to that have not replied	
 	*/
 	
-	function get_total_new_messages ($user_id) {
+	function get_total_new_messages ($user_id) 
+	{
 		
 	}
-	
-	/*
-		Get all messages sent/recieved by user
-		
-		get all users that have sent a message
-		get users that user_id has sent a message to that have not replied
-		
-	*/
+
 	function get_all_messages ($user_id)
 	{
-	
 		/*
-		
-		//all latest messages from individuals or messages sent from user that have not been replied to
-		SELECT DISTINCT * FROM `messages` AS msg WHERE recipient_id = 1 OR (sender_id = 1 AND NOT EXISTS (SELECT recipient_id FROM `messages` WHERE recipient_id = 1 AND sender_id = msg.recipient_id)) GROUP BY `sender_id`, `recipient_id` ORDER BY date
-			
-			
-		//messages from user that havent been replied to
-		SELECT * from `messages` AS msg WHERE sender_id = 1 AND NOT EXISTS (SELECT recipient_id FROM `messages` WHERE recipient_id = 1 AND sender_id = msg.recipient_id)
-		
+			//join user profiles. need to join on the sender/recipient
+			SELECT DISTINCT * FROM `messages` AS msg LEFT JOIN `user_profiles` ON msg.sender_id = `user_profiles`.user_id WHERE recipient_id = 1 OR (sender_id = 1 AND NOT EXISTS (SELECT recipient_id FROM `messages` WHERE recipient_id = 1 AND sender_id = msg.recipient_id))  GROUP BY `sender_id`, `recipient_id` ORDER BY date
 		*/
-	
+
 		$query = $this->db->query('SELECT DISTINCT * FROM `messages` AS msg WHERE recipient_id = ' . $user_id . ' OR (sender_id = ' . $user_id . ' AND NOT EXISTS (SELECT recipient_id FROM `messages` WHERE recipient_id = ' . $user_id . ' AND sender_id = msg.recipient_id)) GROUP BY `sender_id`, `recipient_id` ORDER BY date');
 		if($query->num_rows() > 0) {
 			return $query->result_array();

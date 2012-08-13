@@ -48,10 +48,17 @@
 $active_group = 'default';
 $active_record = TRUE;
 
+//remote
+/*$db['default']['hostname'] = 'mysql1096.servage.net';
+$db['default']['username'] = 'artify';
+$db['default']['password'] = '0range_rabb1t';
+$db['default']['database'] = 'artify';*/
+//local
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
 $db['default']['password'] = 'root';
 $db['default']['database'] = 'rabbit';
+
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;

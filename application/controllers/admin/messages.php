@@ -53,7 +53,7 @@ class Messages extends CI_Controller
 		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
 			redirect('/auth/login/');
 		} else {
-		
+			
 		}
 	}
 	
