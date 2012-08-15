@@ -12,6 +12,7 @@ class Artists_model extends CI_Model {
         $this->load->database();
         //load in classes
         include_once(APPPATH.'classes/Image.php');
+        include_once(APPPATH.'classes/Profile_Image.php');
         include_once(APPPATH.'classes/User.php');
         include_once(APPPATH.'classes/Address.php');
     }
@@ -457,22 +458,6 @@ class Artists_model extends CI_Model {
 	    return false;
 	}
 	
-	function add_address ($user_id) {
-		//add image to image table
-/*
-		$data = array(
-		   'user_id' => $user_id,
-		   'title' => '',
-		   'alt' => '',
-		   'file_name' => $file,
-		   'description' => ''
-		);
-		$this->db->insert('image', $data);
-		//foreign key for profile_image table
-		$img_id = $this->db->insert_id();
-*/
-	}
-	
 	function valid_address ($address_id, $user_id) {
 	
 		if (isset($address_id) && is_numeric($address_id)) {
@@ -520,11 +505,22 @@ class Artists_model extends CI_Model {
 	
 	*************************************************************/
 	
-	function get_profile_image ()
+	function get_profile_image ($image_id)
+	{
+		$query = $this->db->query('SELECT * FROM image WHERE id = ' . $image_id);
+		if($query->num_rows() > 0) {
+			$row = $query->row_array();
+			$image = new Profile_Image($row);
+			return $image;
+		}
+		return false;
+	}
+
+	function get_profile_image_from_user_id ($user_id)
 	{
 		
 	}
-	
+		
 	/*
 	    get all profile images
 	*/

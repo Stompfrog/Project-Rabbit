@@ -31,8 +31,8 @@
 			$this->title = $properties['title'];
 			$this->description = $properties['description'];
 			$this->alt = $properties['alt'];
-			$this->large_path = base_url() . $this->object->config->item('image_path') . $properties['large_path'];
-			$this->thumb_path = base_url() . $this->object->config->item('thumb_path') . $properties['thumb_path'];
+			$this->large_path = base_url() . $this->object->config->item('image_path') . $properties['file_name'];
+			$this->thumb_path = base_url() . $this->object->config->item('thumb_path') . $properties['file_name'];
 		}
 
 		public function get_id()

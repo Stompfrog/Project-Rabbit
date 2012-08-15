@@ -15,10 +15,11 @@
 						<ul class="media-grid">
 							<?php
 								if (isset($message['profile_image'])) { ?>
-							<li><a href="<?= $message['message_url'] ?>"><img src="<?= $message['profile_image']->get_profile_thumb_path() ?>" /></a></li>
-							<?php } ?>
+							<li><a href="" title="<?= $message['first_name'] . ' ' . $message['last_name'] ?>"><img src="<?= $message['profile_image']->get_profile_thumb_path() ?>" /></a></li>
+							<?php } else {
+							?><li><a href="" title="<?= $message['first_name'] . ' ' . $message['last_name'] ?>"><img class="thumbnail" src="http://placehold.it/60x60" alt=""></a></li><?php
+							} ?>
 						</ul>
-						<h3><a href="<?= $message['message_url'] ?>"><?= $message['first_name'] . ' ' . $message['last_name'] ?></a></h3>
 						<p><?= $message['message'] ?></p>
 				    </li>
 					<?php
@@ -27,6 +28,9 @@
 				echo '<li>there are no messages</li>';
 			?>
 			</ul>
+			
+			<?php if (isset($message_form)) echo $message_form ?>
+				
 		</div>
 	</div>
 	<?php $this->load->view('auth/sidebar'); ?>

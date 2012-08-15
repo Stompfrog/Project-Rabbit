@@ -75,4 +75,22 @@ class Galleries extends CI_Controller
 			$this->load->view('/templates/footer', $data);
 		}
 	}
+	
+	/**
+	 * 	 Delete gallery
+	 	 images in this gallery will go into a default gallery?
+	 */
+
+	function delete_gallery ()
+	{
+		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
+			redirect('/auth/login/');
+		} else {
+			if (is_numeric ($this->uri->segment(4))) {
+				$this->profiles_model->delete_gallery ($this->uri->segment(4), $this->tank_auth->get_user_id());
+			}
+			redirect('/admin/galleries/');
+		}
+	}
+	
 }

@@ -35,10 +35,10 @@ class Profiles extends CI_Model
 			return $query->row_array();
 		} else {                
 			return $data = array('first_name' => '', 
-		                    'about_me' => '',
-		                    'website' => '', 
-		                    'sex' => '', 
-		                    'last_name' => '');
+	            'about_me' => '',
+	            'website' => '', 
+	            'sex' => '', 
+	            'last_name' => '');
 		}
 	}
 		
@@ -297,7 +297,12 @@ class Profiles extends CI_Model
 	
 	function get_total_new_messages ($user_id) 
 	{
-		
+		$query = $this->db->query('SELECT COUNT(*) AS new_messages FROM messages WHERE recipient_id = ' . $user_id . ' AND is_read = false');
+		if($query->num_rows() > 0) {
+			$row = $query->row();
+			return $row->new_messages;
+		}
+		return false;
 	}
 
 	function get_all_messages ($user_id)
@@ -305,30 +310,36 @@ class Profiles extends CI_Model
 		/*
 			//join user profiles. need to join on the sender/recipient
 			SELECT DISTINCT * FROM `messages` AS msg LEFT JOIN `user_profiles` ON msg.sender_id = `user_profiles`.user_id WHERE recipient_id = 1 OR (sender_id = 1 AND NOT EXISTS (SELECT recipient_id FROM `messages` WHERE recipient_id = 1 AND sender_id = msg.recipient_id))  GROUP BY `sender_id`, `recipient_id` ORDER BY date
+			
+			//this is without avatar
+			'SELECT DISTINCT * FROM `messages` AS msg WHERE recipient_id = ' . $user_id . ' OR (sender_id = ' . $user_id . ' AND NOT EXISTS (SELECT recipient_id FROM `messages` WHERE recipient_id = ' . $user_id . ' AND sender_id = msg.recipient_id)) GROUP BY `sender_id`, `recipient_id` ORDER BY date'
 		*/
 
-		$query = $this->db->query('SELECT DISTINCT * FROM `messages` AS msg WHERE recipient_id = ' . $user_id . ' OR (sender_id = ' . $user_id . ' AND NOT EXISTS (SELECT recipient_id FROM `messages` WHERE recipient_id = ' . $user_id . ' AND sender_id = msg.recipient_id)) GROUP BY `sender_id`, `recipient_id` ORDER BY date');
+		$query = $this->db->query('SELECT DISTINCT * FROM `messages` AS msg LEFT JOIN `user_profiles` ON msg.sender_id = `user_profiles`.user_id WHERE recipient_id = ' . $user_id . ' OR (sender_id = ' . $user_id . ' AND NOT EXISTS (SELECT recipient_id FROM `messages` WHERE recipient_id = ' . $user_id . ' AND sender_id = msg.recipient_id))  GROUP BY `sender_id`, `recipient_id` ORDER BY date');
+
+		if($query->num_rows() > 0) {
+			return $query->result_array();
+		}
+		return false;
+	}
+
+	/*
+		Get conversation messages that were sent between 2 users
+	*/
+	function get_messages_from_user ($sender_id, $user_id)
+	{	
+		$query = $this->db->query('SELECT * FROM messages LEFT JOIN `user_profiles` ON messages.sender_id = `user_profiles`.user_id WHERE (sender_id = ' . $user_id . ' AND recipient_id = ' . $sender_id . ') OR (sender_id = ' . $sender_id . ' AND recipient_id = ' . $user_id . ') ORDER BY date');
+
 		if($query->num_rows() > 0) {
 			return $query->result_array();
 		}
 		return false;
 	}
 	
-	/*
-		Get conversation messages that were sent between 2 users
-	*/
-	function get_messages_from_user ($sender_id, $user_id)
+	function send_message ($message, $sender_id, $recipient_id) 
 	{
-		$query = $this->db->query('select * from messages where (sender_id = ' . $sender_id . ' AND recipient_id = ' . $user_id . ') OR (sender_id = ' . $user_id . ' AND recipient_id = ' . $sender_id . ') ORDER BY date');
-		if($query-num_rows() > 0) {
-			return $query->result_array();
-		}
-		return false;
-	}
-	
-	function send_message ($data) 
-	{
-		//insert into messages values ()
+		$query = $this->db->query('INSERT INTO messages (message, date, sender_id, recipient_id, sender_is_group, recipient_is_group, is_read) VALUES ("' . $message . '", NOW(), ' . $sender_id . ', ' . $recipient_id . ', 0, 0, 0)');
+		return $query;
 	}
 	
 	function delete_message ($user_id, $message_id) 

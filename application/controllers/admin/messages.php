@@ -15,7 +15,8 @@ class Messages extends CI_Controller
 
 	    $this->load->model('artists_model');
 		$this->load->model('tank_auth/profiles', 'profiles_model');
-    
+		
+    	include_once(APPPATH.'classes/Profile_Image.php');
 	}
 	
 	/**
@@ -30,12 +31,23 @@ class Messages extends CI_Controller
 			$data['messages'] = array();
 			$user_id = $this->tank_auth->get_user_id();
 			$messages = $this->profiles_model->get_all_messages($user_id);
+			
 			if ($messages) {
 				foreach ($messages as $message) {
-					if ($message['sender_id'] == $user_id)
-						array_push($data['messages'], '<div class="sender"><a href="' . base_url() . 'index.php/messages/message/' . $message['recipient_id'] . '">' . $message['message'] . '</a></div>');
+			
+					$message['message_url'] = base_url() . 'index.php/admin/messages/message/';	
+					if ($message['sender_id'] == $user_id) //this is where we should get the details of the recipient user, and replace the ones from query
+						$message['message_url'] .= $message['recipient_id'];
 					else
-						array_push($data['messages'], '<div class="receiver"><a href="' . base_url() . 'index.php/messages/message/' . $message['sender_id'] . '">' . $message['message'] . '</a></div>');
+						$message['message_url'] .= $message['sender_id'];
+	
+					if ($message['avatar']) {
+						$image = $this->artists_model->get_profile_image($message['avatar']);
+						$message['profile_image'] = $image;
+					}
+					
+					array_push($data['messages'], $message);
+
 				}
 			}
 
@@ -50,11 +62,37 @@ class Messages extends CI_Controller
 	*/
 	function message () 
 	{
+		//get parameter that should have the sender user id
 		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
 			redirect('/auth/login/');
 		} else {
+			$data['messages'] = array();
+			$user_id = $this->tank_auth->get_user_id();
 			
-		}
+			$this->form_validation->set_rules('message', 'message', 'trim|required|xss_clean');
+
+			if (is_numeric ($this->uri->segment(4))) {
+				if ($this->form_validation->run() == TRUE)
+					$this->profiles_model->send_message ($this->form_validation->set_value('message'), $this->tank_auth->get_user_id(), $this->uri->segment(4));
+				$data['message_form'] = $this->load->view('auth/message_form',  $data, true);
+				$messages = $this->profiles_model->get_messages_from_user($this->uri->segment(4), $this->tank_auth->get_user_id());
+				if ($messages) {
+					foreach ($messages as $message) {
+	
+						if ($message['avatar']) {
+							$image = $this->artists_model->get_profile_image($message['avatar']);
+							$message['profile_image'] = $image;
+						}
+						
+						array_push($data['messages'], $message);
+					}
+				}
+			}
+
+		    $this->load->view('templates/header');
+		    $this->load->view('auth/message_conversation',$data);
+		    $this->load->view('templates/footer');	
+ 		}
 	}
 	
 }
