@@ -28,7 +28,7 @@ class Profiles extends CI_Model
 	 * @return      array
 	 */
 	function get_profile($user_id) {
-		$query = $this->db->query("select first_name, about_me, website, sex, last_name from " . $this->profile_table_name . ' where user_id = ' . $user_id);
+		$query = $this->db->query("select first_name, about_me, website, sex, avatar, last_name from " . $this->profile_table_name . ' where user_id = ' . $user_id);
 		
 		if ($query->num_rows() > 0)
 		{
@@ -38,6 +38,7 @@ class Profiles extends CI_Model
 	            'about_me' => '',
 	            'website' => '', 
 	            'sex' => '', 
+	            'avatar' => '', 
 	            'last_name' => '');
 		}
 	}
@@ -313,6 +314,22 @@ class Profiles extends CI_Model
 			
 			//this is without avatar
 			'SELECT DISTINCT * FROM `messages` AS msg WHERE recipient_id = ' . $user_id . ' OR (sender_id = ' . $user_id . ' AND NOT EXISTS (SELECT recipient_id FROM `messages` WHERE recipient_id = ' . $user_id . ' AND sender_id = msg.recipient_id)) GROUP BY `sender_id`, `recipient_id` ORDER BY date'
+		*/
+		
+		/*
+		SELECT DISTINCT * FROM `messages` AS msg 
+		LEFT JOIN `user_profiles` ON msg.sender_id = `user_profiles`.user_id
+		WHERE recipient_id = 2 
+		OR (sender_id = 1 AND NOT EXISTS (SELECT recipient_id FROM `messages` WHERE recipient_id = 2 AND sender_id = msg.recipient_id))  
+		GROUP BY `sender_id`, `recipient_id` 
+		ORDER BY date
+		
+		SELECT DISTINCT * FROM `messages` AS msg, `user_profiles`
+		WHERE msg.sender_id = `user_profiles`.user_id
+		AND recipient_id = 2 
+		OR (sender_id = 1 AND NOT EXISTS (SELECT recipient_id FROM `messages` WHERE recipient_id = 2 AND sender_id = msg.recipient_id))  
+		GROUP BY `sender_id`, `recipient_id` 
+		ORDER BY date
 		*/
 
 		$query = $this->db->query('SELECT DISTINCT * FROM `messages` AS msg LEFT JOIN `user_profiles` ON msg.sender_id = `user_profiles`.user_id WHERE recipient_id = ' . $user_id . ' OR (sender_id = ' . $user_id . ' AND NOT EXISTS (SELECT recipient_id FROM `messages` WHERE recipient_id = ' . $user_id . ' AND sender_id = msg.recipient_id))  GROUP BY `sender_id`, `recipient_id` ORDER BY date');

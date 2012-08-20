@@ -17,7 +17,7 @@
 								if (isset($message['profile_image'])) { ?>
 							<li><a href="" title="<?= $message['first_name'] . ' ' . $message['last_name'] ?>"><img src="<?= $message['profile_image']->get_profile_thumb_path() ?>" /></a></li>
 							<?php } else {
-							?><li><a href="" title="<?= $message['first_name'] . ' ' . $message['last_name'] ?>"><img class="thumbnail" src="http://placehold.it/60x60" alt=""></a></li><?php
+							?><li><a href="" title="<?= $message['first_name'] . ' ' . $message['last_name'] ?>"><img class="thumbnail" src="http://placehold.it/60x60" alt="" /></a></li><?php
 							} ?>
 						</ul>
 						<p><?= $message['message'] ?></p>

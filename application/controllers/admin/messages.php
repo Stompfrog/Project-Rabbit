@@ -34,13 +34,18 @@ class Messages extends CI_Controller
 			
 			if ($messages) {
 				foreach ($messages as $message) {
-			
 					$message['message_url'] = base_url() . 'index.php/admin/messages/message/';	
-					if ($message['sender_id'] == $user_id) //this is where we should get the details of the recipient user, and replace the ones from query
+					//we don't want to show the users icon or name, only the recipient or sender
+					if ($message['sender_id'] == $user_id) {
+						//change icon and name to that of recipient_id
 						$message['message_url'] .= $message['recipient_id'];
-					else
+						$other_user = $this->profiles_model->get_profile($message['recipient_id']);
+						$message['avatar'] = $other_user['avatar'];
+						$message['first_name'] = $other_user['first_name'];
+						$message['last_name'] = $other_user['last_name'];
+					} else
 						$message['message_url'] .= $message['sender_id'];
-	
+					
 					if ($message['avatar']) {
 						$image = $this->artists_model->get_profile_image($message['avatar']);
 						$message['profile_image'] = $image;
@@ -78,7 +83,6 @@ class Messages extends CI_Controller
 				$messages = $this->profiles_model->get_messages_from_user($this->uri->segment(4), $this->tank_auth->get_user_id());
 				if ($messages) {
 					foreach ($messages as $message) {
-	
 						if ($message['avatar']) {
 							$image = $this->artists_model->get_profile_image($message['avatar']);
 							$message['profile_image'] = $image;
