@@ -197,16 +197,19 @@ class Profiles extends CI_Model
 
 	function delete_group ($group_id, $user_id) 
 	{
-		//if user is 
+		//if user is admin at least. If other admin are there, ask their permission too?
 		if ($this->db->delete('group', array('id' => $group_id, 'user_id' => $user_id)))
 			return true;
 		return false;
 	}
 	
 	function update_group ($user_id, $group_id, $data) {
-        $this->db->where('user_id', (int) $user_id);
-        if ($this->db->update('group', $data))
-        	return true;
+		//find out if user is admin
+		if ($this->user_is_group_admin($user_id, $group_id)) {
+        	$this->db->where('user_id', (int) $user_id);
+	        if ($this->db->update('group', $data))
+	        	return true;
+		}
         return false;
 	}
 	
@@ -229,6 +232,15 @@ class Profiles extends CI_Model
 		}
 			
 		return false;
+	}
+	
+	function user_is_group_admin ($user_id, $group_id) {
+		$query = $this->db->query('SELECT count(*) AS is_admin FROM `group_users` WHERE `user_id` = ' . $user_id . ' AND `group_id` = ' . $group_id);
+	    if ($query->num_rows() > 0) {
+			$row = $query->row_array();
+			if ( $row['is_admin'] > 0) return true;
+		}
+	    return false;
 	}
 
 	/****************************** Events section ******************************/

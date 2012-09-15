@@ -11,60 +11,60 @@ RABBIT.map = {
         currentAjaxRequest: undefined,
         currentOverlay: undefined,
         filter: {
-        artist: {
-            clusterImage: [{
-                url: '/img/map_icons/artist_30x31.png',
-                height: 31,
-                width: 30,
-                anchor: [5],
-                textColor: '#002776',
-                textSize: 12
-            }, {
-                url: '/img/artist_32x35.png',
-                height: 35,
-                width: 32,
-                anchor: [7],
-                textColor: '#002776',
-                textSize: 12
-            }, {
-                url: '/img/map_icons/artist_45x45.png',
-                height: 45,
-                width: 45,
-                anchor: [11],
-                textColor: '#002776',
-                textSize: 12
-            }],
-            markerImageURL: "/img/map_icons/artist.png",
-            markerImageWidth: 40,
-            markerImageHeight: 38,
-            markerAnchorX: 20,
-            markerAnchorY: 47,
-            clusterMaxZoom: 11,
-            clusterGridSize: 80,
-            /**
-            * jsonT template for processing info window data into HTML
-                                user_id
-                                website
-                                first_name
-                                last_name
-                                avatar
-                                status
-                                sex
-                                about_me
-
-            */
-            jsontTemplate: {
-                "self": "{container}",
-                "container": "<h2>{$.first_name} {$.last_name}</h2><p>{$.about_me}{$.website}</p>",
-                "container.status": "<h3>{$.status}</h2>",
-                "container.about_me": function (about_me) {
-                    return about_me ? "<p>" + about_me + "</p>" : "";
-                },
-                "container.website": function (website) {
-                    return website ? '<p><a href="' + website + '">' + website + '</a></p>' : '';
-                }
-            }
-        }
+	        artist: {
+	            clusterImage: [{
+	                url: '/img/map_icons/artist_30x31.png',
+	                height: 31,
+	                width: 30,
+	                anchor: [5],
+	                textColor: '#002776',
+	                textSize: 12
+	            }, {
+	                url: '/img/artist_32x35.png',
+	                height: 35,
+	                width: 32,
+	                anchor: [7],
+	                textColor: '#002776',
+	                textSize: 12
+	            }, {
+	                url: '/img/map_icons/artist_45x45.png',
+	                height: 45,
+	                width: 45,
+	                anchor: [11],
+	                textColor: '#002776',
+	                textSize: 12
+	            }],
+	            markerImageURL: "/img/map_icons/artist.png",
+	            markerImageWidth: 40,
+	            markerImageHeight: 38,
+	            markerAnchorX: 20,
+	            markerAnchorY: 47,
+	            clusterMaxZoom: 11,
+	            clusterGridSize: 80,
+	            /**
+	            * jsonT template for processing info window data into HTML
+	                                user_id
+	                                website
+	                                first_name
+	                                last_name
+	                                avatar
+	                                status
+	                                sex
+	                                about_me
+	
+	            */
+	            jsontTemplate: {
+	                "self": "{container}",
+	                "container": "<h2>{$.first_name} {$.last_name}</h2><p>{$.about_me}{$.website}</p>",
+	                "container.status": "<h3>{$.status}</h2>",
+	                "container.about_me": function (about_me) {
+	                    return about_me ? "<p>" + about_me + "</p>" : "";
+	                },
+	                "container.website": function (website) {
+	                    return website ? '<p><a href="' + website + '">' + website + '</a></p>' : '';
+	                }
+	            }
+	        }
         },
 
         mapOptions: {
