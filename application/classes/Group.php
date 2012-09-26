@@ -18,7 +18,7 @@
 	{
 		protected $id;
 		protected $user_id;
-		protected $title;
+		protected $group_name;
 		protected $join_date;
 		protected $description;
 		protected $images;
@@ -28,7 +28,7 @@
 			$this->object =& get_instance();
 			$this->id = $properties['id'];
 			$this->user_id = $properties['user_id'];
-			$this->title = $properties['title'];
+			$this->group_name = $properties['group_name'];
 			$this->join_date = $properties['join_date'];
 			$this->description = $properties['description'];
 			if (isset($properties['images']))
@@ -45,9 +45,9 @@
 			return $this->join_date;
 		}
 		
-		public function get_title()
+		public function get_group_name()
 		{
-			return $this->title;
+			return $this->group_name;
 		}
 
 		public function get_description()

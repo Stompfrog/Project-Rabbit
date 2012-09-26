@@ -29,7 +29,11 @@ class Groups extends CI_Controller
 		} else {
 			$user_id = $this->tank_auth->get_user_id();
 			$data = array();
-		    
+			
+		    $groups = $this->profiles_model->get_groups($user_id);
+		    if ($groups)
+				$data['groups'] = $groups;
+				
 		    $this->load->view('templates/header');
 		    $this->load->view('auth/group_list',$data);
 		    $this->load->view('templates/footer');

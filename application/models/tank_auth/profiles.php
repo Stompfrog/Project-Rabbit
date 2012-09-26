@@ -16,7 +16,10 @@ class Profiles extends CI_Model
 		
 		$ci =& get_instance();
 		$this->profile_table_name = $ci->config->item('db_table_prefix', 'tank_auth').$this->profile_table_name;
+		//really need to remove these and all other functions from this model
+		//need to seperate each into individual models
 		include_once(APPPATH.'classes/Address.php');
+		include_once(APPPATH.'classes/Group.php');
 	}
 
 	/****************************** Profile section ******************************/
@@ -233,7 +236,7 @@ class Profiles extends CI_Model
 	
 	function get_groups ($user_id) {
 		$groups = array();
-		$query = $this->db->query('SELECT * FROM group WHERE user_id = ' . $user_id);
+		$query = $this->db->query('SELECT DISTINCT * FROM `group_users`, `group` WHERE `group_users`.`user_id` = '  . $user_id . ' AND `group`.`id` = `group_users`.`group_id`');
 		if ($query->num_rows() > 0) {
 			foreach ($query->result_array() as $row) {
 				$group = new Group($row);
