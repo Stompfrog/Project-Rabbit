@@ -188,10 +188,21 @@ class Profiles extends CI_Model
 
 	/****************************** Groups section ******************************/
 	
-	function create_group ($data) 
+	function create_group ($user_id, $data) 
 	{
-		if ($this->db->insert('group', $data))
-			return true;
+		$data['formed_date'] = date('Y-m-d H:i:s');
+		if ($this->db->insert('group', $data)) {
+			$group_users = array(
+				'group_id' => $this->db->insert_id(),
+				'user_id' => $user_id,
+				'is_admin' => 1,
+				'join_date' => date('Y-m-d H:i:s'),
+				'is_creator' => 1
+			);
+			
+			if( $this->db->insert('group_users', $group_users))
+				return true;
+		}
 		return false;
 	}
 

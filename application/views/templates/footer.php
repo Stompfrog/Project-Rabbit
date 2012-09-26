@@ -64,5 +64,6 @@
 			});
 		</script>
 		<?php } ?>
+		
 	</body>
 </html>
