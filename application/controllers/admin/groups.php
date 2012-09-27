@@ -48,7 +48,7 @@ class Groups extends CI_Controller
 			$data = array();
 
 			$this->form_validation->set_rules('group_name', 'group_name', 'trim|xss_clean|required');
-			$this->form_validation->set_rules('description', 'description', 'trim|xss_clean');
+			$this->form_validation->set_rules('description', 'description', 'trim|xss_clean|required');
 
 			$this->form_validation->set_error_delimiters('<span class="help-inline">', '</span>');
 			
@@ -74,5 +74,64 @@ class Groups extends CI_Controller
 			}
 			$this->load->view('/templates/footer', $data);	    
 	    }
+	}
+	
+	function edit_group () {
+		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
+			redirect('/auth/login/');
+		} else {
+			$user_id = $this->tank_auth->get_user_id();
+			//if there is a parameter, and it is numeric, and it is a valid address
+			if (is_numeric ($this->uri->segment(4)) && $this->profiles_model->valid_group($this->uri->segment(4), $user_id) ) {
+				$group_id = $this->uri->segment(4);
+				$data = array();
+				$table_values = $this->profiles_model->get_user_group($user_id, $group_id);
+				
+				$data['table_values'] = $table_values;
+				
+				$this->form_validation->set_rules('group_name', 'group_name', 'trim|xss_clean|required');
+				$this->form_validation->set_rules('description', 'description', 'trim|xss_clean|required');
+	
+				$this->form_validation->set_error_delimiters('<span class="help-inline">', '</span>');
+				
+				$this->load->view('/templates/header', $data);
+				if ($this->form_validation->run() == FALSE)
+				{
+					$this->load->view('/auth/edit_group', $data);
+				}
+				else
+				{
+					$data = array(
+						'group_name' => $this->form_validation->set_value('group_name'),
+						'description' => $this->form_validation->set_value('description'));
+		
+					if($this->profiles_model->update_group($user_id, $group_id, $data))
+					{
+						$data['message'] = 'Group created successfully!';
+						$this->load->view('/auth/edit_group', $data);
+					} else {
+						$data['message'] = 'Oops, there was a problem adding to the database.';
+						$this->load->view('/auth/edit_group', $data);
+					}
+				}
+				$this->load->view('/templates/footer', $data);
+			} else {
+				$data['error_message'] = 'group does not exist';
+				$this->load->view('/templates/header');
+				$this->load->view('/templates/error', $data);
+				$this->load->view('/templates/footer', $data);
+			}
+	    }
+	}
+	
+	/*
+		user must be creator to delete group.
+		Other users must be updated that the group has been deleted
+		if an administrator is not the creator of the group but deletes,
+		the creator is notified and ok's it.
+		a user can sign over the ownership of a group to another user
+	*/
+	function delete_group () {
+	
 	}
 }

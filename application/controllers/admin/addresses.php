@@ -108,11 +108,11 @@ class Addresses extends CI_Controller
 		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
 			redirect('/auth/login/');
 		} else {
+			$user_id = $this->tank_auth->get_user_id();
 			//if there is a parameter, and it is numeric, and it is a valid address
-			if (is_numeric ($this->uri->segment(4)) && $this->artists_model->valid_address($this->uri->segment(4), $this->tank_auth->get_user_id()) ) {
+			if (is_numeric ($this->uri->segment(4)) && $this->artists_model->valid_address($this->uri->segment(4), $user_id) ) {
 				$address_id = $this->uri->segment(4);
 				$data = array();
-				$user_id = $this->tank_auth->get_user_id();
 				$table_values = $this->profiles_model->get_address($user_id, $address_id);
 
 				$data['table_values'] = $table_values;

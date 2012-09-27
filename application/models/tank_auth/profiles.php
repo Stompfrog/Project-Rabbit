@@ -220,7 +220,7 @@ class Profiles extends CI_Model
 	function update_group ($user_id, $group_id, $data) {
 		//find out if user is admin
 		if ($this->user_is_group_admin($user_id, $group_id)) {
-        	$this->db->where('user_id', (int) $user_id);
+        	$this->db->where('id', (int) $group_id);
 	        if ($this->db->update('group', $data))
 	        	return true;
 		}
@@ -228,9 +228,20 @@ class Profiles extends CI_Model
 	}
 	
 	function get_group ($group_id) {
-		$query = $this->db->query('SELECT * FROM `group` WHERE `id` = ' . $group_id);
+		$query = $this->db->query('SELECT DISTINCT * FROM `group_users`, `group` WHERE `group`.`id` = `group_users`.`group_id` and `group`.`id` = ' . $group_id);
+	    if ($query->num_rows() > 0) {
+			$group = new Group($query->row_array());
+			return $group;
+		}
+	    return false;
+	}
+	
+	function get_user_group ($user_id, $group_id) {
+	    $query = $this->db->query("SELECT * FROM `group_users`, `group` WHERE `group`.`id` = `group_users`.`group_id` and `group`.`id` = " . $group_id . " AND `group_users`.`user_id` = " . $user_id);
 	    if ($query->num_rows() > 0)
-			return $query->row_array();
+	    {
+	    	return $query->row_array();
+	    }
 	    return false;
 	}
 	
@@ -253,6 +264,20 @@ class Profiles extends CI_Model
 	    if ($query->num_rows() > 0) {
 			$row = $query->row_array();
 			if ( $row['is_admin'] > 0) return true;
+		}
+	    return false;
+	}
+	
+	function valid_group ($group_id, $user_id) {
+		if (isset($group_id) && is_numeric($group_id)) {
+	    	$query = $this->db->query("SELECT count(*) as valid_group FROM `group_users`, `group` WHERE `group`.`id` = `group_users`.`group_id` and `group`.`id` = " . $group_id . " AND `group_users`.`user_id` = " . $user_id);
+		    if ($query->num_rows() > 0)
+		    {
+		       $row = $query->row();
+		       if($row->valid_group > 0) return true;
+		    } else {
+		    	return false;
+		    }    	
 		}
 	    return false;
 	}

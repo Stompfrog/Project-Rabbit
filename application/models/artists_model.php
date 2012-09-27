@@ -15,6 +15,7 @@ class Artists_model extends CI_Model {
         include_once(APPPATH.'classes/Profile_Image.php');
         include_once(APPPATH.'classes/User.php');
         include_once(APPPATH.'classes/Address.php');
+        include_once(APPPATH.'classes/Group.php');
     }
     
     /****** Artist/user section *********************************
@@ -498,8 +499,15 @@ class Artists_model extends CI_Model {
 	    return false;
 	}
 	
-	
-	
+	function get_group ($group_id) {
+		$query = $this->db->query('SELECT DISTINCT * FROM `group_users`, `group` WHERE `group`.`id` = `group_users`.`group_id` and `group`.`id` = ' . $group_id);
+	    if ($query->num_rows() > 0) {
+			$group = new Group($query->row_array());
+			return $group;
+		}
+	    return false;
+	}
+		
 	/****** Image methods ****************************************
 	
 	
