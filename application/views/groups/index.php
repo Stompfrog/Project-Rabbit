@@ -12,11 +12,11 @@
 		   <li>Start working together and start group events.</li>
 		</ul>
 		<?php 
-			//if (not logged in) {
-			echo '<a class="btn warning" href="' . base_url() . 'index.php/auth/register">Create a new group!</a>';
-			//else {
-			//echo '<a class="btn warning" href="' . base_url() . 'index.php/admin/groups/create_group/">Create a new group!</a>';
-			//}
+			if ($this->tank_auth->is_logged_in()) {
+				echo '<a class="btn warning" href="' . base_url() . 'index.php/admin/groups/create_group/">Create a new group!</a>';
+			} else {
+				echo '<a class="btn warning" href="' . base_url() . 'index.php/auth/register">Create a new group!</a>';
+			}
 		?>
 		<hr />
 		<h2>Latest Groups</h2>
