@@ -47,21 +47,24 @@ class Groups extends CI_Controller
 			$user_id = $this->tank_auth->get_user_id();
 			$data = array();
 			
-			if (is_numeric ($this->uri->segment(4)) && $this->profiles_model->valid_group($this->uri->segment(4), $user_id) ) {
+			if (is_numeric ($this->uri->segment(4)) && $this->profiles_model->valid_user_group($this->uri->segment(4), $user_id) ) {
 			    $group_id = $this->uri->segment(4);
 			    $group = $this->profiles_model->get_group($group_id);
 			    if ($group)
 					$data['group'] = new Group($group);
 					
 			    $this->load->view('templates/header');
-			    $this->load->view('auth/group', $data);
+			    $this->load->view('groups/render', $data);
 			    $this->load->view('templates/footer');			
 			} else {
 				redirect('/auth/groups/');
 			}
-			
-
 	    }
+	}
+	
+	//should just be called this
+	function create () {
+		$this->create_group();
 	}
 	
 	function create_group () {
@@ -106,7 +109,7 @@ class Groups extends CI_Controller
 		} else {
 			$user_id = $this->tank_auth->get_user_id();
 			//if there is a parameter, and it is numeric, and it is a valid address
-			if (is_numeric ($this->uri->segment(4)) && $this->profiles_model->valid_group($this->uri->segment(4), $user_id) ) {
+			if (is_numeric ($this->uri->segment(4)) && $this->profiles_model->valid_user_group($this->uri->segment(4), $user_id) ) {
 				$group_id = $this->uri->segment(4);
 				$data = array();
 				$table_values = $this->profiles_model->get_user_group($user_id, $group_id);
@@ -159,7 +162,7 @@ class Groups extends CI_Controller
 			$group_id = $this->uri->segment(4);
 			//user must be creator to delete group.
 			//Other users must be updated that the group has been deleted			
-			if (($this->profiles_model->valid_group($group_id, $user_id)) && ($this->profiles_model->user_is_group_creator($user_id, $group_id)) ) {
+			if (($this->profiles_model->valid_user_group($group_id, $user_id)) && ($this->profiles_model->user_is_group_creator($user_id, $group_id)) ) {
 				$this->profiles_model->delete_group ($group_id, $user_id);
 			}
 			

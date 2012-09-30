@@ -10,7 +10,6 @@
 		<?php
 		
 		if (isset($groups)) {
-		
 			echo '<ul class="search-results">';
 			
 			foreach ($groups as $group) {
@@ -30,13 +29,11 @@
 					echo '<a class="pull-right" href="' . base_url() . 'index.php/admin/groups/render/' . $group->get_id() . '">View group &raquo;</a>';
 				echo '</li>';
 			}
-			
 			echo '</ul>';
-		
-		} else
+		} else {
 			echo 'you do not have any groups';
+		}
 		?>
-	
 		</div>
 	</div>
 	<?php $this->load->view('auth/sidebar'); ?>

@@ -26,7 +26,7 @@
 		protected $join_date;
 		protected $description;
 		protected $images;
-		protected $group_members; //array
+		protected $group_members;
 		
 		public function __construct($properties)
 		{

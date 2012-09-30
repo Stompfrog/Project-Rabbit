@@ -291,7 +291,7 @@ class Profiles extends CI_Model
 	    return false;
 	}
 	
-	function valid_group ($group_id, $user_id) {
+	function valid_user_group ($group_id, $user_id) {
 		if (isset($group_id) && is_numeric($group_id)) {
 	    	$query = $this->db->query("SELECT count(*) as valid_group FROM `group_users`, `group` WHERE `group`.`id` = `group_users`.`group_id` and `group`.`id` = " . $group_id . " AND `group_users`.`user_id` = " . $user_id);
 		    if ($query->num_rows() > 0)
@@ -304,7 +304,46 @@ class Profiles extends CI_Model
 		}
 	    return false;
 	}
+	
+	function valid_group ($group_id) {
+		if (isset($group_id) && is_numeric($group_id)) {
+	    	$query = $this->db->query("SELECT count(*) as valid_group FROM `group_users`, `group` WHERE `group`.`id` = `group_users`.`group_id` and `group`.`id` = " . $group_id);
+		    if ($query->num_rows() > 0)
+		    {
+		       $row = $query->row();
+		       if($row->valid_group > 0) return true;
+		    } else {
+		    	return false;
+		    }    	
+		}
+	    return false;
+	}
+	
+	function get_all_groups($page = 1, $limit = 5)
+	{
+		$offset = ($page - 1) * $limit;
 
+	    $query = $this->db->query("SELECT * FROM `group` ORDER BY  `created_date` DESC LIMIT " . $offset . ", " . $limit);
+	    if ($query->num_rows() > 0)
+	    {
+	    	return $query->result_array();
+	    }
+	    return false;
+	}
+	
+	function get_total_groups ()
+	{
+	    $query = $this->db->query("SELECT COUNT(id) AS total_groups FROM `group`");
+	
+	    if ($query->num_rows() > 0)
+	    {
+	       $row = $query->row();
+	       return $row->total_groups;
+	    }
+	    
+	    return false;
+	}
+	
 	/****************************** Events section ******************************/
 	/*
 	A user can create an event and add groups or users to it as being the group/user holding the event

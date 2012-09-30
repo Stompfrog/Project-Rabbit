@@ -13,7 +13,13 @@
                 </ul>
                 <?php if (!$this->tank_auth->is_logged_in()) { ?>
                         <a class="btn danger" href="<?php echo base_url(); ?>index.php/auth/register">Sign up as an artist!</a>
-                <?php } ?>
+                <?php } 
+                
+                
+                echo 'pagina' . $pagination;
+                
+                
+                ?>
            <hr />
                 <h2>Latest Artists</h2>
                 <hr />
