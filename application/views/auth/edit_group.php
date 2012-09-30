@@ -24,7 +24,7 @@ $submit = array(
 </div>
 <div class="row">
 	<div class="span10">
-		<h2>Create a new group</h2>
+		<h2>Edit group</h2>
 		<hr />
 		<?php if (isset($message)) { echo $message; } ?>
 		<?php echo form_open($this->uri->uri_string()); ?>

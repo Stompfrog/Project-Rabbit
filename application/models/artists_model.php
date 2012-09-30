@@ -10,6 +10,9 @@ class Artists_model extends CI_Model {
         // Call the Model constructor
         parent::__construct();
         $this->load->database();
+        
+        $this->load->model('tank_auth/profiles', 'profiles_model');
+        
         //load in classes
         include_once(APPPATH.'classes/Image.php');
         include_once(APPPATH.'classes/Profile_Image.php');
@@ -64,6 +67,9 @@ class Artists_model extends CI_Model {
             $properties['sex'] = $row['sex'];
             $properties['about_me'] = $row['about_me'];
             $properties['addresses'] = $addresses;
+            
+            $properties['groups'] = $this->profiles_model->get_groups($user_id);
+            
             $user = new User($properties);
             return $user;
 	    }

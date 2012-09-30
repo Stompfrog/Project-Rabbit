@@ -41,18 +41,15 @@
 			<a href="<?= base_url() ?>index.php/auth/add_profile_image">Upload/edit profile picture</a>
 		<?php } ?>
 		<hr />
-		<h3>Addresses</h3>
-		<?= $user->get_addresses() ?>
-		<h3>Events attended</h3>
-		<ul class="events unstyled">
-			<li><a href="#">Ealing, London</a> - 22/01/12</li>
-			<li><a href="#">Reading</a> - 26/01/12</li>
-		</ul>
-		<h3>Favourited Places</h3>
-		<ul class="places unstyled">
-			<li><a href="#">Jelly Arts</a> - Reading</li>
-			<li><a href="#">Robson Rooms</a> - Southbank, London</li>
-		</ul>
+		<? if($user->get_addresses()) {
+			echo '<h3>Addresses</h3>';
+			echo $user->get_addresses();
+		}
+		
+		$group_data['groups'] = $user->get_groups();
+		$this->load->view('templates/groups', $group_data);
+		?>
+
 		<?php
 	        $data = array();
 	        $data['friends'] = $friends;

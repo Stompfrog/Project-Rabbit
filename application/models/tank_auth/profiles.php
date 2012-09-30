@@ -193,7 +193,7 @@ class Profiles extends CI_Model
 	
 	function create_group ($user_id, $data) 
 	{
-		$data['formed_date'] = date('Y-m-d H:i:s');
+		$data['created_date'] = date('Y-m-d H:i:s');
 		if ($this->db->insert('group', $data)) {
 			$group_users = array(
 				'group_id' => $this->db->insert_id(),
@@ -212,8 +212,11 @@ class Profiles extends CI_Model
 	function delete_group ($group_id, $user_id) 
 	{
 		//if user is admin at least. If other admin are there, ask their permission too?
-		if ($this->db->delete('group', array('id' => $group_id, 'user_id' => $user_id)))
+		//where user_id is creator_id
+		if ($this->db->delete('group_users', array('id' => $group_id, 'user_id' => $user_id))) {
+			$this->db->delete('group', array('id' => $group_id));
 			return true;
+		}
 		return false;
 	}
 	
@@ -230,8 +233,10 @@ class Profiles extends CI_Model
 	function get_group ($group_id) {
 		$query = $this->db->query('SELECT DISTINCT * FROM `group_users`, `group` WHERE `group`.`id` = `group_users`.`group_id` and `group`.`id` = ' . $group_id);
 	    if ($query->num_rows() > 0) {
-			$group = new Group($query->row_array());
-			return $group;
+	    	$data = array();
+	    	$data['group_members'] = $this->get_group_members($group_id);
+	    	$data = array_merge($data, $query->row_array());
+			return $data;
 		}
 	    return false;
 	}
@@ -245,6 +250,15 @@ class Profiles extends CI_Model
 	    return false;
 	}
 	
+	function get_group_members ($group_id) {
+	    $query = $this->db->query("SELECT * FROM `group_users`, `user_profiles` WHERE `group_users`.`user_id` = `user_profiles`.`user_id` AND `group_users`.`group_id` = " . $group_id);
+	    if ($query->num_rows() > 0)
+	    {
+	    	return $query->result_array();
+	    }
+	    return false;
+	}
+	//get the grups that user is a member of
 	function get_groups ($user_id) {
 		$groups = array();
 		$query = $this->db->query('SELECT DISTINCT * FROM `group_users`, `group` WHERE `group_users`.`user_id` = '  . $user_id . ' AND `group`.`id` = `group_users`.`group_id`');
@@ -264,6 +278,15 @@ class Profiles extends CI_Model
 	    if ($query->num_rows() > 0) {
 			$row = $query->row_array();
 			if ( $row['is_admin'] > 0) return true;
+		}
+	    return false;
+	}
+	
+	function user_is_group_creator ($user_id, $group_id) {
+		$query = $this->db->query('SELECT count(*) AS is_creator FROM `group_users`, `group` WHERE `group`.`id` = `group_users`.`group_id` and `group`.`id` = ' . $group_id . ' AND `group_users`.`user_id` = ' . $user_id . ' AND `group_users`.`is_creator` = 1');
+	    if ($query->num_rows() > 0) {
+			$row = $query->row_array();
+			if ( $row['is_creator'] > 0) return true;
 		}
 	    return false;
 	}

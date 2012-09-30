@@ -16,7 +16,6 @@ class Groups extends CI_Controller
 	    $this->load->model('artists_model');
 		$this->load->model('upload_model');
 		$this->load->model('tank_auth/profiles', 'profiles_model');
-    
 	}
 	
 	/**
@@ -37,6 +36,31 @@ class Groups extends CI_Controller
 		    $this->load->view('templates/header');
 		    $this->load->view('auth/group_list',$data);
 		    $this->load->view('templates/footer');
+	    }
+	}
+	
+	function render ()
+	{
+		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
+			redirect('/auth/login/');
+		} else {
+			$user_id = $this->tank_auth->get_user_id();
+			$data = array();
+			
+			if (is_numeric ($this->uri->segment(4)) && $this->profiles_model->valid_group($this->uri->segment(4), $user_id) ) {
+			    $group_id = $this->uri->segment(4);
+			    $group = $this->profiles_model->get_group($group_id);
+			    if ($group)
+					$data['group'] = new Group($group);
+					
+			    $this->load->view('templates/header');
+			    $this->load->view('auth/group', $data);
+			    $this->load->view('templates/footer');			
+			} else {
+				redirect('/auth/groups/');
+			}
+			
+
 	    }
 	}
 	
@@ -124,14 +148,30 @@ class Groups extends CI_Controller
 	    }
 	}
 	
-	/*
-		user must be creator to delete group.
-		Other users must be updated that the group has been deleted
-		if an administrator is not the creator of the group but deletes,
-		the creator is notified and ok's it.
-		a user can sign over the ownership of a group to another user
-	*/
-	function delete_group () {
+	function delete () {
+
+		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
+			redirect('/auth/login/');
+		} else {
+			if (!is_numeric ($this->uri->segment(4)))
+				redirect('/admin/groups/');
+			$user_id = $this->tank_auth->get_user_id();
+			$group_id = $this->uri->segment(4);
+			//user must be creator to delete group.
+			//Other users must be updated that the group has been deleted			
+			if (($this->profiles_model->valid_group($group_id, $user_id)) && ($this->profiles_model->user_is_group_creator($user_id, $group_id)) ) {
+				$this->profiles_model->delete_group ($group_id, $user_id);
+			}
+			
+			//if an administrator is not the creator of the group but deletes,
+			//the creator is notified and ok's it.
+			
+			redirect('/admin/groups/');
+		}
+	}
 	
+	function change_group_owner() {
+		//if an administrator is not the creator of the group but deletes,
+		//the creator is notified and ok's it.
 	}
 }

@@ -34,6 +34,7 @@
 		protected $addresses;
 		protected $object;
 		protected $interests;
+		protected $groups;
 		
 		public function __construct($properties)
 		{
@@ -52,7 +53,9 @@
 			$this->about_me = $properties['about_me'];
 			$this->sex = $properties['sex'];
 			$this->addresses = $properties['addresses'];
-			$this->interests = $properties['interests'];            
+			$this->interests = $properties['interests']; 
+			if (isset($properties['groups']))
+				$this->groups = $properties['groups'];  
 		}
 		
 		public function get_id()
@@ -149,6 +152,13 @@
 			} else {
 				return false;
 			}
+		}
+		
+		public function get_groups ()
+		{
+			if (isset($this->groups))
+				return $this->groups;
+			else return false;
 		}
 	}
 ?>
