@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 01, 2012 at 10:08 PM
+-- Generation Time: Oct 17, 2012 at 09:06 PM
 -- Server version: 5.1.44
 -- PHP Version: 5.3.2
 
@@ -25,6 +25,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Table structure for table `address`
 --
 
+DROP TABLE IF EXISTS `address`;
 CREATE TABLE `address` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -53,6 +54,7 @@ INSERT INTO `address` VALUES(3, 1, 0, '1', '23 QUEENS COURT', 'BARRACK ROAD', 'N
 -- Table structure for table `ci_sessions`
 --
 
+DROP TABLE IF EXISTS `ci_sessions`;
 CREATE TABLE `ci_sessions` (
   `session_id` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '0',
   `ip_address` varchar(16) COLLATE utf8_bin NOT NULL DEFAULT '0',
@@ -73,6 +75,7 @@ CREATE TABLE `ci_sessions` (
 -- Table structure for table `events`
 --
 
+DROP TABLE IF EXISTS `events`;
 CREATE TABLE `events` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -91,6 +94,7 @@ CREATE TABLE `events` (
 -- Table structure for table `friends`
 --
 
+DROP TABLE IF EXISTS `friends`;
 CREATE TABLE `friends` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `u1_id` int(11) NOT NULL,
@@ -118,6 +122,7 @@ INSERT INTO `friends` VALUES(90, 1, 6, 'requested', '0000-00-00');
 -- Table structure for table `gallery`
 --
 
+DROP TABLE IF EXISTS `gallery`;
 CREATE TABLE `gallery` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -139,6 +144,7 @@ INSERT INTO `gallery` VALUES(1, 1, 'My First Gallery', 'This is my first artwork
 -- Table structure for table `gallery_image`
 --
 
+DROP TABLE IF EXISTS `gallery_image`;
 CREATE TABLE `gallery_image` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -162,6 +168,7 @@ CREATE TABLE `gallery_image` (
 -- Table structure for table `group`
 --
 
+DROP TABLE IF EXISTS `group`;
 CREATE TABLE `group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_name` varchar(255) NOT NULL,
@@ -184,6 +191,7 @@ INSERT INTO `group` VALUES(6, 'Photography basics', '2012-09-30 18:48:40', 'Grou
 -- Table structure for table `group_users`
 --
 
+DROP TABLE IF EXISTS `group_users`;
 CREATE TABLE `group_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) NOT NULL,
@@ -213,6 +221,7 @@ INSERT INTO `group_users` VALUES(8, 6, 1, '1', '2012-09-30', '1', NULL, NULL, NU
 -- Table structure for table `image`
 --
 
+DROP TABLE IF EXISTS `image`;
 CREATE TABLE `image` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -237,6 +246,7 @@ INSERT INTO `image` VALUES(3, 1, '', '', '21345136494faa72a81f54b1.24679612.gif'
 -- Table structure for table `interests`
 --
 
+DROP TABLE IF EXISTS `interests`;
 CREATE TABLE `interests` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(20) NOT NULL,
@@ -260,6 +270,7 @@ INSERT INTO `interests` VALUES(7, 'Venue owner');
 -- Table structure for table `login_attempts`
 --
 
+DROP TABLE IF EXISTS `login_attempts`;
 CREATE TABLE `login_attempts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ip_address` varchar(40) COLLATE utf8_bin NOT NULL,
@@ -279,6 +290,7 @@ CREATE TABLE `login_attempts` (
 -- Table structure for table `messages`
 --
 
+DROP TABLE IF EXISTS `messages`;
 CREATE TABLE `messages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `message` text NOT NULL,
@@ -311,6 +323,7 @@ INSERT INTO `messages` VALUES(11, 'buyuyfuf', '2012-08-18 00:00:58', 1, 2, 0, 0,
 -- Table structure for table `profile_image`
 --
 
+DROP TABLE IF EXISTS `profile_image`;
 CREATE TABLE `profile_image` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -333,6 +346,7 @@ INSERT INTO `profile_image` VALUES(3, 1, 3);
 -- Table structure for table `timeline`
 --
 
+DROP TABLE IF EXISTS `timeline`;
 CREATE TABLE `timeline` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -354,6 +368,7 @@ CREATE TABLE `timeline` (
 -- Table structure for table `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) COLLATE utf8_bin NOT NULL,
@@ -377,7 +392,7 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` VALUES(1, 'roppa_uk', '$2a$08$vSOeF4KmPaXh/sTV6B9Ay.OAtMwn/4Rxci3PQHr6CNzi4wYcDJm3G', 'roppa_uk@hotmail.com', 1, 0, NULL, NULL, NULL, NULL, 'a5991f5072eaa2569d015d796cad4f6f', '127.0.0.1', '2012-09-30 18:59:28', '2012-01-21 13:34:48', '2012-09-30 18:59:28');
+INSERT INTO `users` VALUES(1, 'roppa_uk', '$2a$08$vSOeF4KmPaXh/sTV6B9Ay.OAtMwn/4Rxci3PQHr6CNzi4wYcDJm3G', 'roppa_uk@hotmail.com', 1, 0, NULL, NULL, NULL, NULL, 'a5991f5072eaa2569d015d796cad4f6f', '127.0.0.1', '2012-10-13 11:02:17', '2012-01-21 13:34:48', '2012-10-13 11:02:17');
 INSERT INTO `users` VALUES(2, 'sompfrog', '$2a$08$xxAl6ZwZGAMkeO2KLBcpHO3PVpIDULTm7b6w/Gc8pCOPjjP0YLslK', 'chrisbewick@gmail.com', 1, 0, NULL, NULL, NULL, NULL, '700c92cfe378fdd91ef7b89fdb3a2d03', '127.0.0.1', '0000-00-00 00:00:00', '2012-01-28 10:12:30', '2012-01-28 10:12:59');
 INSERT INTO `users` VALUES(3, 'neslisever', '$2a$08$lL2NJTtvb4N1HICUOsDDgOpMDchwSmD5HthcFozB1xburUlG9.WFW', 'neslisever@yahoo.com', 1, 0, NULL, NULL, NULL, NULL, 'a629e15716b12a16846e1416c5fd7453', '127.0.0.1', '2012-01-28 23:02:47', '2012-01-28 14:33:48', '2012-01-28 23:02:47');
 INSERT INTO `users` VALUES(4, 'joch', '$2a$08$.QkhtqleQeoibY0NmVKyr.2L4f44k/kP9A4u0sbRRfQq68FZV56YO', 'joch@talktalk.net', 1, 0, NULL, NULL, NULL, NULL, '9a84fd9df2da3d9b71729212fb0f9a76', '127.0.0.1', '2012-03-31 18:38:45', '2012-02-10 20:59:22', '2012-03-31 18:38:45');
@@ -390,6 +405,7 @@ INSERT INTO `users` VALUES(6, 'helen_pailing', '$2a$08$PERf8hy4tX8X8SQocRzDp.yjh
 -- Table structure for table `user_autologin`
 --
 
+DROP TABLE IF EXISTS `user_autologin`;
 CREATE TABLE `user_autologin` (
   `key_id` char(32) COLLATE utf8_bin NOT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0',
@@ -410,6 +426,7 @@ CREATE TABLE `user_autologin` (
 -- Table structure for table `user_interests`
 --
 
+DROP TABLE IF EXISTS `user_interests`;
 CREATE TABLE `user_interests` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -436,6 +453,7 @@ INSERT INTO `user_interests` VALUES(10, 1, 3);
 -- Table structure for table `user_profiles`
 --
 
+DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
   `user_id` int(11) NOT NULL,
   `website` varchar(255) COLLATE utf8_bin DEFAULT NULL,

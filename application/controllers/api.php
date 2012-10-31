@@ -81,7 +81,7 @@ class Api extends CI_Controller
 	{
 		if ($this->tank_auth->is_logged_in() && $this->tank_auth->get_user_id() == $this->uri->segment(3)) {
 		    $friend_request_message = $this->artists_model->confirm_friend($this->tank_auth->get_user_id(), $this->uri->segment(4));
-		    $data['encoded_data'] = json_encode($friend_request_message);           
+		    $data['encoded_data'] = json_encode($friend_request_message);
 		} else {
 			$data['encoded_data'] = json_encode(false);           
 		}

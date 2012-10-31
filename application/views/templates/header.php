@@ -14,11 +14,11 @@
 					<a class="brand" href="<?= base_url(); ?>">Artify.co</a>
 					<ul class="nav">
 						<li <?php if($this->uri->segment(1)=="welcome" || !$this->uri->segment(1)){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>">Home</a></li>
-						<li <?php if($this->uri->segment(1)=="explore"){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>index.php/explore/">Explore</a></li>
+						<!--<li <?php if($this->uri->segment(1)=="explore"){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>index.php/explore/">Explore</a></li>-->
 						<li <?php if($this->uri->segment(1)=="artists"){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>index.php/artists/">Artists</a></li>
 						<li <?php if($this->uri->segment(1)=="groups"){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>index.php/groups/">Groups</a></li>
-						<li <?php if($this->uri->segment(1)=="places"){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>index.php/places/">Places</a></li>
-						<li <?php if($this->uri->segment(1)=="events"){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>index.php/events/">Events</a></li>
+						<!--<li <?php if($this->uri->segment(1)=="places"){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>index.php/places/">Places</a></li>-->
+						<!--<li <?php if($this->uri->segment(1)=="events"){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>index.php/events/">Events</a></li>-->
 						<li <?php if($this->uri->segment(1)=="api"){ echo "class='active' "; } ?>><a href="<?= base_url(); ?>index.php/api/">API</a></li>
 					</ul>
 					<ul class="nav secondary-nav">

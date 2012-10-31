@@ -5,11 +5,13 @@
         <div class="span10">
                 <h2>What are artists?</h2>
                 <hr />
-                <p><b>Artists are...</b> Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet 
+                <p><b>Artists </b> are anyone who are involved in creativity. From the smallest doodles to the grandest fine paintings. Get connected to your inner creativity, join up and get involved with people in your area. The steps are easy:
                 <ul>
-                   <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-                   <li>Aliquam tincidunt mauris eu risus.</li>
-                   <li>Vestibulum auctor dapibus neque.</li>
+                   <li>Register as an artist</li>
+                   <li>Find others in your area</li>
+                   <li>Become friends and organise a group</li>
+                   <li>Start creating</li>
+                   <li>Organise exhibitions, art days, get togethers, and show the world!</li>
                 </ul>
                 <?php if (!$this->tank_auth->is_logged_in()) { ?>
                         <a class="btn danger" href="<?php echo base_url(); ?>index.php/auth/register">Sign up as an artist!</a>

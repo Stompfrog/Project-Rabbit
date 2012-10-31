@@ -3,7 +3,7 @@
 </div>
 <div class="row">
 	<div class="span10">
-		<h2><?= $group->get_group_name() ?><small><date><?= $group->get_created_date() ?></date></small></h2>
+		<h2><?= $group->get_group_name() ?> <small><date><?= $group->get_created_date() ?></date></small></h2>
 		<hr />
 		<p><?= $group->get_description() ?></p>
 		<h4>Members</h4>

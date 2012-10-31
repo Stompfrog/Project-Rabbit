@@ -25,17 +25,43 @@ class Galleries extends CI_Controller
 	
 	function index()
 	{   
-		$data = array();
-		$galleries = $this->profiles_model->get_galleries($this->tank_auth->get_user_id());
-		if ($galleries)	$data['galleries'] = $galleries;
-	    $this->load->view('templates/header');
-	    $this->load->view('auth/gallery_list',$data);
-	    $this->load->view('templates/footer');
+		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
+			redirect('/auth/login/');
+		} else {
+			$data = array();
+			$galleries = $this->profiles_model->get_galleries($this->tank_auth->get_user_id());
+			if ($galleries)	$data['galleries'] = $galleries;
+		    $this->load->view('templates/header');
+		    $this->load->view('auth/gallery_list',$data);
+		    $this->load->view('templates/footer');
+		}
 	}
 	
 	function gallery ()
 	{
-		echo '<h1>TODO: show images in gallery, add/edit/delete images</h1>';
+		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
+			redirect('/auth/login/');
+		} else {
+			//get 
+			$data = array();
+			$user_id = $this->tank_auth->get_user_id();
+			$gallery_id = false;
+			
+			if (is_numeric ($this->uri->segment(4)) && $this->profiles_model->valid_gallery($this->uri->segment(4), $user_id) ) {
+				$gallery_id = $this->uri->segment(4);
+			}
+			
+			if ($gallery_id) {
+				$data['gallery'] = $this->profiles_model->get_gallery($user_id, $gallery_id);
+				$data['gallery']['images'] = $this->profiles_model->get_gallery_images($user_id, $gallery_id);			
+			} else {
+				$data['error'] = 'Oops, there has been a problem';
+			}
+
+		    $this->load->view('templates/header');
+		    $this->load->view('auth/gallery',$data);
+		    $this->load->view('templates/footer');
+		}
 	}
 	
 	function add_gallery ()

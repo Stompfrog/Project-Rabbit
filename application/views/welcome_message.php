@@ -43,16 +43,39 @@
 				<a href="<?php echo base_url(); ?>index.php/artists/<?php echo $row->user_id; ?>"><?php echo $row->first_name; ?> <?php echo $row->last_name; ?></a>
 			</li>
 			<?php endforeach; ?>
-		</ul> 
+		</ul>
+		<?php if(sizeof($latest_events) > 0) { ?>
 		<h3>Upcoming Events</h3>
 		<ul class="events unstyled">
+			<?php foreach($popular_places as $row): ?>
 		    <li><a href="#">Ealing, London</a> -  22/01/12</li>
-		    <li><a href="#">Reading</a> -  26/01/12</li>
+		    <?php endforeach; ?>
 		</ul>
+		<?php }
+		if(sizeof($popular_places) > 0) { ?>
 		<h3>Popular Places</h3>
 		<ul class="places unstyled">
-		    <li><a href="#">Jelly Arts</a> - Reading</li>
-		    <li><a href="#">Robson Rooms</a> - Southbank, London</li>
+			<?php foreach($popular_places as $row): ?>
+		    <li>
+				<a href="<?php echo base_url(); ?>index.php/places/<?php echo $row->id; ?>"><?php echo $row->address_1 . ', ' . $row->address_2 . ', ' . $row->city ?></a>
+			</li>
+			<?php endforeach; ?>
 		</ul>
+		<?php }
+		if(sizeof($latest_groups) > 0) { ?>
+		<h3>Latest Groups</h3>
+		<ul class="places unstyled">
+			<?php foreach($latest_groups as $row): ?>
+		    <li>
+		    <?php
+			    $format = "dS F, Y";
+				$oDate = new DateTime($row->created_date);
+				$sDate = $oDate->format($format);
+			?>
+				<a href="<?php echo base_url(); ?>index.php//groups/render/<?php echo $row->id; ?>"><?php echo $row->group_name; ?></a> (<?= $sDate ?>)
+			</li>
+			<?php endforeach; ?>
+		</ul>
+		<?php } ?>
 	</div>
 </div>

@@ -83,7 +83,7 @@
 
 		public function get_image_link($link_attributes = '', $image_attributes = '')
 		{
-			return '<a href="' . $this->get_image_path() . '" title="' . $this->get_title() . '" ' . $link_attributes . '>' . $this->get_thumb($image_attributes) . '</a>';
+			return '<a href="' . $this->get_large_path() . '" title="' . $this->get_title() . '" ' . $link_attributes . '>' . $this->get_thumb_image($image_attributes) . '</a>';
 		}
 	}
 ?>

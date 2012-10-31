@@ -439,6 +439,14 @@ class Artists_model extends CI_Model {
 	
 	*************************************************************/
 
+	function get_popular_places ($limit = 5) {
+	
+	    $results = array();
+	    $query = $this->db->query("SELECT * FROM address WHERE is_venue = 1 ORDER BY id DESC LIMIT " . $limit);
+	    
+	    return $query->row_array();
+	}
+
 	function get_address ($user_id, $address_id = null) {
 		$and = '';
 		if ($address_id)
@@ -495,9 +503,17 @@ class Artists_model extends CI_Model {
 	
 	*************************************************************/
 	
+	function get_latest_groups ($limit = 5) {
+	
+	    $results = array();
+	    $query = $this->db->query("SELECT * FROM `group` ORDER BY `created_date` DESC LIMIT " . $limit);
+	    
+	    return $query->result();
+	}
+	
 	function get_groups () {
 
-		$query = $this->db->query('SELECT * FROM `groups`');
+		$query = $this->db->query('SELECT * FROM `group`');
 	    if ($query->num_rows() > 0)
 	    {
 			return $query->row_array();
@@ -590,6 +606,21 @@ class Artists_model extends CI_Model {
 	{
 		//
 	}
+	
+	/****** events methods ****************************************
+	
+	
+	*************************************************************/
+	
+	
+	function get_latest_events ($limit = 5) {
+	
+	    $results = array();
+	    $query = $this->db->query("SELECT * FROM events ORDER BY id DESC LIMIT " . $limit);
+	    
+	    return $query->result();
+	}
+	
 	
 	/****** Timeline methods ****************************************
 	

@@ -660,7 +660,7 @@ class Auth extends CI_Controller
 				$data = $this->upload_model->profile_img_upload();
 			}
 			$this->load->view('/templates/header', $data);
-			$this->load->view('profile_image', $data);
+			$this->load->view('/auth/profile_image', $data);
 			$this->load->view('/templates/footer', $data);
 		} else {
 			redirect('/auth/login/');

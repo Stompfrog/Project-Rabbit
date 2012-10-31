@@ -71,8 +71,8 @@ class Upload_model extends CI_Model {
 			'new_image' => $this->profile_img_path . '/tn/' . $filename,
 			'create_thumb' => true,
 			'maintain_ratio' => false,
-			'width' => 60,
-			'height' => 60
+			'width' => 110,
+			'height' => 110
 		);
 		//resize library
 		$this->image_lib->initialize($tn_config);

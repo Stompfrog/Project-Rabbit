@@ -26,7 +26,7 @@
 			echo '<ul class="search-results">';
 			for ($i = 0; $i < sizeof($groups); $i++) {
 				echo '<li>';
-					echo '<ul class="search-results">';
+					echo '<ul class="media-grid">';
 						echo '<li><a href="<?php echo base_url(); ?>index.php/groups/render/' . $groups[$i]['id'] . '"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li>';
 					echo '</ul>';
 					echo '<h3><a href="' . base_url() . 'index.php/groups/render/' . $groups[$i]['id'] . '">' . $groups[$i]['group_name'] . '</a></h3>';

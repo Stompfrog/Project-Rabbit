@@ -49,13 +49,23 @@
 
 		public function get_vcard()
 		{
-			return '<div class="vcard">' .
-					'<div class="adr">' .
-					'	<div class="street-address">' . $this->address_1 . '</div>' .
-					'	<span class="locality">' . $this->city . '</span>, ' .
-					'	<span class="postal-code">' . $this->postcode . '</span>' .
-					'</div>' .
-					'</div>';
+			//only return full address if it is a venue
+			if ($this->is_venue == true) {
+				return '<p class="vcard">' .
+						'<div class="adr">' .
+						'	<div class="street-address">' . $this->address_1 . '</div>' .
+						'	<span class="locality">' . $this->city . '</span>, ' .
+						'	<span class="postal-code">' . $this->postcode . '</span>' .
+						'</div>' .
+						'</p>';			
+			} else {
+				return '<p class="vcard">' .
+						'<div class="adr">' .
+						'	<span class="locality">' . $this->city . '</span>' .
+						'</div>' .
+						'</p>';
+			}
+
 		}
 		
 		function get_map () {

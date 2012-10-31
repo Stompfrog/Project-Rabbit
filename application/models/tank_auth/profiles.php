@@ -175,6 +175,24 @@ class Profiles extends CI_Model
 	    return false;
 	}
 	
+	function get_gallery_images ($user_id, $gallery_id) {
+		$images = array();
+
+		$query = $this->db->query('SELECT * FROM `image` WHERE id IN (SELECT image_id FROM `gallery_image` WHERE user_id = ' . $user_id . ' AND gallery_id = ' . $gallery_id . ')');
+		if ($query->num_rows() > 0) {
+			foreach ($query->result_array() as $row) {
+				$image = new Image($row);
+				array_push ($images, $image);
+			}
+			return $images;
+		}
+		return false;
+	}
+	
+	function valid_gallery ($user_id, $gallery_id) {
+		return true;
+	}
+	
 	function get_galleries ($user_id) {
 		$galleries = array();
 		$query = $this->db->query('SELECT * FROM gallery WHERE user_id = ' . $user_id);
