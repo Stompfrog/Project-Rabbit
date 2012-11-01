@@ -9,10 +9,10 @@
 			<?php if (isset($galleries)) { ?>
 			<ul class="media-grid">
 				<?php
+				foreach ($galleries as $gallery) {
+					echo '<li><a href="' . $gallery->get_admin_url() . '" title="' . $gallery->get_title() . '">' . $gallery->get_thumb() . '</a></li>';
+				}
 				
-				//
-				foreach ($galleries as $gallery)
-					echo '<li><a href="' . $gallery->get_admin_url() . '"><img alt="" src="' . $gallery->get_thumb() . '" class="thumbnail"></a></li>';
 				?>
 			</ul>
 			<?php } else {

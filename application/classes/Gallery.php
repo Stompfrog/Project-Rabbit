@@ -29,8 +29,9 @@
 			$this->user_id = $properties['user_id'];
 			$this->title = $properties['title'];
 			$this->description = $properties['description'];
-			if (isset($properties['images']))
+			if (isset($properties['images']) && $properties['images'] !== null) {
 				$this->images = $properties['images'];
+			}
 		}
 
 		public function get_id()
@@ -60,10 +61,11 @@
 
 		function get_thumb()
 		{
-			if (sizeof($this->images) == 0)
-				return 'http://placehold.it/110x110';
-			else
-				return 'test';
+			if (isset($this->images) && sizeof($this->images) > 0) {
+				return $this->images[0]->get_thumb_image('class="thumbnail" width="110" height="110"');
+			} else {
+				return '<img src="http://placehold.it/110x110" />';
+			}
 		}
 	}
 ?>

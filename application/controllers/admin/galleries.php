@@ -30,7 +30,9 @@ class Galleries extends CI_Controller
 		} else {
 			$data = array();
 			$galleries = $this->profiles_model->get_galleries($this->tank_auth->get_user_id());
-			if ($galleries)	$data['galleries'] = $galleries;
+			if ($galleries)	{
+				$data['galleries'] = $galleries;
+			}
 		    $this->load->view('templates/header');
 		    $this->load->view('auth/gallery_list',$data);
 		    $this->load->view('templates/footer');
@@ -52,8 +54,7 @@ class Galleries extends CI_Controller
 			}
 			
 			if ($gallery_id) {
-				$data['gallery'] = $this->profiles_model->get_gallery($user_id, $gallery_id);
-				$data['gallery']['images'] = $this->profiles_model->get_gallery_images($user_id, $gallery_id);			
+				$data['gallery'] = $this->profiles_model->get_gallery($user_id, $gallery_id);			
 			} else {
 				$data['error'] = 'Oops, there has been a problem';
 			}

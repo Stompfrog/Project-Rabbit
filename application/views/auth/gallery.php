@@ -9,15 +9,14 @@
 		<hr />
 		<div class="span10">
 			<?php
-			
-			if (sizeof($gallery['images']) > 0) {
+			if ($gallery['images'] != null && sizeof($gallery['images']) > 0) {
 				echo '<ul class="media-grid">';
 				foreach ($gallery['images'] as $image) {
 					echo '<li>' . $image->get_image_link() . '</li>';
 				}
-				echo '</ul>';		
+				echo '</ul>';
 			} else {
-				
+				echo '<p>No images yet</p>';
 			}
 			?>
 		</div>
