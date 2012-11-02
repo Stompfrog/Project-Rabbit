@@ -18,16 +18,32 @@ class Artists extends CI_Controller
 	
 	function _remap($method)
 	{
-		if ($method == 'index') {
-		    // domain/artists/
-		    $this->index();
-		} else {
-		    //need to move this logic in the get_user instead of having conditionals all over the place
-		    if (!is_numeric ($this->uri->segment(2))) {
-		    	$this->get_user($this->artists_model->get_user_id_from_username($this->uri->segment(2)));
-		    } else {
-		    	$this->get_user($this->uri->segment(2));
-		    }
+		switch($method)
+		{
+			case 'index':
+				$this->index();
+				break;
+			case (($this->uri->segment(3) && ($this->uri->segment(3) == 'image')) && $this->uri->segment(4)):
+				if (!is_numeric ($this->uri->segment(2)))
+					$this->image($this->artists_model->get_user_id_from_username($this->uri->segment(2), $this->uri->segment(4)));
+				else
+					$this->image($this->uri->segment(2), $this->uri->segment(4));
+				break;
+			case ($this->uri->segment(3) && ($this->uri->segment(3) == 'gallery') && ($this->uri->segment(4))):
+				if (!is_numeric ($this->uri->segment(2)))
+					$this->gallery($this->artists_model->get_user_id_from_username($this->uri->segment(2)), $this->uri->segment(4));
+				else
+					$this->gallery($this->uri->segment(2), $this->uri->segment(4));
+				break;
+			case (!is_numeric ($this->uri->segment(2))):
+				$this->get_user($this->artists_model->get_user_id_from_username($this->uri->segment(2)));
+				break;
+			case (is_numeric ($this->uri->segment(2))):
+				$this->get_user($this->uri->segment(2));
+				break;
+			default:
+				$this->page_not_found();
+				break;
 		}
 	}
 	
@@ -75,6 +91,41 @@ class Artists extends CI_Controller
 	    $this->load->view('templates/header');
 	    $this->load->view('artists/render',$data);
 	    $this->load->view('templates/footer');
+	}
+	
+	function gallery ($user_id, $gallery_id) 
+	{
+		$data = array();
+		$gallery = false;
+		
+	    $data['user'] = $this->artists_model->get_user($user_id);
+	    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
+	    $data['friends'] = $this->artists_model->get_friends($user_id);
+	    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
+		
+		if (is_numeric ($gallery_id) && $this->profiles_model->valid_gallery($gallery_id, $user_id) ) {
+			$gallery = $gallery_id;
+		}
+		
+		if ($gallery) {
+			$data['gallery'] = $this->profiles_model->get_gallery($user_id, $gallery);			
+		} else {
+			$data['error'] = 'Oops, there has been a problem';
+		}
+
+	    $this->load->view('templates/header');
+	    $this->load->view('gallery/gallery',$data);
+	    $this->load->view('templates/footer');
+	}
+	
+	function image ($user_id, $image_id)
+	{
+		echo 'user: ' . $user_id . ', image id: ' . $image_id; 
+	}
+	
+	function page_not_found()
+	{
+		//404 error
 	}
         
 }

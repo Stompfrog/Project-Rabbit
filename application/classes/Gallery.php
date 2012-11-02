@@ -54,9 +54,12 @@
 			return base_url() . 'index.php/admin/galleries/gallery/' . $this->id . '/';
 		}
 
+		/*
+		Public url
+		*/
 		public function get_url()
 		{
-			return base_url() . 'index.php/galleries/gallery/' . $this->id . '/';
+			return base_url() . 'index.php/artists/' . $this->user_id . '/gallery/' . $this->id . '/';
 		}
 
 		function get_thumb()
