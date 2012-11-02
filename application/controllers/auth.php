@@ -517,6 +517,16 @@ class Auth extends CI_Controller
 		}
 	}
 
+
+/*******************************
+*
+* REALLY NEED TO MOVE THE BELOW INTO OWN MODEL!!!!!!!
+* ANY OF THE ABOVE SHOULD BE EXTENDED BY PARENT OBJECT
+*
+**********************************/
+
+
+
 	/**
 	 * 	Address -  show list of addresses, with links to edit/delete, provide link to add address
 	 *

@@ -11,20 +11,25 @@
 			<dt>Website</dt>
 			<dd><?= anchor($user->get_website(),$user->get_website()); ?></dd>
 		</dl>
-		<h4>Interests</h4>
-		<?=  $user->get_interests_list(); ?>
 		
-		<h4>Portfolio</h4>
-		<ul class="media-grid">
-			<li><a href="#"><img alt="" src="http://placehold.it/110x110" class="thumbnail"></a></li>
-			<li><a href="#"><img alt="" src="http://placehold.it/110x110" class="thumbnail"></a></li>
-			<li><a href="#"><img alt="" src="http://placehold.it/110x110" class="thumbnail"></a></li>
-			<li><a href="#"><img alt="" src="http://placehold.it/110x110" class="thumbnail"></a></li>
-			<li><a href="#"><img alt="" src="http://placehold.it/110x110" class="thumbnail"></a></li>
-			<li><a href="#"><img alt="" src="http://placehold.it/110x110" class="thumbnail"></a></li>
-			<li><a href="#"><img alt="" src="http://placehold.it/110x110" class="thumbnail"></a></li>
-			<li><a href="#"><img alt="" src="http://placehold.it/110x110" class="thumbnail"></a></li>
-		</ul>
+		<?php
+		$interests = $user->get_interests_list();
+		if($interests != null) {
+			echo '<h4>Interests</h4>';
+			echo $interests;
+		} ?>
+
+		<?php
+			if (isset($galleries) && $galleries) {
+				echo '<h4>Galleries</h4>';
+				echo '<ul class="media-grid">';		
+				foreach ($galleries as $gallery) {
+					echo '<li><a href="' . $gallery->get_url() . '" title="' . $gallery->get_title() . '">' . $gallery->get_thumb() . '</a></li>';
+				}
+				echo '</ul>';
+				//<li><a href="#"><img alt="" src="http://placehold.it/110x110" class="thumbnail"></a></li>			
+			} ?>
+
 	</div>
 	<div class="span4">
 		<ul class="media-grid pull-left">

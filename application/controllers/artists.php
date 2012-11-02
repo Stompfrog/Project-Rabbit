@@ -11,6 +11,7 @@ class Artists extends CI_Controller
 	    $this->load->library('tank_auth');
 	    $this->load->model('artists_model');
 	    
+	    include_once(APPPATH.'classes/Gallery.php');
 	    include_once(APPPATH.'classes/Image.php');
 	    include_once(APPPATH.'classes/User.php');
 	}
@@ -37,7 +38,7 @@ class Artists extends CI_Controller
 	    
 	    $url = base_url() . 'index.php/artists/';
 	    $page = (isset($params['page'])) ? $params['page'] : 1;
-	    $offset = (isset($params['offset'])) ? $params['offset'] : 2;
+	    $offset = (isset($params['offset'])) ? $params['offset'] : 5;
 	    $pagination_config = array(
 	            'url' => $url,
 	            'total' => $this->artists_model->get_total_artists(),
@@ -61,6 +62,8 @@ class Artists extends CI_Controller
 	    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
 	    $data['friends'] = $this->artists_model->get_friends($user_id);
 	    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
+	    
+	    $data['galleries'] = $this->artists_model->get_galleries($user_id);
 	    
 	    //if user is logged in
 	    if ($this->tank_auth->is_logged_in()) {

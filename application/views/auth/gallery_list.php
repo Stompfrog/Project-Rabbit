@@ -12,7 +12,6 @@
 				foreach ($galleries as $gallery) {
 					echo '<li><a href="' . $gallery->get_admin_url() . '" title="' . $gallery->get_title() . '">' . $gallery->get_thumb() . '</a></li>';
 				}
-				
 				?>
 			</ul>
 			<?php } else {

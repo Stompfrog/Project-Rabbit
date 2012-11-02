@@ -6,8 +6,8 @@ Explore
 	
 Artists
 	/artists/
-	/artists/artist_id/
-	/artists/[artist_username]/
+	/artists/artist/artist_id/
+	/artists/artist/[artist_username]/
 	/artists/add/
 	/artists/artist_id/edit/
 	/artists/latest/

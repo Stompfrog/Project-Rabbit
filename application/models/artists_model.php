@@ -487,7 +487,38 @@ class Artists_model extends CI_Model {
 		}
 
 	    return false;
-	}	
+	}
+
+	function get_galleries ($user_id) {
+		$galleries = array();
+		$query = $this->db->query('SELECT gallery.id, gallery.title, gallery.description, image.id as image_id, image.title as image_title, image.alt, image.file_name FROM `gallery` LEFT JOIN `gallery_image` ON `gallery_image`.`gallery_id` = `gallery`.`id` LEFT JOIN `image` ON `gallery_image`.`image_id` = `image`.`id` WHERE `gallery`.`user_id` = ' . $user_id . ' GROUP BY `gallery`.`id`');
+		if ($query->num_rows() > 0) {
+			foreach ($query->result_array() as $row) {
+				$gallery_data['id'] = $row['id'];
+				$gallery_data['user_id'] = $user_id;
+				$gallery_data['title'] = $row['title'];
+				$gallery_data['description'] = $row['description'];
+				$gallery_data['images'] = null;
+				if ($row['image_id'] != null) {
+					$image_data = array('id' => $row['image_id'],
+										'title' => $row['image_title'],
+										'alt' => $row['alt'],
+										'description' => $row['description'],
+										'file_name' => $row['file_name']
+										);
+					$image = new Image($image_data);
+					$gallery_data['images'] = array($image);
+				}
+				$gallery = new Gallery($gallery_data);
+				array_push ($galleries, $gallery);
+			}
+			return $galleries;
+		}
+			
+		return false;
+	}
+	
+	
 	
 	/****** Geolocational section ********************************
 	
