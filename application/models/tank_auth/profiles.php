@@ -16,8 +16,7 @@ class Profiles extends CI_Model
 		
 		$ci =& get_instance();
 		$this->profile_table_name = $ci->config->item('db_table_prefix', 'tank_auth').$this->profile_table_name;
-		//really need to remove these and all other functions from this model
-		//need to seperate each into individual models
+		
 		include_once(APPPATH.'classes/Address.php');
 		include_once(APPPATH.'classes/Group.php');
 	}
@@ -105,6 +104,7 @@ class Profiles extends CI_Model
 	
 	function update_address ($user_id, $address_id, $data) {
         $this->db->where('user_id', (int) $user_id);
+        $this->db->where('id', (int) $address_id);
         if ($this->db->update('address', $data))
         	return TRUE;
         return FALSE;
@@ -145,7 +145,7 @@ class Profiles extends CI_Model
 		return false;
 	}
 	
-	/****************************** Gallery section ******************************/
+	/****************************** Gallery and image section ******************************/
 	
 	function add_gallery ($data) 
 	{
@@ -192,6 +192,15 @@ class Profiles extends CI_Model
 		return false;
 	}
 	
+	function get_user_image ($user_id, $image_id) {
+
+		$query = $this->db->query('SELECT * FROM `image` WHERE id = ' . $image_id . ' AND user_id = ' . $user_id);
+		if ($query->num_rows() > 0) {
+			$image = new Image($query->row_array());
+		}
+		return false;
+	}
+	
 	function valid_gallery ($user_id, $gallery_id) {
 		return true;
 	}
@@ -223,6 +232,24 @@ class Profiles extends CI_Model
 		}
 			
 		return false;
+	}
+	
+	/*
+	 @param int user_id
+	 @returns array of user image objects
+	*/
+	function get_images ($user_id)
+	{
+		$images = array();
+		$query = $this->db->query('SELECT * FROM image WHERE user_id = ' . $user_id);
+	    if ($query->num_rows() > 0) {
+	    	foreach ($query->result_array() as $row) {
+				$image = new Image($row);
+				array_push ($images, $image);
+			}
+			return $images;
+		}
+	    return false;
 	}
 
 	/****************************** Groups section ******************************/

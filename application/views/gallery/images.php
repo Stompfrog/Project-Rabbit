@@ -6,16 +6,15 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 </div>
 <div class="row">
 	<div class="span10">
-		<?php if (isset($gallery)) { ?>
-			<h2><?= $gallery['title'] ?></h2>
-			<p><?= $gallery['description'] ?></p>
+		<?php if (isset($images)) { ?>
+			<h2>All Images</h2>
 			<hr />
 			<div class="span10">
 				<?php
-				if ($gallery['images'] != null && sizeof($gallery['images']) > 0) {
+				if ($images != null && sizeof($images) > 0) {
 					echo '<ul class="media-grid">';
-					foreach ($gallery['images'] as $image) {
-						echo '<li>' . $image->get_image_link() . '</li>';
+					foreach ($images as $image) {
+						echo '<li><a href="' . base_url() . 'index.php/artists/' . $user->get_id() . '/image/' . $image->get_id() . '/" title="' . $image->get_title() . '">' . $image->get_thumb_image() . '</a></li>';						
 					}
 					echo '</ul>';
 				} else {
@@ -32,9 +31,6 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 	</div>
 	<div class="span4">
 		<ul class="media-grid pull-left">
-			<?php /*
-			//old gravatar icon
-			<li><a href="#"><img src="http://www.gravatar.com/avatar/<?= md5( strtolower( trim( $user->get_email() ) ) )?>?s=210" /></a></li> */ ?>
 			<?php if ($user->get_large_avatar()) { ?>
 			<li><a href="#"><?= $user->get_large_avatar() ?></a></li>
 			<?php } ?>
@@ -42,7 +38,7 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 		<?php 
 		//if the user is logged in, and this is the users profile
 		if ($logged_in_user) { ?>
-			<a href="<?= base_url() ?>index.php/auth/add_profile_image">Upload/edit profile picture</a>
+			<a href="<?= base_url() ?>index.php/admin/profile/add_profile_image">Upload/edit profile picture</a>
 		<?php } ?>
 		<hr />
 		<? if($user->get_addresses()) {

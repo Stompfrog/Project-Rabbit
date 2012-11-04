@@ -1,10 +1,6 @@
 <?php 
 class Artists_model extends CI_Model {
 
-    var $title   = '';
-    var $content = '';
-    var $date    = '';
-
     function __construct()
     {
         // Call the Model constructor
@@ -581,9 +577,9 @@ class Artists_model extends CI_Model {
 	{
 		
 	}
-		
+
 	/*
-	    get all profile images
+	   profile images
 	*/
     function get_all_profile_images ($user_id)
     {
@@ -600,13 +596,14 @@ class Artists_model extends CI_Model {
 	    }
 	    return false;
     }
+
 	
 	function set_profile_image ($user_id, $img_id)
 	{
 		//update user_profiles set avatar to be $img_id where user_id = $user_id
 	}
-	
-	function add_profile_image ($user_id, $file)
+
+	function add_image ($user_id, $file)
 	{
 		//add image to image table
 		$data = array(
@@ -619,6 +616,12 @@ class Artists_model extends CI_Model {
 		$this->db->insert('image', $data);
 		//foreign key for profile_image table
 		$img_id = $this->db->insert_id();
+		return $img_id;
+	}
+	
+	function add_profile_image ($user_id, $file)
+	{
+		$img_id = $this->add_image($user_id, $file);
 
 		$data = array(
 		   'user_id' => $user_id,
@@ -633,7 +636,7 @@ class Artists_model extends CI_Model {
 		$this->db->update('user_profiles', $data);
 	}
 	
-	function delete_profile_image ()
+	function delete_image ()
 	{
 		//
 	}

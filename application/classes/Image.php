@@ -21,6 +21,7 @@
 		protected $description;
 		protected $alt;
 		protected $large_path;
+		protected $image_path;
 		protected $thumb_path;
 		protected $object;
 
@@ -31,7 +32,11 @@
 			$this->title = $properties['title'];
 			$this->description = $properties['description'];
 			$this->alt = $properties['alt'];
-			$this->large_path = base_url() . $this->object->config->item('image_path') . $properties['file_name'];
+			//full size
+			$this->large_path = base_url() . $this->object->config->item('large_path') . $properties['file_name'];
+			//general
+			$this->image_path = base_url() . $this->object->config->item('image_path') . $properties['file_name'];
+			//thumb
 			$this->thumb_path = base_url() . $this->object->config->item('thumb_path') . $properties['file_name'];
 		}
 
@@ -60,6 +65,11 @@
 			return $this->large_path;
 		}
 
+		public function get_image_path()
+		{
+			return $this->large_path;
+		}
+
 		public function get_thumb_path()
 		{
 			return $this->thumb_path;
@@ -69,6 +79,12 @@
 		{
 			$size_array = getimagesize($this->get_large_path());
 			return '<img src="' . $this->get_large_path() . '" alt="' . $this->get_alt() . '" ' . $size_array[3] . ' ' . $attributes .  ' />';
+		}
+		
+		public function get_image($attributes = '')
+		{
+			$size_array = getimagesize($this->get_image_path());
+			return '<img src="' . $this->get_image_path() . '" alt="' . $this->get_alt() . '" ' . $size_array[3] . ' ' . $attributes .  ' />';
 		}
 
 		public function get_thumb_image($attributes = '')

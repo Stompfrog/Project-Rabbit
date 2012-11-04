@@ -118,7 +118,11 @@ class Api extends CI_Controller
 	    $data['encoded_data'] = json_encode($isfriend_message);         
 	    $this->load->view('api/json',$data);
 	}
-	
+
+	/*
+	* Addresses
+	*/
+
 	/*
 	* Groups
 	*/
@@ -131,10 +135,8 @@ class Api extends CI_Controller
 	* Events
 	*/
 	
-	//artists with a particular interest
-	
-	//get artists friends
-	
-	//
+	/*
+	* Interests
+	*/
 	    
 }

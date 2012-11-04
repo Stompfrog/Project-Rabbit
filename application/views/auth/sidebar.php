@@ -19,6 +19,12 @@
 			<li><?php echo anchor('/admin/addresses/', 'Your addresses'); ?></li>
 			<li><?php echo anchor('/admin/addresses/add_address/', 'Add address'); ?></li>
 		</ul>
+		<h3>Images</h3>
+		<ul class="events unstyled">
+			<li><?php echo anchor('/admin/images/', 'Your images'); ?></li>
+			<li><?php echo anchor('/admin/images/add_image/', 'Add image'); ?></li>
+			<li><?php echo anchor('/admin/images/profile_images/', 'View and add profile images'); ?></li>
+		</ul>
 		<h3>Galleries</h3>
 		<ul class="events unstyled">
 			<li><?php echo anchor('/admin/galleries/', 'Your galleries'); ?></li>

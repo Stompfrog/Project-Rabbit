@@ -1,6 +1,15 @@
 Home
 	/
 	
+logged_in -> redirect to profile page?
+logged out -> welcome/signup page
+need to hide users from non-registered people? have security settings?
+
+addresses:
+private
+public_venue
+protected_venue
+
 Explore
 	/explore/
 	

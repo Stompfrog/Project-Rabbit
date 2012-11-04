@@ -19,8 +19,13 @@
 //local
 $config['base_url']	= 'http://project-rabbit';
 //added these to config so we can change them system wide if we want to move them somewhere else
-$config['image_path'] = 'pb/prf/';
-$config['thumb_path'] = 'pb/prf/tn/';
+//medium path, used generally
+$config['image_path'] = 'pb/img/';
+//large path, when image is viewed fullscreen(ish)
+$config['large_path'] = 'pb/img/lg/';
+//thumb path
+$config['thumb_path'] = 'pb/img/tn/';
+//
 $config['profile_image_path'] = 'pb/prf/';
 $config['profile_thumb_path'] = 'pb/prf/tn/';
 /*

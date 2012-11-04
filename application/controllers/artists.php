@@ -23,6 +23,12 @@ class Artists extends CI_Controller
 			case 'index':
 				$this->index();
 				break;
+			case ($this->uri->segment(3) && ($this->uri->segment(3) == 'images')):
+				if (!is_numeric ($this->uri->segment(2)))
+					$this->images($this->artists_model->get_user_id_from_username($this->uri->segment(2)));
+				else
+					$this->images($this->uri->segment(2));
+				break;				
 			case (($this->uri->segment(3) && ($this->uri->segment(3) == 'image')) && $this->uri->segment(4)):
 				if (!is_numeric ($this->uri->segment(2)))
 					$this->image($this->artists_model->get_user_id_from_username($this->uri->segment(2), $this->uri->segment(4)));
@@ -121,6 +127,36 @@ class Artists extends CI_Controller
 	function image ($user_id, $image_id)
 	{
 		echo 'user: ' . $user_id . ', image id: ' . $image_id; 
+		
+		$data = array();
+		
+	    $data['user'] = $this->artists_model->get_user($user_id);
+	    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
+	    $data['friends'] = $this->artists_model->get_friends($user_id);
+	    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
+		
+		$data['image'] = $this->profiles_model->get_user_image($user_id, $image_id);			
+
+	    $this->load->view('templates/header');
+	    $this->load->view('gallery/images',$data);
+	    $this->load->view('templates/footer');
+		
+	}
+	
+	function images ($user_id)
+	{
+		$data = array();
+		
+	    $data['user'] = $this->artists_model->get_user($user_id);
+	    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
+	    $data['friends'] = $this->artists_model->get_friends($user_id);
+	    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
+		
+		$data['images'] = $this->profiles_model->get_user_images($user_id);			
+
+	    $this->load->view('templates/header');
+	    $this->load->view('gallery/images',$data);
+	    $this->load->view('templates/footer');
 	}
 	
 	function page_not_found()

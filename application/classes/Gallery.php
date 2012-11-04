@@ -48,7 +48,10 @@
 		{
 			return $this->description;
 		}
-
+		
+		/*
+		url for admin
+		*/
 		public function get_admin_url()
 		{
 			return base_url() . 'index.php/admin/galleries/gallery/' . $this->id . '/';

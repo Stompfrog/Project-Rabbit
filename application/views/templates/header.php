@@ -7,7 +7,6 @@
 		<link rel="stylesheet" href="<?= base_url(); ?>/css/style.css" />
 	</head>
 	<body>
-	
 		<div class="topbar">
 			<div class="fill">
 				<div class="container">
@@ -32,8 +31,8 @@
 								<?php echo anchor('artists/render',$user_name,'class="dropdown-toggle"'); ?>
 								<ul class="dropdown-menu">
 									<li><?php echo anchor('artists/'.$user_id,'View Profile'); ?></li>
-									<li><?php echo anchor('auth/update_profile','Edit Profile'); ?></li>
-									<li><?php echo anchor('auth/add_profile_image','Add profile image'); ?></li>
+									<li><?php echo anchor('admin/profile','Edit Profile'); ?></li>
+									<li><?php echo anchor('admin/images/profile_images','Add profile image'); ?></li>
 									<li class="divider"></li>
 									<li><?php echo anchor('auth/logout','Log out'); ?></li>
 								</ul>

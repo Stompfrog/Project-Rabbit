@@ -3,7 +3,6 @@ class Upload_model extends CI_Model {
 
 	private $temp_path;
 	private $img_path;
-	private $profile_img_path;
 
     function __construct()
     {
@@ -16,18 +15,16 @@ class Upload_model extends CI_Model {
         $this->temp_path = realpath(APPPATH . '../pb/tmp');
         //for image galleries etc
         $this->img_path = realpath(APPPATH . '../pb/img');
-        //profile images
-        $this->profile_img_path = realpath(APPPATH . '../pb/prf');
     }
     
     /*
-    	profile image upload, only 1 at a time.
+    	image upload, only 1 at a time.
     	upload image to temp directory
-    	resize to 210 and create thumb of 60
+    	resize to 210 and create thumb of 110
     	generate unique names
     	add record to db
     */
-    function profile_img_upload () {
+    function img_upload () {
     	//override the default memory allocation
     	ini_set("memory_limit","50M");
     	//upload config
@@ -47,28 +44,43 @@ class Upload_model extends CI_Model {
 		
 		//generate unique filename
 		$filename = '';
-		//$filename = $this->generate_filename ($this->profile_img_path, $image_data['file_ext']);
+		//$filename = $this->generate_filename ($this->img_path, $image_data['file_ext']);
 		while (true) {
 			$filename = uniqid(mt_rand(), true) . $image_data['file_ext'];
-			if (!file_exists($this->profile_img_path . '/' . $filename)) break;
+			if (!file_exists($this->img_path . '/' . $filename)) break;
 		}
 		
-		//resize to 210
+		//large image, resize to 800
 		$config = array (
 			'source_image' => $image_data['full_path'],
-			'new_image' => $this->profile_img_path . '/' . $filename,
+			'new_image' => $this->img_path . '/lg/' . $filename,
 			'maintain_ratio' => true,
-			'width' => 210,
-			'height' => 210
+			'width' => 800,
+			'height' => 800
 		);
 		//resize library
 		$this->load->library('image_lib', $config);
+		//create the image
+		$this->image_lib->resize();
+		
+		//resize to 410, main image that will be viewed more tban large or thumb
+		$med_config = array (
+			'source_image' => $image_data['full_path'],
+			'new_image' => $this->img_path . '/' . $filename,
+			'maintain_ratio' => true,
+			'width' => 410,
+			'height' => 410
+		);
+		//resize library
+		$this->load->library('image_lib', $config);
+		//create the image
+		$this->image_lib->initialize($med_config);
 		$this->image_lib->resize();
 
 		//resize config data
 		$tn_config = array (
 			'source_image' => $image_data['full_path'],
-			'new_image' => $this->profile_img_path . '/tn/' . $filename,
+			'new_image' => $this->img_path . '/tn/' . $filename,
 			'create_thumb' => true,
 			'maintain_ratio' => false,
 			'width' => 110,
@@ -81,63 +93,15 @@ class Upload_model extends CI_Model {
 		//delete original
 		unlink($image_data['full_path']);
 		
-		//update database
-		$this->artists_model->add_profile_image($this->tank_auth->get_user_id(), $filename);
-		
-		return array('success' => '/pb/prf/' . $filename);
+		return array('success' => '/pb/img/' . $filename, 
+					'filename' => $filename
+					);
     }
-
-	/*
-		upload image
-		resize to large, medium, small
-		remove uploaded image
-		add image paths to users profile in db
-	*/
-    function do_upload()
-    {
-    	//override the default memory allocation
-    	ini_set("memory_limit","50M");
-    	//upload config
-		$config = array(
-			'allowed_types' => 'jpg|jpeg|gif|png',
-			'max_size' => 10000,
-			'upload_path' => $this->img_path
-		);
-		//todo - rename file to /i/yyyy/mm/dd/username-image-rrrrrr.ext
-		$this->load->library('upload', $config);
-		//perform upload, if error, return message 
-		if ( ! $this->upload->do_upload()) {
-			$error = array('error' => $this->upload->display_errors());
-			return $error;
-		}
-		
-		//if target folder exists
-		//if(file_exists($dir) && is_dir($dir))
-		//if folder doesn't exist, create one, then run this to clear document cache:
-		//clearstatcache()
-		
-		//generate unique id. if for some reason filename exists, loop until it doesn't
-		/*
-		while (true) {
-			$filename = uniqid(mt_rand(), true) . '.pdf';
-			if (!file_exists(sys_get_temp_dir() . $filename)) break;
-		}
-		*/
-
-		$image_data = $this->upload->data();
-		//resize config data
-		$config = array (
-			'source_image' => $image_data['full_path'],
-			'new_image' => $this->img_path,
-			'maintain_ratio' => true,
-			'width' => 110,
-			'height' => 110
-		);
-		//resize library
-		$this->load->library('image_lib', $config);
-		$this->image_lib->resize();
-		
-		return array('success' => $this->img_path);
+    
+    function profile_img_upload () {
+		$image_details = $this->img_upload();
+		//update database
+		return $this->artists_model->add_profile_image($this->tank_auth->get_user_id(), $image_details['filename']);
     }
     
     function generate_filename ($path, $ext)

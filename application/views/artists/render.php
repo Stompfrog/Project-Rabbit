@@ -2,13 +2,11 @@
 $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user_id() == $user->get_id();
 ?>
 <div class="page-header">
-	<h1>Welcome to Artify.co!</h1>
+	<h1><?= $user->get_name(); ?> <small>Member since <?= $user->get_member_since(); ?> </small></h1>
 </div>
 <div class="row">
 	<div class="span10">
-		<h2><?= $user->get_name(); ?> <small>Member since <?= $user->get_member_since(); ?> </small></h2>
-		<hr />
-		<h3><?= $user->get_status(); ?></h3>
+		<h2><?= $user->get_status(); ?></h2>
 		<p><?= $user->get_about_me(); ?></p>
 		<dl>
 			<dt>Website</dt>
@@ -29,14 +27,13 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 				foreach ($galleries as $gallery) {
 					echo '<li><a href="' . $gallery->get_url() . '" title="' . $gallery->get_title() . '">' . $gallery->get_thumb() . '</a></li>';
 				}
-				echo '</ul>';
-				//<li><a href="#"><img alt="" src="http://placehold.it/110x110" class="thumbnail"></a></li>			
+				echo '</ul>';		
 			} 
 			
 			if ($logged_in_user) { ?>
 				<ul>
-					<li><a href="">Add a gallery</a></li>
-					<li><a href="">Upload an image</a></li>
+					<li><a href="<?= base_url() ?>index.php/admin/galleries/add_gallery/">Add a gallery</a></li>
+					<li><a href="<?= base_url() ?>/index.php/auth/add_profile_image/">Upload an image</a></li>
 				</ul>
 			<?php }
 		?>
@@ -65,6 +62,9 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 		$group_data['groups'] = $user->get_groups();
 		$this->load->view('templates/groups', $group_data);
 		?>
+		
+		<h3>Images</h3>
+		<p><a href="<?= base_url() ?>index.php/artists/<?= $user->get_id() ?>/images">All images</a></p>
 
 		<?php
 	        $data = array();

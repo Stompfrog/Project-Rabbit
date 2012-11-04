@@ -3,27 +3,22 @@ if (isset($friends) && sizeof($friends) > 0)
 {?>
 	<h3>Friends <?php if (isset($total_friends)) echo '(' . $total_friends . ')'; ?></h3>        
 	<ul class="events unstyled">
-	<?php foreach($friends as $fr)
-	{
-		echo '<li><a href="' . $fr['id'] . '"> ' . $fr['name'] . '</a></li>';
+	<?php foreach($friends as $fr) {
+		echo '<li><a href="' .  base_url() . 'index.php/artists/' . $fr['id'] . '"> ' . $fr['name'] . '</a></li>';
 	} ?>
 	</ul>
 <?php
 } else {
 	echo '<p>No friends yet</p>';
 }
-
-//if the user is logged in
-//if the current user is not viewing their own page
-	//if they are already friends
-		//show 'already friends' message
-	//if this user has requested viewing user to be friends
-		//show confirm friends link
-
+	
+//if the user is logged in and not viewing their own page
 if ($this->tank_auth->is_logged_in()) {
 	//if this isn't the logged in user
 	if($this->tank_auth->get_user_id() != $user_id) {
+		//if they are already friends
 		if (isset($already_friends) && $already_friends) {
+			//show 'already friends' message
 			echo '<p><a href="' . base_url() . 'index.php/api/unfriend/' . $this->tank_auth->get_user_id() . '/' . $user_id . '/" class="btn danger friend">Unfriend</a></p>';
 		} else if (isset($friend_requested_reverse) && $friend_requested_reverse) {
 			echo '<p><a href="' . base_url() . 'index.php/api/confirmfriend/' . $this->tank_auth->get_user_id() . '/' . $user_id . '/" class="btn success friend">Confirm friend</a></p>';
@@ -33,6 +28,7 @@ if ($this->tank_auth->is_logged_in()) {
 				if ($friend_requested) {
 					echo '<p class="alert-success">friend request pending<p>';
 				} else {
+					//show confirm friends link
 					echo '<p><a href="' . base_url() . 'index.php/api/addfriend/' . $this->tank_auth->get_user_id() . '/' . $user_id . '/" class="btn success friend">Add as friend</a></p>';
 				}
 			} else {
