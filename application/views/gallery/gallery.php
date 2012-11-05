@@ -2,41 +2,46 @@
 $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user_id() == $user->get_id();
 ?>
 <div class="page-header">
-	<h1><a href="<?= base_url() ?>index.php/artists/<?= $user->get_id() ?>"><?= $user->get_name(); ?> <small>Member since <?= $user->get_member_since(); ?> </small></a></h1>
+	<a href="<?= base_url() ?>index.php/artists/<?= $user->get_id() ?>"><h1><?= $user->get_name(); ?> <small>Member since <?= $user->get_member_since(); ?> </small></h1></a>
 </div>
 <div class="row">
 	<div class="span10">
-		<?php if (isset($gallery)) { ?>
-			<h2><?= $gallery['title'] ?></h2>
-			<p><?= $gallery['description'] ?></p>
-			<hr />
-			<div class="span10">
-				<?php
-				if ($gallery['images'] != null && sizeof($gallery['images']) > 0) {
-					echo '<ul class="media-grid">';
-					foreach ($gallery['images'] as $image) {
-						echo '<li>' . $image->get_image_link() . '</li>';
-					}
-					echo '</ul>';
-				} else {
-					echo '<p>No images yet</p>';
+	<?php if (isset($gallery)) { ?>
+		<h2><?= $gallery['title'] ?></h2>
+		<hr />
+		<div class="span10">
+			<?php
+			if ($gallery['images'] != null && sizeof($gallery['images']) > 0) {
+				echo '<ul class="media-grid">';
+				foreach ($gallery['images'] as $image) {
+					echo '<li>' . $image->get_image_link() . '</li>';
 				}
-				?>
-			</div>
-			<?php } else if (isset($error)) {
-				echo '<p>' . $error . '</p>';
+				echo '</ul>';
 			} else {
 				echo '<p>No images yet</p>';
-			} ?>
-
+			}
+			?>
+		</div>
+		<?php 
+			if ($logged_in_user) {
+			echo form_open_multipart('/auth/add_profile_image'); ?>
+				<div class="control-group">
+				    <?php echo form_label('Upload image', 'upload_img'); ?>
+				    <div class="controls">
+				    	<?php echo form_upload('userfile'); ?>
+				    </div>
+				</div>
+				<?php echo form_submit('upload', 'Upload');
+				echo form_close();
+			} else if (isset($error)) {
+				echo '<p>' . $error . '</p>';
+			}
+		}?>
 	</div>
 	<div class="span4">
 		<ul class="media-grid pull-left">
-			<?php /*
-			//old gravatar icon
-			<li><a href="#"><img src="http://www.gravatar.com/avatar/<?= md5( strtolower( trim( $user->get_email() ) ) )?>?s=210" /></a></li> */ ?>
 			<?php if ($user->get_large_avatar()) { ?>
-			<li><a href="#"><?= $user->get_large_avatar() ?></a></li>
+			<li><a href="#"><?= $user->get_large_avatar('class="profile_image"') ?></a></li>
 			<?php } ?>
 		</ul>
 		<?php 
@@ -53,6 +58,9 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 		$group_data['groups'] = $user->get_groups();
 		$this->load->view('templates/groups', $group_data);
 		?>
+		
+		<h3>Images</h3>
+		<p><a href="<?= base_url() ?>index.php/artists/<?= $user->get_id() ?>/images">All images</a></p>
 
 		<?php
 	        $data = array();

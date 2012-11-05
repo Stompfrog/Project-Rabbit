@@ -139,7 +139,7 @@
 		public function get_avatar($attributes = '')
 		{
 			if ($this->avatar_filename != '') {
-				return '<img src="' . base_url() . $this->object->config->item('profile_thumb_path') . $this->avatar_filename . '" alt="' . $this->get_name() . '" ' . $attributes .  ' />';
+				return '<img src="' . base_url() . $this->object->config->item('thumb_path') . $this->avatar_filename . '" alt="' . $this->get_name() . '" ' . $attributes .  ' />';
 			} else {
 				return false;
 			}
@@ -148,7 +148,7 @@
 		public function get_large_avatar($attributes = '')
 		{
 			if ($this->avatar_filename != '') {
-				return '<img src="' . base_url() . $this->object->config->item('profile_image_path') . $this->avatar_filename . '" alt="' . $this->get_name() . '" ' . $attributes .  ' />';
+				return '<img src="' . base_url() . $this->object->config->item('image_path') . $this->avatar_filename . '" alt="' . $this->get_name() . '" ' . $attributes .  ' />';
 			} else {
 				return false;
 			}

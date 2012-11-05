@@ -39,7 +39,7 @@ class Galleries extends CI_Controller
 		}
 	}
 	
-	function gallery ()
+	function gallery ($message = null)
 	{
 		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
 			redirect('/auth/login/');

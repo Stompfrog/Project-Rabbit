@@ -126,8 +126,6 @@ class Artists extends CI_Controller
 	
 	function image ($user_id, $image_id)
 	{
-		echo 'user: ' . $user_id . ', image id: ' . $image_id; 
-		
 		$data = array();
 		
 	    $data['user'] = $this->artists_model->get_user($user_id);
@@ -138,7 +136,7 @@ class Artists extends CI_Controller
 		$data['image'] = $this->profiles_model->get_user_image($user_id, $image_id);			
 
 	    $this->load->view('templates/header');
-	    $this->load->view('gallery/images',$data);
+	    $this->load->view('images/image',$data);
 	    $this->load->view('templates/footer');
 		
 	}
@@ -152,7 +150,7 @@ class Artists extends CI_Controller
 	    $data['friends'] = $this->artists_model->get_friends($user_id);
 	    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
 		
-		$data['images'] = $this->profiles_model->get_user_images($user_id);			
+		$data['images'] = $this->profiles_model->get_images($user_id);			
 
 	    $this->load->view('templates/header');
 	    $this->load->view('gallery/images',$data);

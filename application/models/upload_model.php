@@ -93,9 +93,10 @@ class Upload_model extends CI_Model {
 		//delete original
 		unlink($image_data['full_path']);
 		
+		$this->artists_model->add_image($this->tank_auth->get_user_id(), $filename);
+		
 		return array('success' => '/pb/img/' . $filename, 
-					'filename' => $filename
-					);
+					'filename' => $filename);
     }
     
     function profile_img_upload () {

@@ -33,7 +33,7 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 			if ($logged_in_user) { ?>
 				<ul>
 					<li><a href="<?= base_url() ?>index.php/admin/galleries/add_gallery/">Add a gallery</a></li>
-					<li><a href="<?= base_url() ?>/index.php/auth/add_profile_image/">Upload an image</a></li>
+					<li><a href="<?= base_url() ?>index.php/admin/images/add_image">Upload an image</a></li>
 				</ul>
 			<?php }
 		?>
@@ -41,11 +41,8 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 	</div>
 	<div class="span4">
 		<ul class="media-grid pull-left">
-			<?php /*
-			//old gravatar icon
-			<li><a href="#"><img src="http://www.gravatar.com/avatar/<?= md5( strtolower( trim( $user->get_email() ) ) )?>?s=210" /></a></li> */ ?>
-			<?php if ($user->get_large_avatar()) { ?>
-			<li><a href="#"><?= $user->get_large_avatar() ?></a></li>
+			<?php if ($user->get_large_avatar('class="profile_image"')) { ?>
+			<li><a href="#"><?= $user->get_large_avatar('class="profile_image"') ?></a></li>
 			<?php } ?>
 		</ul>
 		<?php 

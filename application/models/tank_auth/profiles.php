@@ -197,6 +197,7 @@ class Profiles extends CI_Model
 		$query = $this->db->query('SELECT * FROM `image` WHERE id = ' . $image_id . ' AND user_id = ' . $user_id);
 		if ($query->num_rows() > 0) {
 			$image = new Image($query->row_array());
+			return $image;
 		}
 		return false;
 	}

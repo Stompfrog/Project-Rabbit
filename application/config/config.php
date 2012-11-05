@@ -25,9 +25,6 @@ $config['image_path'] = 'pb/img/';
 $config['large_path'] = 'pb/img/lg/';
 //thumb path
 $config['thumb_path'] = 'pb/img/tn/';
-//
-$config['profile_image_path'] = 'pb/prf/';
-$config['profile_thumb_path'] = 'pb/prf/tn/';
 /*
 |--------------------------------------------------------------------------
 | Index File

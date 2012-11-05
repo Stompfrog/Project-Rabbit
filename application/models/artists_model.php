@@ -636,9 +636,30 @@ class Artists_model extends CI_Model {
 		$this->db->update('user_profiles', $data);
 	}
 	
-	function delete_image ()
+	function get_image_file_name ($image_id, $user_id)
 	{
-		//
+		$query = $this->db->query('SELECT DISTINCT file_name FROM `image` WHERE id = ' . $image_id . ' AND user_id = ' . $user_id);
+		if ($query->num_rows() > 0) {
+			$row = $query->row_array();
+			return $row['file_name'];
+		}
+		return false;
+	}
+	
+	function delete_image ($image_id, $user_id)
+	{
+		$file_name = $this->get_image_file_name($image_id, $user_id);
+		//remove from image db
+		$this->db->delete('image', array('id' => $image_id, 'user_id' => $user_id));
+		//unlink the images
+		try {
+			unlink('./' . $this->config->item('large_path') . $file_name);
+			unlink('./' . $this->config->item('image_path') . $file_name);
+			unlink('./' . $this->config->item('thumb_path') . $file_name);
+			return true;
+		} catch(Exception $e) {
+			return $e;
+		}
 	}
 	
 	/****** events methods ****************************************

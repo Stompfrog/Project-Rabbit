@@ -66,6 +66,12 @@ class Images extends CI_Controller
 		}
 	}
 	
+	/**
+	 * Add, delete, update profile images
+	 *
+	 * @return void
+	 */	
+	
 	function add_image ()
 	{
 		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
@@ -81,11 +87,6 @@ class Images extends CI_Controller
 		}
 	}
 
-	/**
-	 * Add, delete, update profile images
-	 *
-	 * @return void
-	 */
 	//profile images, automatically add any profile images to profile image table
 	function profile_images() 
 	{
@@ -103,8 +104,6 @@ class Images extends CI_Controller
 			redirect('/auth/login/');
 		}
 	}
-
-	/* add profile image is in profile */
 	
 	/**
 	 * 	 Delete image
@@ -116,7 +115,8 @@ class Images extends CI_Controller
 			redirect('/auth/login/');
 		} else {
 			if (is_numeric ($this->uri->segment(4))) {
-				$this->profiles_model->delete_image ($this->uri->segment(4), $this->tank_auth->get_user_id());
+				$this->artists_model->delete_image ($this->uri->segment(4), $this->tank_auth->get_user_id());
+				
 			}
 			redirect('/admin/images/');
 		}

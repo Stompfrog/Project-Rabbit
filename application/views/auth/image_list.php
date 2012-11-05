@@ -8,9 +8,12 @@
 		<div class="span10">
 		<?php
 		if (isset($images)) {
-			echo '<ul class="media-grid">';
+			echo '<ul class="image-grid">';
 			foreach ($images as $image) {
-				echo '<li>' . $image->get_image_link() . '</li>';
+				echo '<li class="image_list"><dl>';
+				echo '<dt>' . $image->get_image_link() . '</dt>';
+				echo '<dd><a href="' . base_url() . 'index.php/admin/images/delete_image/' . $image->get_id() . '" class="btn danger small" style="margin: 8px;">Delete image</a></dd>';
+				echo '</dl></li>';
 			}
 			echo '</ul>';
 		} else {
