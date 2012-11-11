@@ -14,7 +14,7 @@ class Upload_model extends CI_Model {
         //temp
         $this->temp_path = realpath(APPPATH . '../pb/tmp');
         //for image galleries etc
-        $this->img_path = realpath(APPPATH . '../pb/img');
+        $this->img_path = realpath(APPPATH . '../pb/img');        
     }
     
     /*
@@ -30,7 +30,7 @@ class Upload_model extends CI_Model {
     	//upload config
 		$config = array(
 			'allowed_types' => 'jpg|jpeg|gif|png',
-			'max_size' => 10000,
+			'max_size' => 99000,
 			'upload_path' => $this->temp_path
 		);
 		$this->load->library('upload', $config);
@@ -60,6 +60,7 @@ class Upload_model extends CI_Model {
 		);
 		//resize library
 		$this->load->library('image_lib', $config);
+		$this->image_lib->initialize($config);
 		//create the image
 		$this->image_lib->resize();
 		

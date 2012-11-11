@@ -38,7 +38,7 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 		<?php 
 		//if the user is logged in, and this is the users profile
 		if ($logged_in_user) { ?>
-			<a href="<?= base_url() ?>index.php/admin/profile/add_profile_image">Upload/edit profile picture</a>
+			<a href="<?= base_url() ?>index.php/admin/images/profile_images">Upload/edit profile picture</a>
 		<?php } ?>
 		<hr />
 		<? if($user->get_addresses()) {

@@ -203,7 +203,12 @@ class Profiles extends CI_Model
 	}
 	
 	function valid_gallery ($user_id, $gallery_id) {
-		return true;
+		$query = $this->db->query('SELECT DISTINCT COUNT( * ) AS valid_gallery FROM gallery WHERE user_id = ' . $user_id . ' AND id = ' . $gallery_id);
+	    if ($query->num_rows() > 0) {
+			$row = $query->row_array();
+			if ( $row['valid_gallery'] > 0) return true;
+		}
+	    return false;
 	}
 	
 	function get_galleries ($user_id) {
@@ -242,13 +247,22 @@ class Profiles extends CI_Model
 	function get_images ($user_id)
 	{
 		$images = array();
-		$query = $this->db->query('SELECT * FROM image WHERE user_id = ' . $user_id);
+		$query = $this->db->query('SELECT DISTINCT * FROM image WHERE user_id = ' . $user_id . ' GROUP BY file_name');
 	    if ($query->num_rows() > 0) {
 	    	foreach ($query->result_array() as $row) {
 				$image = new Image($row);
 				array_push ($images, $image);
 			}
 			return $images;
+		}
+	    return false;
+	}
+	
+	function valid_image($image_id, $user_id) {
+		$query = $this->db->query('SELECT count(*) AS image_count FROM `image` WHERE `user_id` = ' . $user_id . ' AND `id` = ' . $image_id);
+	    if ($query->num_rows() > 0) {
+			$row = $query->row_array();
+			if ( $row['image_count'] > 0) return true;
 		}
 	    return false;
 	}

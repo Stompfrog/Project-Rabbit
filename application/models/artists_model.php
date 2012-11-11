@@ -611,7 +611,8 @@ class Artists_model extends CI_Model {
 		   'title' => '',
 		   'alt' => '',
 		   'file_name' => $file,
-		   'description' => ''
+		   'description' => '',
+		   'date_added' => date('Y-m-d H:i:s')
 		);
 		$this->db->insert('image', $data);
 		//foreign key for profile_image table
@@ -622,7 +623,7 @@ class Artists_model extends CI_Model {
 	function add_profile_image ($user_id, $file)
 	{
 		$img_id = $this->add_image($user_id, $file);
-
+		
 		$data = array(
 		   'user_id' => $user_id,
 		   'image_id' => $img_id

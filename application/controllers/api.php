@@ -52,6 +52,11 @@ class Api extends CI_Controller
 	    $this->load->view('api/json',$data);
 	}
 	
+	function get_artists($lat, $lng)
+	{
+	
+	}
+	
 	/*
 	* Friends section
 	*/

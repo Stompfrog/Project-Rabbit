@@ -60,7 +60,7 @@ class Galleries extends CI_Controller
 			}
 
 		    $this->load->view('templates/header');
-		    $this->load->view('gallery/gallery',$data);
+		    $this->load->view('auth/gallery',$data);
 		    $this->load->view('templates/footer');
 		}
 	}

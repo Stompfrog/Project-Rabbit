@@ -76,6 +76,7 @@ class Messages extends CI_Controller
 			
 			$this->form_validation->set_rules('message', 'message', 'trim|required|xss_clean');
 
+			//TODO: check if username is parameter
 			if (is_numeric ($this->uri->segment(4))) {
 				if ($this->form_validation->run() == TRUE)
 					$this->profiles_model->send_message ($this->form_validation->set_value('message'), $this->tank_auth->get_user_id(), $this->uri->segment(4));

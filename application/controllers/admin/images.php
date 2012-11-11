@@ -12,6 +12,7 @@ class Images extends CI_Controller
 	    $this->load->library('pagination');
 	    $this->load->library('form_validation');
 		$this->load->library('security');
+		$this->load->library('form_validation');
 		    
 	    $this->load->model('artists_model');
 	    $this->load->model('upload_model');
@@ -55,7 +56,7 @@ class Images extends CI_Controller
 			}
 			
 			if ($image_id) {
-				$data['images'] = $this->profiles_model->get_image($user_id, $image_id);			
+				$data['images'] = $this->profiles_model->get_user_image($user_id, $image_id);			
 			} else {
 				$data['error'] = 'Oops, there has been a problem';
 			}
@@ -80,6 +81,21 @@ class Images extends CI_Controller
 			$data = array();
 			if ($this->input->post('upload')) {
 				$data = $this->upload_model->img_upload();
+			}
+			$this->load->view('/templates/header', $data);
+			$this->load->view('/auth/add_image', $data);
+			$this->load->view('/templates/footer', $data);
+		}
+	}
+	
+	function add_profile_image ()
+	{
+		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
+			redirect('/auth/login/');
+		} else {
+			$data = array();
+			if ($this->input->post('upload')) {
+				$data = $this->upload_model->profile_img_upload();
 			}
 			$this->load->view('/templates/header', $data);
 			$this->load->view('/auth/add_image', $data);
@@ -121,5 +137,42 @@ class Images extends CI_Controller
 			redirect('/admin/images/');
 		}
 	}
-	
+
+	/**
+	 * 	 Edit image
+	 */
+
+	function edit_image ()
+	{
+		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
+			redirect('/auth/login/');
+		} else {
+
+			$data = array();
+			$user_id = $this->tank_auth->get_user_id();
+			$image_id = false;
+			
+			if (is_numeric ($this->uri->segment(4)) && $this->profiles_model->valid_image($this->uri->segment(4), $user_id) ) {
+				$image_id = $this->uri->segment(4);
+			}
+			
+			if ($image_id) {
+				$data['images'] = $this->profiles_model->get_user_image($user_id, $image_id);			
+			} else {
+				$data['error'] = 'Oops, there has been a problem';
+			}
+			
+			if ($this->input->post('upload')) {
+				
+			}
+
+		    $this->load->view('templates/header');
+		    $this->load->view('images/edit_image',$data);
+		    $this->load->view('templates/footer');
+
+
+
+		}
+	}
+
 }

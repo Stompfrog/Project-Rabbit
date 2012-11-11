@@ -1,5 +1,25 @@
 <?php 
 $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user_id() == $user->get_id();
+
+$title = array(
+	'name'  => 'title',
+	'id'    => 'title',
+	'value' => set_value('title', $table_values['title']),
+	'maxlength' => 255,
+	'size'  => 100,
+);
+$description = array(
+	'name'  => 'description',
+	'id'    => 'description',
+	'value' => set_value('description', $table_values['description']),
+	'size'  => 100,
+);
+$submit = array(
+    'name' => 'submit',
+    'id' => 'submit',
+    'class' => 'btn primary'
+);
+
 ?>
 <div class="page-header">
 	<a href="<?= base_url() ?>index.php/artists/<?= $user->get_id() ?>"><h1><?= $user->get_name(); ?> <small>Member since <?= $user->get_member_since(); ?> </small></h1></a>
@@ -7,37 +27,39 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 <div class="row">
 	<div class="span10">
 	<?php if (isset($image)) { ?>
-		<h2><?= $image->get_title() ?></h2>
+		<h2>Edit <?= $image->get_title() ?></h2>
 		<hr />
 		<div class="span10">
 			<?=  $image->get_large_image('style="width: 100%; height: auto;"'); ?>			
 		</div>
 		<?php
 			if ($logged_in_user) {
-			
-				echo '<p>Edit image</p>';
-			
-				echo form_open_multipart('/auth/edit_image'); ?>
-				<div class="control-group">
-				    <?php echo form_label('Title', 'title'); ?>
-				    <div class="controls">
-				    </div>
-				    <?php echo form_label('Description', 'description'); ?>
-				    <div class="controls">
-				    </div>
+
+			<?php if (isset($message)) { echo $message; } ?>
+			<?php echo form_open($this->uri->uri_string()); ?>
+				<fieldset>
+					<div class="clearfix">
+					    <?php echo form_label('Group name', $title['name']); ?>
+					    <div class="input">
+				            <?php echo form_input($title); ?>
+				            <?php echo form_error($title['name']); ?>
+				            <?php echo isset($errors[$title['name']])?$errors[$title['name']]:''; ?>
+					    </div>
+					</div>
+					<div class="clearfix">
+					    <?php echo form_label('Description', $description['id']); ?>
+					    <div class="input">
+				            <?php echo form_textarea($description); ?>
+				            <?php echo form_error($description['name']); ?>
+				            <?php echo isset($errors[$description['name']])?$errors[$description['name']]:''; ?>
+					    </div>
+					</div>
+		        </fieldset>
+				<div class="actions">
+					<?php echo form_submit($submit, 'Update image'); ?>
 				</div>
-				<?php echo form_submit('upload', 'Upload');
-				echo form_close();
-			
-				echo form_open_multipart('/auth/add_profile_image'); ?>
-				<div class="control-group">
-				    <?php echo form_label('Upload image', 'upload_img'); ?>
-				    <div class="controls">
-				    	<?php echo form_upload('userfile'); ?>
-				    </div>
-				</div>
-				<?php echo form_submit('upload', 'Upload');
-				echo form_close();
+			<?php echo form_close();
+
 			} else if (isset($error)) {
 				echo '<p>' . $error . '</p>';
 			}

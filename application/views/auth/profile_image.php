@@ -19,7 +19,7 @@
 		else if (isset($error))
 			echo $error;
 	
-		echo form_open_multipart('/admin/profile/add_profile_image'); ?>
+		echo form_open_multipart('/admin/images/add_profile_image'); ?>
 		<div class="control-group">
 		    <?php echo form_label('Profile image', 'profile_img'); ?>
 		    <div class="controls">
