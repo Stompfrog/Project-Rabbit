@@ -22,12 +22,18 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 
 		<?php
 			if (isset($galleries) && $galleries) {
-				echo '<h4>Galleries</h4>';
-				echo '<ul class="media-grid">';		
+				?><h4>Galleries</h4>
+				<ul class="media-grid">'<?php		
 				foreach ($galleries as $gallery) {
 					echo '<li><a href="' . $gallery->get_url() . '" title="' . $gallery->get_title() . '">' . $gallery->get_thumb() . '</a></li>';
 				}
-				echo '</ul>';		
+				echo '</ul>';
+					
+				if ($logged_in_user) { ?>
+					<ul>
+						<li><a href="<?= base_url() ?>index.php/admin/galleries/add_gallery/">Add a gallery</a></li>
+					</ul>
+				<?php }
 			}
 			
 			if ($images != null && sizeof($images) > 0) {
@@ -44,26 +50,68 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 			
 			if ($logged_in_user) { ?>
 				<ul>
-					<li><a href="<?= base_url() ?>index.php/admin/galleries/add_gallery/">Add a gallery</a></li>
 					<li><a href="<?= base_url() ?>index.php/admin/images/add_image">Upload an image</a></li>
 				</ul>
 			<?php }
 		?>
 
 	</div>
-	<div class="span4">
-		<ul class="media-grid pull-left">
-			<?php if ($user->get_large_avatar('class="profile_image"')) { ?>
-			<li><a href="<?php echo site_url() . '/artists/' . $user->get_id() . '">' . $user->get_large_avatar('class="profile_image"'); ?></a></li>
-			<?php } ?>
+	<?php
+	/******************************************************************************************
+		<div class="span4">
+		<h3>Your account</h3>
+		<ul class="events unstyled">
+			<li><?= anchor('/artists/' . $this->tank_auth->get_user_id(), 'View profile'); ?></li>
+			<li><?= anchor('/admin/messages/', 'Messages'); ?></li>
+			<li><?= anchor('/auth/change_password/', 'Change password'); ?></li>
+			<li><?= anchor('/auth/unregister/', 'Unregister'); ?></li>
 		</ul>
+		<h3>Friends</h3>
+		<ul class="events unstyled">
+			<li><?php echo anchor('/admin/friends/', 'Friends'); ?></li>
+		</ul>
+		<h3>Interests</h3>
+		<ul class="events unstyled">
+			<li><?php echo anchor('/admin/interests/', 'Your interests'); ?></li>
+		</ul>
+		<h3>Address/s</h3>
+		<h3>Images</h3>
+		<ul class="events unstyled">
+			<li><?php echo anchor('/admin/images/', 'Your images'); ?></li>
+			<li><?php echo anchor('/admin/images/add_image/', 'Add image'); ?></li>
+			<li><?php echo anchor('/admin/images/profile_images/', 'View and add profile images'); ?></li>
+		</ul>
+		<h3>Galleries</h3>
+		<ul class="events unstyled">
+			<li><?php echo anchor('/admin/galleries/', 'Your galleries'); ?></li>
+			<li><?php echo anchor('/admin/galleries/add_gallery/', 'Add gallery'); ?></li>
+		</ul>
+		<h3>Groups</h3>
+		<ul class="events unstyled">
+			<li><?php echo anchor('/admin/groups/', 'Your groups'); ?></li>
+			<li><?php echo anchor('/admin/groups/create_group/', 'Create group'); ?></li>
+		</ul>
+		<h3>Events</h3>
+		<ul class="events unstyled">
+			<li><?php echo anchor('/admin/events/', 'Your events'); ?></li>
+			<li><?php echo anchor('/admin/groups/add_event/', 'Add event'); ?></li>
+		</ul>
+	</div>
+	*******************************************************************************************/
+	?>
+	<div class="span4">
+
+		<?php
+			//profile image
+			$this->load->view('templates/profile_image', $user);
+		?>
+
 		<?php 
-		//if the user is logged in, and this is the users profile
-		if ($logged_in_user) { ?>
-			<a href="<?= base_url() ?>index.php/admin/images/profile_images">Upload/edit profile picture</a>
+			//if the user is logged in, and this is the users profile
+			if ($logged_in_user) { ?>
+				<a href="<?= base_url() ?>index.php/admin/images/profile_images">Upload/edit profile picture</a>
 		<?php } ?>
 		<hr />
-		
 		<?php
 			if ($this->tank_auth->is_logged_in()) {
 				$message_data['user_id'] = $user->get_id();
@@ -76,8 +124,22 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 			echo $user->get_addresses();
 		}
 		
+		if ($logged_in_user) { ?>
+			<ul class="events unstyled">
+				<li><?php echo anchor('/admin/addresses/', 'Your addresses'); ?></li>
+				<li><?php echo anchor('/admin/addresses/add_address/', 'Add address'); ?></li>
+			</ul>
+		<?php }
+		
 		$group_data['groups'] = $user->get_groups();
 		$this->load->view('templates/groups', $group_data);
+		if ($logged_in_user) { ?>
+			<h3>Group admin</h3>
+			<ul class="events unstyled">
+				<li><?php echo anchor('/admin/groups/', 'Your groups'); ?></li>
+				<li><?php echo anchor('/admin/groups/create_group/', 'Create group'); ?></li>
+			</ul>
+		<?php }
 		?>
 		
 		<h3>Images</h3>
@@ -85,7 +147,7 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 
 		<?php
 			//if current user is not the user being viewed
-			//$this->load->view('templates/message', $data);
+			$this->load->view('templates/message', $user->get_id());
 		?>
 
 		<?php

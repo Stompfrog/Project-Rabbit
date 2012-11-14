@@ -12,33 +12,13 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 		<div class="span10">
 			<?=  $image->get_large_image('style="width: 100%; height: auto;"'); ?>			
 		</div>
+		<?php if (isset($image)) { ?>
+		<p><?= $image->get_description() ?></p>
+		<?php } ?>
 		<?php
-			if ($logged_in_user) {
-			
-				echo '<p>Edit image</p>';
-			
-				echo form_open_multipart('/auth/edit_image'); ?>
-				<div class="control-group">
-				    <?php echo form_label('Title', 'title'); ?>
-				    <div class="controls">
-				    </div>
-				    <?php echo form_label('Description', 'description'); ?>
-				    <div class="controls">
-				    </div>
-				</div>
-				<?php echo form_submit('upload', 'Upload');
-				echo form_close();
-			
-				echo form_open_multipart('/auth/add_profile_image'); ?>
-				<div class="control-group">
-				    <?php echo form_label('Upload image', 'upload_img'); ?>
-				    <div class="controls">
-				    	<?php echo form_upload('userfile'); ?>
-				    </div>
-				</div>
-				<?php echo form_submit('upload', 'Upload');
-				echo form_close();
-			} else if (isset($error)) {
+			if ($logged_in_user) { ?>
+				<p><a href="<?= site_url() ?>/artists/<?= $user->get_id() ?>/edit_image/<?= $image->get_id() ?>">Edit image</a></p>
+			<?php } else if (isset($error)) {
 				echo '<p>' . $error . '</p>';
 			}
 		} else {

@@ -8,7 +8,7 @@
 |--------------------------------------------------------------------------
 */
 $config['website_name'] = 'Artify.co';
-$config['webmaster_email'] = 'webmaster@artify.co';
+$config['webmaster_email'] = 'admin@artify.co';
 
 /*
 |--------------------------------------------------------------------------

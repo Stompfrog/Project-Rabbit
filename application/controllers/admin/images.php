@@ -31,7 +31,7 @@ class Images extends CI_Controller
 			redirect('/auth/login/');
 		} else {
 			$data = array();
-			$images = $this->profiles_model->get_images($this->tank_auth->get_user_id());
+			$images = $this->artists_model->get_images($this->tank_auth->get_user_id());
 			if ($images)	{
 				$data['images'] = $images;
 			}
@@ -51,12 +51,12 @@ class Images extends CI_Controller
 			$user_id = $this->tank_auth->get_user_id();
 			$image_id = false;
 			
-			if (is_numeric ($this->uri->segment(4)) && $this->profiles_model->valid_image($this->uri->segment(4), $user_id) ) {
+			if (is_numeric ($this->uri->segment(4)) && $this->artists_model->valid_image($user_id, $this->uri->segment(4))) {
 				$image_id = $this->uri->segment(4);
 			}
 			
 			if ($image_id) {
-				$data['images'] = $this->profiles_model->get_user_image($user_id, $image_id);			
+				$data['images'] = $this->artists_model->get_user_image($user_id, $image_id);			
 			} else {
 				$data['error'] = 'Oops, there has been a problem';
 			}
@@ -152,12 +152,12 @@ class Images extends CI_Controller
 			$user_id = $this->tank_auth->get_user_id();
 			$image_id = false;
 			
-			if (is_numeric ($this->uri->segment(4)) && $this->profiles_model->valid_image($this->uri->segment(4), $user_id) ) {
+			if (is_numeric ($this->uri->segment(4)) && $this->artists_model->valid_image($user_id, $this->uri->segment(4))) {
 				$image_id = $this->uri->segment(4);
 			}
 			
 			if ($image_id) {
-				$data['images'] = $this->profiles_model->get_user_image($user_id, $image_id);			
+				$data['images'] = $this->artists_model->get_user_image($user_id, $image_id);			
 			} else {
 				$data['error'] = 'Oops, there has been a problem';
 			}

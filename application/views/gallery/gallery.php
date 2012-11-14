@@ -10,6 +10,8 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 		<h2><?= $gallery['title'] ?></h2>
 		<hr />
 		<div class="span10">
+			<p><?= $gallery['description'] ?></p>
+			<hr />
 			<?php
 			if ($gallery['images'] != null && sizeof($gallery['images']) > 0) {
 				echo '<ul class="media-grid">';
@@ -20,11 +22,9 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 			} else {
 				echo '<p>No images yet</p>';
 			}
-			?>
-		</div>
-		<?php 
+			
 			if ($logged_in_user) {
-			echo form_open_multipart('/auth/add_profile_image'); ?>
+				echo form_open_multipart('/auth/add_profile_image'); ?>
 				<div class="control-group">
 				    <?php echo form_label('Upload image', 'upload_img'); ?>
 				    <div class="controls">
@@ -33,10 +33,12 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 				</div>
 				<?php echo form_submit('upload', 'Upload');
 				echo form_close();
+				echo '<p><a href="' . site_url() . '/artists/' . $user->get_id() . '/edit_gallery/' . $gallery['id'] . '">Edit gallery</a></p>';
 			} else if (isset($error)) {
 				echo '<p>' . $error . '</p>';
-			}
-		}?>
+			} ?>
+		</div>
+		<?php } ?>
 	</div>
 	<div class="span4">
 		<ul class="media-grid pull-left">

@@ -485,37 +485,6 @@ class Artists_model extends CI_Model {
 	    return false;
 	}
 
-	function get_galleries ($user_id) {
-		$galleries = array();
-		$query = $this->db->query('SELECT gallery.id, gallery.title, gallery.description, image.id as image_id, image.title as image_title, image.alt, image.file_name FROM `gallery` LEFT JOIN `gallery_image` ON `gallery_image`.`gallery_id` = `gallery`.`id` LEFT JOIN `image` ON `gallery_image`.`image_id` = `image`.`id` WHERE `gallery`.`user_id` = ' . $user_id . ' GROUP BY `gallery`.`id`');
-		if ($query->num_rows() > 0) {
-			foreach ($query->result_array() as $row) {
-				$gallery_data['id'] = $row['id'];
-				$gallery_data['user_id'] = $user_id;
-				$gallery_data['title'] = $row['title'];
-				$gallery_data['description'] = $row['description'];
-				$gallery_data['images'] = null;
-				if ($row['image_id'] != null) {
-					$image_data = array('id' => $row['image_id'],
-										'title' => $row['image_title'],
-										'alt' => $row['alt'],
-										'description' => $row['description'],
-										'file_name' => $row['file_name']
-										);
-					$image = new Image($image_data);
-					$gallery_data['images'] = array($image);
-				}
-				$gallery = new Gallery($gallery_data);
-				array_push ($galleries, $gallery);
-			}
-			return $galleries;
-		}
-			
-		return false;
-	}
-	
-	
-	
 	/****** Geolocational section ********************************
 	
 	
@@ -557,11 +526,182 @@ class Artists_model extends CI_Model {
 	    return false;
 	}
 		
-	/****** Image methods ****************************************
-	
-	
+	/****** Gallery and Image methods ****************************************
 	*************************************************************/
 	
+	function get_galleries ($user_id) {
+		$galleries = array();
+		$query = $this->db->query('SELECT gallery.id, gallery.title, gallery.description, image.id as image_id, image.title as image_title, image.alt, image.file_name FROM `gallery` LEFT JOIN `gallery_image` ON `gallery_image`.`gallery_id` = `gallery`.`id` LEFT JOIN `image` ON `gallery_image`.`image_id` = `image`.`id` WHERE `gallery`.`user_id` = ' . $user_id . ' GROUP BY `gallery`.`id`');
+		if ($query->num_rows() > 0) {
+			foreach ($query->result_array() as $row) {
+				$gallery_data['id'] = $row['id'];
+				$gallery_data['user_id'] = $user_id;
+				$gallery_data['title'] = $row['title'];
+				$gallery_data['description'] = $row['description'];
+				$gallery_data['images'] = null;
+				if ($row['image_id'] != null) {
+					$image_data = array('id' => $row['image_id'],
+										'title' => $row['image_title'],
+										'alt' => $row['alt'],
+										'description' => $row['description'],
+										'file_name' => $row['file_name']
+										);
+					$image = new Image($image_data);
+					$gallery_data['images'] = array($image);
+				}
+				$gallery = new Gallery($gallery_data);
+				array_push ($galleries, $gallery);
+			}
+			return $galleries;
+		}
+			
+		return false;
+	}
+	
+	function get_gallery ($user_id, $gallery_id) {
+		$query = $this->db->query('SELECT * FROM `gallery` WHERE `id` = ' . $gallery_id . ' AND `user_id` = ' . $user_id);
+	    if ($query->num_rows() > 0) {
+	    	$gallery = $query->row_array();
+	    	$gallery['images'] = $this->get_gallery_images($user_id, $gallery_id);
+			return $gallery;
+		}
+	    return false;
+	}
+	
+	function add_gallery ($data) 
+	{
+		if ($this->db->insert('gallery', $data))
+			return true;
+		return false;
+	}
+	
+	function update_gallery ($user_id, $gallery_id, $data) {
+        $this->db->where('user_id', (int) $user_id);
+        if ($this->db->update('gallery', $data))
+        	return TRUE;
+        return FALSE;
+	}	
+
+	function delete_gallery ($gallery_id, $user_id) 
+	{
+		if ($this->db->delete('gallery', array('id' => $gallery_id, 'user_id' => $user_id)))
+			return true;
+		return false;
+	}
+	
+	function get_gallery_images ($user_id, $gallery_id) {
+		$images = array();
+
+		$query = $this->db->query('SELECT * FROM `image` WHERE id IN (SELECT image_id FROM `gallery_image` WHERE user_id = ' . $user_id . ' AND gallery_id = ' . $gallery_id . ')');
+		if ($query->num_rows() > 0) {
+			foreach ($query->result_array() as $row) {
+				$image = new Image($row);
+				array_push ($images, $image);
+			}
+			return $images;
+		}
+		return false;
+	}
+
+	function valid_gallery ($user_id, $gallery_id) {
+		$query = $this->db->query('SELECT DISTINCT COUNT( * ) AS valid_gallery FROM gallery WHERE user_id = ' . $user_id . ' AND id = ' . $gallery_id);
+	    if ($query->num_rows() > 0) {
+			$row = $query->row_array();
+			if ( $row['valid_gallery'] > 0) return true;
+		}
+	    return false;
+	}
+	
+	/*
+	 @param int user_id
+	 @returns array of user image objects
+	*/
+	function get_images ($user_id)
+	{
+		$images = array();
+		$query = $this->db->query('SELECT DISTINCT * FROM image WHERE user_id = ' . $user_id . ' GROUP BY file_name');
+	    if ($query->num_rows() > 0) {
+	    	foreach ($query->result_array() as $row) {
+				$image = new Image($row);
+				array_push ($images, $image);
+			}
+			return $images;
+		}
+	    return false;
+	}
+	
+	function get_user_image ($user_id, $image_id) {
+
+		$query = $this->db->query('SELECT * FROM `image` WHERE id = ' . $image_id . ' AND user_id = ' . $user_id);
+		if ($query->num_rows() > 0) {
+			$image = new Image($query->row_array());
+			return $image;
+		}
+		return false;
+	}
+
+	function get_image_data ($user_id, $image_id) {
+		$query = $this->db->query('SELECT * FROM `image` WHERE id = ' . $image_id . ' AND user_id = ' . $user_id);
+		if ($query->num_rows() > 0) {
+			return $query->row_array();
+		}
+		return false;
+	}	
+
+	function add_image ($user_id, $file)
+	{
+		//add image to image table
+		$data = array(
+		   'user_id' => $user_id,
+		   'title' => '',
+		   'alt' => '',
+		   'file_name' => $file,
+		   'description' => '',
+		   'date_added' => date('Y-m-d H:i:s')
+		);
+		$this->db->insert('image', $data);
+		//foreign key for profile_image table
+		$img_id = $this->db->insert_id();
+		return $img_id;
+	}
+
+	function update_image ($user_id, $image_id, $data)
+	{
+        $this->db->where('user_id', (int) $user_id);
+        $this->db->where('id', (int) $image_id);
+        if ($this->db->update('image', $data))
+        	return TRUE;
+        return FALSE;
+	}
+
+	function delete_image ($image_id, $user_id)
+	{
+		$file_name = $this->get_image_file_name($image_id, $user_id);
+		//remove from image db
+		$this->db->delete('image', array('id' => $image_id, 'user_id' => $user_id));
+		//unlink the images
+		try {
+			unlink('./' . $this->config->item('large_path') . $file_name);
+			unlink('./' . $this->config->item('image_path') . $file_name);
+			unlink('./' . $this->config->item('thumb_path') . $file_name);
+			return true;
+		} catch(Exception $e) {
+			return $e;
+		}
+	}
+
+	function valid_image($user_id, $image_id) {
+		$query = $this->db->query('SELECT count(*) AS image_count FROM `image` WHERE `user_id` = ' . $user_id . ' AND `id` = ' . $image_id);
+	    if ($query->num_rows() > 0) {
+			$row = $query->row_array();
+			if ( $row['image_count'] > 0) return true;
+		}
+	    return false;
+	}
+	
+	/****** Profile Image methods ****************************************
+	*************************************************************/
+
 	function get_profile_image ($image_id)
 	{
 		$query = $this->db->query('SELECT * FROM image WHERE id = ' . $image_id);
@@ -596,30 +736,12 @@ class Artists_model extends CI_Model {
 	    }
 	    return false;
     }
-
 	
 	function set_profile_image ($user_id, $img_id)
 	{
 		//update user_profiles set avatar to be $img_id where user_id = $user_id
 	}
 
-	function add_image ($user_id, $file)
-	{
-		//add image to image table
-		$data = array(
-		   'user_id' => $user_id,
-		   'title' => '',
-		   'alt' => '',
-		   'file_name' => $file,
-		   'description' => '',
-		   'date_added' => date('Y-m-d H:i:s')
-		);
-		$this->db->insert('image', $data);
-		//foreign key for profile_image table
-		$img_id = $this->db->insert_id();
-		return $img_id;
-	}
-	
 	function add_profile_image ($user_id, $file)
 	{
 		$img_id = $this->add_image($user_id, $file);
@@ -645,22 +767,6 @@ class Artists_model extends CI_Model {
 			return $row['file_name'];
 		}
 		return false;
-	}
-	
-	function delete_image ($image_id, $user_id)
-	{
-		$file_name = $this->get_image_file_name($image_id, $user_id);
-		//remove from image db
-		$this->db->delete('image', array('id' => $image_id, 'user_id' => $user_id));
-		//unlink the images
-		try {
-			unlink('./' . $this->config->item('large_path') . $file_name);
-			unlink('./' . $this->config->item('image_path') . $file_name);
-			unlink('./' . $this->config->item('thumb_path') . $file_name);
-			return true;
-		} catch(Exception $e) {
-			return $e;
-		}
 	}
 	
 	/****** events methods ****************************************

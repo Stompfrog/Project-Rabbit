@@ -12,12 +12,22 @@ class Artists extends CI_Controller
 	    $this->load->library('form_validation');
 	    
 	    $this->load->model('artists_model');
+	    $this->load->model('tank_auth/profiles', 'profiles_model');
 	    
 	    include_once(APPPATH.'classes/Gallery.php');
 	    include_once(APPPATH.'classes/Image.php');
 	    include_once(APPPATH.'classes/User.php');
 	}
-	
+	/*
+	URLs:
+		/artists/
+		/artists/id||username
+		/artists/id||username/images/
+		/artists/id||username/image/id
+		/artists/id||username/edit_image/id
+		/artists/id||username/gallery/id
+		/artists/id||username/edit_gallery/id
+	*/
 	function _remap($method)
 	{
 		switch($method)
@@ -36,6 +46,12 @@ class Artists extends CI_Controller
 					$this->image($this->artists_model->get_user_id_from_username($this->uri->segment(2)), $this->uri->segment(4));
 				else
 					$this->image($this->uri->segment(2), $this->uri->segment(4));
+				break;
+			case (($this->uri->segment(3) && ($this->uri->segment(3) === 'edit_image')) && $this->uri->segment(4)):
+				if (!is_numeric ($this->uri->segment(2)))
+					$this->edit_image($this->artists_model->get_user_id_from_username($this->uri->segment(2)), $this->uri->segment(4));
+				else
+					$this->edit_image($this->uri->segment(2), $this->uri->segment(4));
 				break;
 			case ($this->uri->segment(3) && ($this->uri->segment(3) === 'edit_gallery') && ($this->uri->segment(4))):
 				if (!is_numeric ($this->uri->segment(2)))
@@ -94,7 +110,7 @@ class Artists extends CI_Controller
 	    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
 	    
 	    $data['galleries'] = $this->artists_model->get_galleries($user_id);
-	    $data['images'] = $this->profiles_model->get_images($user_id);
+	    $data['images'] = $this->artists_model->get_images($user_id);
 	    
 	    //if user is logged in
 	    if ($this->tank_auth->is_logged_in()) {
@@ -118,12 +134,12 @@ class Artists extends CI_Controller
 	    $data['friends'] = $this->artists_model->get_friends($user_id);
 	    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
 		
-		if (is_numeric ($gallery_id) && $this->profiles_model->valid_gallery($gallery_id, $user_id) ) {
+		if (is_numeric ($gallery_id) && $this->artists_model->valid_gallery($gallery_id, $user_id) ) {
 			$gallery = $gallery_id;
 		}
 		
 		if ($gallery) {
-			$data['gallery'] = $this->profiles_model->get_gallery($user_id, $gallery);			
+			$data['gallery'] = $this->artists_model->get_gallery($user_id, $gallery);			
 		} else {
 			$data['error'] = 'Oops, there has been a problem';
 		}
@@ -143,13 +159,11 @@ class Artists extends CI_Controller
 		    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
 		    $data['friends'] = $this->artists_model->get_friends($user_id);
 		    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
-	    
-			$user_id = $this->tank_auth->get_user_id();
+
 			//if there is a parameter, and it is numeric, and it is a valid gallery
-			if (is_numeric ($this->uri->segment(4)) && $this->profiles_model->valid_gallery($user_id, $this->uri->segment(4)) ) {
+			if (is_numeric ($this->uri->segment(4)) && $this->artists_model->valid_gallery($user_id, $this->uri->segment(4)) ) {
 				$gallery_id = $this->uri->segment(4);
-				$data = array();
-				$table_values = $this->profiles_model->get_gallery($user_id, $gallery_id);
+				$table_values = $this->artists_model->get_gallery($user_id, $gallery_id);
 				
 				$data['table_values'] = $table_values;
 				
@@ -161,7 +175,7 @@ class Artists extends CI_Controller
 				$this->load->view('/templates/header', $data);
 				if ($this->form_validation->run() == FALSE)
 				{
-					$this->load->view('/auth/edit_gallery', $data);
+					$this->load->view('/gallery/edit_gallery', $data);
 				}
 				else
 				{
@@ -169,13 +183,13 @@ class Artists extends CI_Controller
 						'title' => $this->form_validation->set_value('title'),
 						'description' => $this->form_validation->set_value('description'));
 		
-					if($this->profiles_model->update_gallery($user_id, $gallery_id, $data))
+					if($this->artists_model->update_gallery($user_id, $gallery_id, $data))
 					{
 						$data['message'] = 'Gallery updated successfully!';
-						$this->load->view('/auth/edit_gallery', $data);
+						$this->load->view('/gallery/edit_gallery', $data);
 					} else {
 						$data['message'] = 'Oops, there was a problem adding to the database.';
-						$this->load->view('/auth/edit_gallery', $data);
+						$this->load->view('/gallery/edit_gallery', $data);
 					}
 				}
 				$this->load->view('/templates/footer', $data);
@@ -188,23 +202,6 @@ class Artists extends CI_Controller
 	    }
 	}
 	
-	function image ($user_id, $image_id)
-	{
-		$data = array();
-		
-	    $data['user'] = $this->artists_model->get_user($user_id);
-	    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
-	    $data['friends'] = $this->artists_model->get_friends($user_id);
-	    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
-		
-		$data['image'] = $this->profiles_model->get_user_image($user_id, $image_id);			
-
-	    $this->load->view('templates/header');
-	    $this->load->view('images/image',$data);
-	    $this->load->view('templates/footer');
-		
-	}
-	
 	function images ($user_id)
 	{
 		$data = array();
@@ -214,11 +211,100 @@ class Artists extends CI_Controller
 	    $data['friends'] = $this->artists_model->get_friends($user_id);
 	    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
 		
-		$data['images'] = $this->profiles_model->get_images($user_id);			
+		$data['images'] = $this->artists_model->get_images($user_id);			
 
 	    $this->load->view('templates/header');
 	    $this->load->view('gallery/images',$data);
 	    $this->load->view('templates/footer');
+	}
+	
+	function image ($user_id, $image_id)
+	{
+		$data = array();
+		
+	    $data['user'] = $this->artists_model->get_user($user_id);
+	    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
+	    $data['friends'] = $this->artists_model->get_friends($user_id);
+	    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
+		
+		$data['image'] = $this->artists_model->get_user_image($user_id, $image_id);			
+
+	    $this->load->view('templates/header');
+	    $this->load->view('images/image',$data);
+	    $this->load->view('templates/footer');
+	}
+	
+	function add_image ($user_id)
+	{
+		$data = array();
+		
+	    $data['user'] = $this->artists_model->get_user($user_id);
+	    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
+	    $data['friends'] = $this->artists_model->get_friends($user_id);
+	    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
+		
+		$data['image'] = $this->artists_model->get_user_image($user_id, $image_id);			
+
+	    $this->load->view('templates/header');
+	    $this->load->view('images/image',$data);
+	    $this->load->view('templates/footer');
+	}
+	
+	function edit_image ($user_id, $image_id)
+	{
+		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
+			redirect('/auth/login/');
+		} else {
+			$data = array();
+		    $data['user'] = $this->artists_model->get_user($user_id);
+		    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
+		    $data['friends'] = $this->artists_model->get_friends($user_id);
+		    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
+			$data['image'] = $this->artists_model->get_user_image($user_id, $image_id);	
+	    
+			$user_id = $this->tank_auth->get_user_id();
+			
+			//if there is a parameter, and it is numeric, and it is a valid image
+			if (is_numeric ($image_id) && $this->artists_model->valid_image($user_id, $image_id)) {
+				//get image object
+				$data['image'] = $this->artists_model->get_user_image($user_id, $image_id);
+				//get image data
+				$table_values = $this->artists_model->get_image_data($user_id, $image_id);
+				
+				$data['table_values'] = $table_values;
+				
+				$this->form_validation->set_rules('title', 'title', 'trim|xss_clean');
+				$this->form_validation->set_rules('description', 'description', 'trim|xss_clean');
+	
+				$this->form_validation->set_error_delimiters('<span class="help-inline">', '</span>');
+				
+				$this->load->view('/templates/header', $data);
+				if ($this->form_validation->run() == FALSE)
+				{
+					$this->load->view('/images/edit_image', $data);
+				}
+				else
+				{
+					$data = array(
+						'title' => $this->form_validation->set_value('title'),
+						'description' => $this->form_validation->set_value('description'));
+		
+					if($this->artists_model->update_image($user_id, $image_id, $data))
+					{
+						$data['message'] = 'Image updated successfully!';
+					} else {
+						$data['message'] = 'Oops, there was a problem adding to the database.';
+					}
+					$this->load->view('/images/edit_image', $data);
+				}
+				$this->load->view('/templates/footer', $data);
+			} else {
+				$data['error_message'] = 'Image does not exist';
+				$this->load->view('/templates/header');
+				$this->load->view('/templates/error', $data);
+				$this->load->view('/templates/footer', $data);
+			}
+		}
 	}
 	
 	function page_not_found()
