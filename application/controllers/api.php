@@ -125,6 +125,10 @@ class Api extends CI_Controller
 	}
 
 	/*
+	* Messages
+	*/
+
+	/*
 	* Addresses
 	*/
 

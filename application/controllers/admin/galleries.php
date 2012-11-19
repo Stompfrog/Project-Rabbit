@@ -29,7 +29,7 @@ class Galleries extends CI_Controller
 			redirect('/auth/login/');
 		} else {
 			$data = array();
-			$galleries = $this->profiles_model->get_galleries($this->tank_auth->get_user_id());
+			$galleries = $this->artists_model->get_galleries($this->tank_auth->get_user_id());
 			if ($galleries)	{
 				$data['galleries'] = $galleries;
 			}
@@ -49,12 +49,12 @@ class Galleries extends CI_Controller
 			$user_id = $this->tank_auth->get_user_id();
 			$gallery_id = false;
 			
-			if (is_numeric ($this->uri->segment(4)) && $this->profiles_model->valid_gallery($this->uri->segment(4), $user_id) ) {
+			if (is_numeric ($this->uri->segment(4)) && $this->artists_model->valid_gallery($this->uri->segment(4), $user_id) ) {
 				$gallery_id = $this->uri->segment(4);
 			}
 			
 			if ($gallery_id) {
-				$data['gallery'] = $this->profiles_model->get_gallery($user_id, $gallery_id);			
+				$data['gallery'] = $this->artists_model->get_gallery($user_id, $gallery_id);			
 			} else {
 				$data['error'] = 'Oops, there has been a problem';
 			}
@@ -90,7 +90,7 @@ class Galleries extends CI_Controller
 					'description' => $this->form_validation->set_value('description'),
 					'user_id' => $this->tank_auth->get_user_id());
 	
-				if($this->profiles_model->add_gallery($data))
+				if($this->artists_model->add_gallery($data))
 				{
 					$data['message'] = 'Gallery added successfully!';
 					$this->load->view('/auth/add_gallery', $data);
@@ -114,7 +114,7 @@ class Galleries extends CI_Controller
 			redirect('/auth/login/');
 		} else {
 			if (is_numeric ($this->uri->segment(4))) {
-				$this->profiles_model->delete_gallery ($this->uri->segment(4), $this->tank_auth->get_user_id());
+				$this->artists_model->delete_gallery ($this->uri->segment(4), $this->tank_auth->get_user_id());
 			}
 			redirect('/admin/galleries/');
 		}

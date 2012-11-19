@@ -33,7 +33,7 @@ class Addresses extends CI_Controller
 			$data = array();
 			//get addresses
 
-			$addresses = $this->profiles_model->get_addresses($this->tank_auth->get_user_id());
+			$addresses = $this->artists_model->get_addresses($this->tank_auth->get_user_id());
 
 			if ($addresses)
 				$data['addresses'] = $addresses;
@@ -113,7 +113,7 @@ class Addresses extends CI_Controller
 			if (is_numeric ($this->uri->segment(4)) && $this->artists_model->valid_address($this->uri->segment(4), $user_id) ) {
 				$address_id = $this->uri->segment(4);
 				$data = array();
-				$table_values = $this->profiles_model->get_address($user_id, $address_id);
+				$table_values = $this->artists_model->get_address($user_id, $address_id);
 
 				$data['table_values'] = $table_values;
 		

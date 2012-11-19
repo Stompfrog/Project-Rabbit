@@ -40,37 +40,10 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 		</div>
 		<?php } ?>
 	</div>
-	<div class="span4">
-		<ul class="media-grid pull-left">
-			<?php if ($user->get_large_avatar()) { ?>
-			<li><a href="#"><?= $user->get_large_avatar('class="profile_image"') ?></a></li>
-			<?php } ?>
-		</ul>
-		<?php 
-		//if the user is logged in, and this is the users profile
-		if ($logged_in_user) { ?>
-			<a href="<?= base_url() ?>index.php/admin/images/profile_images">Upload/edit profile picture</a>
-		<?php } ?>
-		<hr />
-		<? if($user->get_addresses()) {
-			echo '<h3>Addresses</h3>';
-			echo $user->get_addresses();
-		}
-		
-		$group_data['groups'] = $user->get_groups();
-		$this->load->view('templates/groups', $group_data);
-		?>
-		
-		<h3>Images</h3>
-		<p><a href="<?= base_url() ?>index.php/artists/<?= $user->get_id() ?>/images">All images</a></p>
-
-		<?php
-	        $data = array();
-	        $data['friends'] = $friends;
-	        $data['total_friends'] = $total_friends;
-	        $data['pending_friends'] = $pending_friends;
-	        $data['user_id'] =  $user->get_id();
-	        $this->load->view('templates/friends', $data);
-		?>
-	</div>
+	<?php
+		$data['logged_in_user'] = $logged_in_user;
+		$data['user'] = $user;
+		//sidebar
+		$this->load->view('templates/sidebar', $data);
+	?>
 </div>

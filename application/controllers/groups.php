@@ -28,7 +28,7 @@ class Groups extends CI_Controller
 	    
 	    $pagination_config = array(
 	            'url' => $url,
-	            'total' => $this->profiles_model->get_total_groups(),
+	            'total' => $this->artists_model->get_total_groups(),
 	            'page' => $page,
 	            'offset' => $offset
 	    );
@@ -37,7 +37,7 @@ class Groups extends CI_Controller
 	    
 		$this->load->view('templates/header');
 
-	    $groups = $this->profiles_model->get_all_groups($page, $offset);
+	    $groups = $this->artists_model->get_all_groups($page, $offset);
 	    if ($groups)
 			$data['groups'] = $groups;
 
@@ -52,11 +52,9 @@ class Groups extends CI_Controller
 		
 		$data = array();
 		
-		if (is_numeric ($this->uri->segment(3)) && $this->profiles_model->valid_group($this->uri->segment(3)) ) {
+		if (is_numeric ($this->uri->segment(3)) && $this->artists_model->valid_group($this->uri->segment(3)) ) {
 		    $group_id = $this->uri->segment(3);
-		    $group = $this->profiles_model->get_group($group_id);
-		    if ($group)
-				$data['group'] = new Group($group);
+		    $data['group'] = $this->artists_model->get_group($group_id);
 				
 		    $this->load->view('templates/header');
 		    $this->load->view('groups/render', $data);

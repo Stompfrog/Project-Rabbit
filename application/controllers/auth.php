@@ -72,7 +72,7 @@ class Auth extends CI_Controller
 						$this->form_validation->set_value('remember'),
 						$data['login_by_username'],
 						$data['login_by_email'])) {								// success
-					redirect('');
+					redirect(site_url() . '/artists/' . $this->tank_auth->get_user_id());
 
 				} else {
 					$errors = $this->tank_auth->get_error_message();
@@ -125,7 +125,7 @@ class Auth extends CI_Controller
 	function register()
 	{
 		if ($this->tank_auth->is_logged_in()) {									// logged in
-			redirect('');
+			redirect(site_url() . '/artists/' . $this->tank_auth->get_user_id());
 
 		} elseif ($this->tank_auth->is_logged_in(FALSE)) {						// logged in, not activated
 			redirect('/auth/send_again/');
@@ -269,7 +269,7 @@ class Auth extends CI_Controller
 	function forgot_password()
 	{
 		if ($this->tank_auth->is_logged_in()) {									// logged in
-			redirect('');
+			redirect(site_url() . '/artists/' . $this->tank_auth->get_user_id());
 
 		} elseif ($this->tank_auth->is_logged_in(FALSE)) {						// logged in, not activated
 			redirect('/auth/send_again/');

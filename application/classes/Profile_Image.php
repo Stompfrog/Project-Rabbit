@@ -19,14 +19,19 @@
 	class Profile_Image extends Image
 	{
 		protected $profile_large_path;
+		protected $profile_image_path;
 		protected $profile_thumb_path;
 
 		public function __construct($properties)
 		{
 			$this->object =& get_instance();
 			parent::__construct($properties); 
-			$this->profile_large_path = base_url() . $this->object->config->item('profile_image_path') . $properties['file_name'];
-			$this->profile_thumb_path = base_url() . $this->object->config->item('profile_thumb_path') . $properties['file_name'];
+			//full size
+			$this->profile_large_path = base_url() . $this->object->config->item('large_path') . $properties['file_name'];
+			//general
+			$this->profile_image_path = base_url() . $this->object->config->item('image_path') . $properties['file_name'];
+			//thumb
+			$this->profile_thumb_path = base_url() . $this->object->config->item('thumb_path') . $properties['file_name'];
 		}
 
 		public function get_profile_large_path()

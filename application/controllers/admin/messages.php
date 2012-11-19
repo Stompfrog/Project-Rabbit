@@ -30,11 +30,11 @@ class Messages extends CI_Controller
 		} else {
 			$data['messages'] = array();
 			$user_id = $this->tank_auth->get_user_id();
-			$messages = $this->profiles_model->get_all_messages($user_id);
+			$messages = $this->artists_model->get_all_messages($user_id);
 			
 			if ($messages) {
 				foreach ($messages as $message) {
-					$message['message_url'] = base_url() . 'index.php/admin/messages/message/';	
+					$message['message_url'] = site_url() . '/admin/messages/message/';	
 					//we don't want to show the users icon or name, only the recipient or sender
 					if ($message['sender_id'] == $user_id) {
 						//change icon and name to that of recipient_id
@@ -46,13 +46,12 @@ class Messages extends CI_Controller
 					} else
 						$message['message_url'] .= $message['sender_id'];
 					
-					if ($message['avatar']) {
+					if ($message['avatar'] !== null) {
 						$image = $this->artists_model->get_profile_image($message['avatar']);
 						$message['profile_image'] = $image;
 					}
 					
 					array_push($data['messages'], $message);
-
 				}
 			}
 
@@ -79,9 +78,9 @@ class Messages extends CI_Controller
 			//TODO: check if username is parameter
 			if (is_numeric ($this->uri->segment(4))) {
 				if ($this->form_validation->run() == TRUE)
-					$this->profiles_model->send_message ($this->form_validation->set_value('message'), $this->tank_auth->get_user_id(), $this->uri->segment(4));
+					$this->artists_model->send_message ($this->form_validation->set_value('message'), $this->tank_auth->get_user_id(), $this->uri->segment(4));
 				$data['message_form'] = $this->load->view('auth/message_form',  $data, true);
-				$messages = $this->profiles_model->get_messages_from_user($this->uri->segment(4), $this->tank_auth->get_user_id());
+				$messages = $this->artists_model->get_messages_from_user($this->uri->segment(4), $this->tank_auth->get_user_id());
 				if ($messages) {
 					foreach ($messages as $message) {
 						if ($message['avatar']) {

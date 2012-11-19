@@ -16,8 +16,6 @@ class Images extends CI_Controller
 		    
 	    $this->load->model('artists_model');
 	    $this->load->model('upload_model');
-	    $this->load->model('tank_auth/profiles', 'profiles_model');
-
 		$this->lang->load('tank_auth');
 		
 	    include_once(APPPATH.'classes/User.php');

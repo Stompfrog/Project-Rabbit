@@ -29,7 +29,7 @@ class Groups extends CI_Controller
 			$user_id = $this->tank_auth->get_user_id();
 			$data = array();
 			
-		    $groups = $this->profiles_model->get_groups($user_id);
+		    $groups = $this->artists_model->get_groups($user_id);
 		    if ($groups)
 				$data['groups'] = $groups;
 				
@@ -47,9 +47,9 @@ class Groups extends CI_Controller
 			$user_id = $this->tank_auth->get_user_id();
 			$data = array();
 			
-			if (is_numeric ($this->uri->segment(4)) && $this->profiles_model->valid_user_group($this->uri->segment(4), $user_id) ) {
+			if (is_numeric ($this->uri->segment(4)) && $this->artists_model->valid_user_group($this->uri->segment(4), $user_id) ) {
 			    $group_id = $this->uri->segment(4);
-			    $group = $this->profiles_model->get_group($group_id);
+			    $group = $this->artists_model->get_group($group_id);
 			    if ($group)
 					$data['group'] = new Group($group);
 					
@@ -90,7 +90,7 @@ class Groups extends CI_Controller
 					'group_name' => $this->form_validation->set_value('group_name'),
 					'description' => $this->form_validation->set_value('description'));
 	
-				if($this->profiles_model->create_group($user_id, $data))
+				if($this->artists_model->create_group($user_id, $data))
 				{
 					$data['message'] = 'Group created successfully!';
 					$this->load->view('/auth/create_group', $data);
@@ -109,10 +109,10 @@ class Groups extends CI_Controller
 		} else {
 			$user_id = $this->tank_auth->get_user_id();
 			//if there is a parameter, and it is numeric, and it is a valid address
-			if (is_numeric ($this->uri->segment(4)) && $this->profiles_model->valid_user_group($this->uri->segment(4), $user_id) ) {
+			if (is_numeric ($this->uri->segment(4)) && $this->artists_model->valid_user_group($this->uri->segment(4), $user_id) ) {
 				$group_id = $this->uri->segment(4);
 				$data = array();
-				$table_values = $this->profiles_model->get_user_group($user_id, $group_id);
+				$table_values = $this->artists_model->get_user_group($user_id, $group_id);
 				
 				$data['table_values'] = $table_values;
 				
@@ -132,9 +132,9 @@ class Groups extends CI_Controller
 						'group_name' => $this->form_validation->set_value('group_name'),
 						'description' => $this->form_validation->set_value('description'));
 		
-					if($this->profiles_model->update_group($user_id, $group_id, $data))
+					if($this->artists_model->update_group($user_id, $group_id, $data))
 					{
-						$data['message'] = 'Group created successfully!';
+						$data['message'] = 'Group updated successfully!';
 						$this->load->view('/auth/edit_group', $data);
 					} else {
 						$data['message'] = 'Oops, there was a problem adding to the database.';
@@ -162,8 +162,8 @@ class Groups extends CI_Controller
 			$group_id = $this->uri->segment(4);
 			//user must be creator to delete group.
 			//Other users must be updated that the group has been deleted			
-			if (($this->profiles_model->valid_user_group($group_id, $user_id)) && ($this->profiles_model->user_is_group_creator($user_id, $group_id)) ) {
-				$this->profiles_model->delete_group ($group_id, $user_id);
+			if (($this->artists_model->valid_user_group($group_id, $user_id)) && ($this->artists_model->user_is_group_creator($user_id, $group_id)) ) {
+				$this->artists_model->delete_group ($group_id, $user_id);
 			}
 			
 			//if an administrator is not the creator of the group but deletes,
