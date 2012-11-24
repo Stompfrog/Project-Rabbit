@@ -17,8 +17,8 @@
 				echo $address->get_vcard();
 				
 				?><ul class="events unstyled">
-					<li><a href="<?= base_url() ?>index.php/admin/addresses/edit_address/<?= $address->get_id() ?>" class="btn success">Edit address</a></li>
-					<li><a href="<?= base_url() ?>index.php/admin/addresses/delete_address/<?= $address->get_id() ?>" class="btn danger">Delete address</a></li>
+					<li><a href="<?= site_url() ?>admin/addresses/edit_address/<?= $address->get_id() ?>" class="btn success">Edit address</a></li>
+					<li><a href="<?= site_url() ?>admin/addresses/delete_address/<?= $address->get_id() ?>" class="btn danger">Delete address</a></li>
 				</ul><?php
 				
 				echo '</div>';

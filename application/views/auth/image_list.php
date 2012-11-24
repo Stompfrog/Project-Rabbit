@@ -11,8 +11,8 @@
 			echo '<ul class="image-grid">';
 			foreach ($images as $image) {
 				echo '<li class="image_list"><dl>';
-				echo '<dt><a href="' . base_url() . 'index.php/admin/images/image/' . $image->get_id() . '">' . $image->get_thumb_image() . '</a></dt>';
-				echo '<dd><a href="' . base_url() . 'index.php/admin/images/delete_image/' . $image->get_id() . '" class="btn danger small" style="margin: 8px;">Delete image</a></dd>';
+				echo '<dt><a href="' . site_url() . 'admin/images/image/' . $image->get_id() . '">' . $image->get_thumb_image() . '</a></dt>';
+				echo '<dd><a href="' . site_url() . 'admin/images/delete_image/' . $image->get_id() . '" class="btn danger small" style="margin: 8px;">Delete image</a></dd>';
 				echo '</dl></li>';
 			}
 			echo '</ul>';

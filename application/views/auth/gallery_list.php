@@ -12,7 +12,7 @@
 				foreach ($galleries as $gallery) {
 					echo '<li class="image_list"><dl>';
 					echo '<dt><a href="' . $gallery->get_admin_url() . '" title="' . $gallery->get_title() . '">' . $gallery->get_thumb() . '</a></dt>';
-					echo '<dd><a href="' . base_url() . 'index.php/admin/galleries/delete_gallery/' . $gallery->get_id() . '" class="btn danger small" style="margin: 8px;">Delete gallery</a></dd>';
+					echo '<dd><a href="' . site_url() . 'admin/galleries/delete_gallery/' . $gallery->get_id() . '" class="btn danger small" style="margin: 8px;">Delete gallery</a></dd>';
 					echo '</dl></li>';
 				}
 				?>

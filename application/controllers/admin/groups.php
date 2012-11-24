@@ -51,7 +51,7 @@ class Groups extends CI_Controller
 			    $group_id = $this->uri->segment(4);
 			    $group = $this->artists_model->get_group($group_id);
 			    if ($group)
-					$data['group'] = new Group($group);
+					$data['group'] = $group;
 					
 			    $this->load->view('templates/header');
 			    $this->load->view('groups/render', $data);

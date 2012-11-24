@@ -49,7 +49,7 @@
 	<?php 
 		//if the user is logged in, and this is the users profile
 		if ($logged_in_user) { ?>
-			<a href="<?= base_url() ?>index.php/admin/images/profile_images">Upload/edit profile picture</a>
+			<a href="<?= site_url() ?>admin/images/profile_images">Upload/edit profile picture</a>
 	<?php } ?>
 	<hr />
 	<?php
@@ -83,7 +83,7 @@
 	?>
 	
 	<h3>Images</h3>
-	<p><a href="<?= base_url() ?>index.php/artists/<?= $user->get_id() ?>/images">All images</a></p>
+	<p><a href="<?= site_url() ?>artists/<?= $user->get_id() ?>/images">All images</a></p>
 
 	<?php
         $data = array();

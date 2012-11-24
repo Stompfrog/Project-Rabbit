@@ -31,7 +31,7 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 					
 				if ($logged_in_user) { ?>
 					<ul>
-						<li><a href="<?= base_url() ?>index.php/admin/galleries/add_gallery/">Add a gallery</a></li>
+						<li><a href="<?= site_url() ?>admin/galleries/add_gallery/">Add a gallery</a></li>
 					</ul>
 				<?php }
 			}
@@ -40,7 +40,7 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 				echo '<h4>Images</h4>';
 				echo '<ul class="media-grid">';
 				foreach ($images as $image) {
-					echo '<li><a href="' . base_url() . 'index.php/artists/' . $user->get_id() . '/image/' . $image->get_id() . '/" title="' . $image->get_title() . '">' . $image->get_thumb_image() . '</a></li>';						
+					echo '<li><a href="' . site_url() . 'artists/' . $user->get_id() . '/image/' . $image->get_id() . '/" title="' . $image->get_title() . '">' . $image->get_thumb_image() . '</a></li>';						
 				}
 				echo '</ul>';
 			} else {
@@ -50,7 +50,7 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 			
 			if ($logged_in_user) { ?>
 				<ul>
-					<li><a href="<?= base_url() ?>index.php/admin/images/add_image">Upload an image</a></li>
+					<li><a href="<?= site_url() ?>admin/images/add_image">Upload an image</a></li>
 				</ul>
 			<?php }
 		?>

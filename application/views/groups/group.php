@@ -12,7 +12,7 @@
 			$user_id = $this->tank_auth->get_user_id();
 			$members = $group->get_group_members();
 			for ($i = 0; $i < sizeof($members); $i++ ) {
-				echo '<li><a href="' . base_url() . 'index.php/artists/' . $members[$i]['user_id'] . '">' . $members[$i]['first_name'] . ' ' .$members[$i]['last_name'] . '</a>';
+				echo '<li><a href="' . site_url() . 'artists/' . $members[$i]['user_id'] . '">' . $members[$i]['first_name'] . ' ' .$members[$i]['last_name'] . '</a>';
 				if($members[$i]['is_creator'] == 1) {
 					if($members[$i]['user_id'] == $user_id) {
 						echo ' | You are owner';

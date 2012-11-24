@@ -22,7 +22,7 @@ $submit = array(
 
 ?>
 <div class="page-header">
-	<a href="<?= base_url() ?>index.php/artists/<?= $user->get_id() ?>"><h1><?= $user->get_name(); ?> <small>Member since <?= $user->get_member_since(); ?> </small></h1></a>
+	<a href="<?= site_url() ?>artists/<?= $user->get_id() ?>"><h1><?= $user->get_name(); ?> <small>Member since <?= $user->get_member_since(); ?> </small></h1></a>
 </div>
 <div class="row">
 	<div class="span10">
@@ -76,7 +76,7 @@ $submit = array(
 		<?php 
 		//if the user is logged in, and this is the users profile
 		if ($logged_in_user) { ?>
-			<a href="<?= base_url() ?>index.php/auth/add_profile_image">Upload/edit profile picture</a>
+			<a href="<?= site_url() ?>auth/add_profile_image">Upload/edit profile picture</a>
 		<?php } ?>
 		<hr />
 		<? if($user->get_addresses()) {
@@ -89,7 +89,7 @@ $submit = array(
 		?>
 		
 		<h3>Images</h3>
-		<p><a href="<?= base_url() ?>index.php/artists/<?= $user->get_id() ?>/images">All images</a></p>
+		<p><a href="<?= site_url() ?>artists/<?= $user->get_id() ?>/images">All images</a></p>
 
 		<?php
 	        $data = array();

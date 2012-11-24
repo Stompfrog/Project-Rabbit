@@ -14,7 +14,7 @@
                    <li>Organise exhibitions, art days, get togethers, and show the world!</li>
                 </ul>
                 <?php if (!$this->tank_auth->is_logged_in()) { ?>
-                        <a class="btn danger" href="<?php echo base_url(); ?>index.php/auth/register">Sign up as an artist!</a>
+                        <a class="btn danger" href="<?php echo site_url(); ?>auth/register">Sign up as an artist!</a>
                 <?php }
                 ?>
            <hr />
@@ -24,16 +24,16 @@
 					<?php foreach($artists as $row): ?>
 					    <li>
 							<ul class="media-grid">
-								<li><a href="<?php echo base_url(); ?>index.php/artists/get_user"><img src="http://www.gravatar.com/avatar/<?= md5( strtolower( trim( $row->email ) ) )?>?s=60" class="thumbnail" /></a></li>
+								<li><a href="<?php echo site_url(); ?>artists/get_user"><img src="http://www.gravatar.com/avatar/<?= md5( strtolower( trim( $row->email ) ) )?>?s=60" class="thumbnail" /></a></li>
 							</ul>
-							<h3><a href="<?php echo base_url(); ?>index.php/artists/<?php echo $row->user_id; ?>"><?php echo $row->first_name; ?> <?php echo $row->last_name; ?></a></h3>
+							<h3><a href="<?php echo site_url(); ?>artists/<?php echo $row->user_id; ?>"><?php echo $row->first_name; ?> <?php echo $row->last_name; ?></a></h3>
 							<p><?php echo $row->about_me; ?></p>
 							
 							<?php
 							foreach ($row->interests as $interest) {
 							    echo '<span class="label important">' . $interest . '</span> ';
 							}?>
-							<a class="pull-right" href="<?php echo base_url(); ?>index.php/artists/<?php echo $row->user_id; ?>">View profile &raquo;</a>
+							<a class="pull-right" href="<?php echo site_url(); ?>artists/<?php echo $row->user_id; ?>">View profile &raquo;</a>
 					    </li>
 					<?php endforeach; ?>
 				</ul>
@@ -49,13 +49,13 @@
         </div>
         <div class="span4">
                 <h3>Search artists</h3>
-                <input class="span3" type="text" placeholder="Search..." /> <a href="<?= base_url(); ?>index.php/search/" class="btn primary" />Go</a>
+                <input class="span3" type="text" placeholder="Search..." /> <a href="<?= site_url(); ?>search/" class="btn primary" />Go</a>
                 <br /><br />
                 <h3>Latest Artists</h3>
                 <ul class="events unstyled">
                         <?php foreach($latest as $row): ?>
                                 <li>
-                                        <a href="<?php echo base_url(); ?>index.php/artists/<?php echo $row->user_id; ?>"><?php echo $row->first_name; ?> <?php echo $row->last_name; ?></a>
+                                        <a href="<?php echo site_url(); ?>artists/<?php echo $row->user_id; ?>"><?php echo $row->first_name; ?> <?php echo $row->last_name; ?></a>
                                 </li>
                         <?php endforeach; ?>
                 </ul>

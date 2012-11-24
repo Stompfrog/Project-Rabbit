@@ -121,7 +121,7 @@ $register = array(
 	<div class="span4">
 		<h3>Already a member?</h3>
 		<ul class="events unstyled">
-			<li><a href="<?php echo base_url(); ?>index.php/auth/login" type="submit">Log in</a></li>
+			<li><a href="<?php echo site_url(); ?>auth/login" type="submit">Log in</a></li>
 			<li><?php echo anchor('/auth/forgot_password/', 'Forgotten password?'); ?></li>
 		</ul>
 	</div>
@@ -279,7 +279,7 @@ $register = array(
         <div class="span4">
                 <h3>Already a member?</h3>
                 <ul class="events unstyled">
-                        <li><a href="<?php echo base_url(); ?>index.php/auth/login" type="submit">Log in</a></li>
+                        <li><a href="<?php echo site_url(); ?>auth/login" type="submit">Log in</a></li>
                         <li><?php echo anchor('/auth/forgot_password/', 'Forgotten password?'); ?></li>
                 </ul>
         </div>

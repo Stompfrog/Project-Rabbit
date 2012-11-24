@@ -104,12 +104,12 @@
 
 		public function get_admin_url()
 		{
-			return base_url() . 'index.php/admin/groups/group/' . $this->id . '/';
+			return site_url() . 'admin/groups/group/' . $this->id . '/';
 		}
 
 		public function get_url()
 		{
-			return base_url() . 'index.php/groups/group/' . $this->id . '/';
+			return site_url() . 'groups/group/' . $this->id . '/';
 		}
 
 		function get_thumb()

@@ -30,15 +30,15 @@
 		<hr />
 		<h3>Upcoming Events</h3>
 		<ul class="events unstyled">
-			<li><a href="<?php echo base_url(); ?>index.php/events/render">Photos of October</a></li>
-			<li><a href="<?php echo base_url(); ?>index.php/events/render">Photos of Spetember</a></li>
-			<li><a href="<?php echo base_url(); ?>index.php/events/render">Photos of August</a></li>
+			<li><a href="<?php echo site_url(); ?>events/render">Photos of October</a></li>
+			<li><a href="<?php echo site_url(); ?>events/render">Photos of Spetember</a></li>
+			<li><a href="<?php echo site_url(); ?>events/render">Photos of August</a></li>
 		</ul>
 		<h3>Past Events</h3>
 		<ul class="events unstyled">
-			<li><a href="<?php echo base_url(); ?>index.php/events/render">Photos of July</a></li>
-			<li><a href="<?php echo base_url(); ?>index.php/events/render">Photos of June</a></li>
-			<li><a href="<?php echo base_url(); ?>index.php/events/render">Photos of May</a></li>
+			<li><a href="<?php echo site_url(); ?>events/render">Photos of July</a></li>
+			<li><a href="<?php echo site_url(); ?>events/render">Photos of June</a></li>
+			<li><a href="<?php echo site_url(); ?>events/render">Photos of May</a></li>
 		</ul>
 	</div>
 </div>

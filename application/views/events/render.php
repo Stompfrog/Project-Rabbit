@@ -26,20 +26,20 @@
 		<hr />
 		<h3>Curators</h3>
 		<ul class="events unstyled">
-			<li><a href="<?php echo base_url(); ?>index.php/artists/render">Artist 1</a></li>
-			<li><a href="<?php echo base_url(); ?>index.php/artists/render">Artist 2</a></li>
-			<li><a href="<?php echo base_url(); ?>index.php/artists/render">Artist 3</a></li>
-			<li><a href="<?php echo base_url(); ?>index.php/artists/render">Artist 4</a></li>
+			<li><a href="<?php echo site_url(); ?>artists/render">Artist 1</a></li>
+			<li><a href="<?php echo site_url(); ?>artists/render">Artist 2</a></li>
+			<li><a href="<?php echo site_url(); ?>artists/render">Artist 3</a></li>
+			<li><a href="<?php echo site_url(); ?>artists/render">Artist 4</a></li>
 		</ul>
 		<h3>Attendees</h3>
 		<ul class="events unstyled">
-			<li><a href="<?php echo base_url(); ?>index.php/artists/render">Artist 1</a></li>
-			<li><a href="<?php echo base_url(); ?>index.php/artists/render">Artist 2</a></li>
-			<li><a href="<?php echo base_url(); ?>index.php/artists/render">Artist 3</a></li>
-			<li><a href="<?php echo base_url(); ?>index.php/artists/render">Artist 4</a></li>
-			<li><a href="<?php echo base_url(); ?>index.php/artists/render">Artist 5</a></li>
-			<li><a href="<?php echo base_url(); ?>index.php/artists/render">Artist 6</a></li>
-			<li><a href="<?php echo base_url(); ?>index.php/artists/render">Artist 7</a></li>
+			<li><a href="<?php echo site_url(); ?>artists/render">Artist 1</a></li>
+			<li><a href="<?php echo site_url(); ?>artists/render">Artist 2</a></li>
+			<li><a href="<?php echo site_url(); ?>artists/render">Artist 3</a></li>
+			<li><a href="<?php echo site_url(); ?>artists/render">Artist 4</a></li>
+			<li><a href="<?php echo site_url(); ?>artists/render">Artist 5</a></li>
+			<li><a href="<?php echo site_url(); ?>artists/render">Artist 6</a></li>
+			<li><a href="<?php echo site_url(); ?>artists/render">Artist 7</a></li>
 			<li><a href="#">Full list of attendeed &raquo;</a></li>
 		</ul>
 	</div>

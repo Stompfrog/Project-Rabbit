@@ -40,7 +40,7 @@
 		<ul class="artists unstyled">
 			<?php foreach($latest as $row): ?>
 			<li>
-				<a href="<?php echo base_url(); ?>index.php/artists/<?php echo $row->user_id; ?>"><?php echo $row->first_name; ?> <?php echo $row->last_name; ?></a>
+				<a href="<?php echo site_url(); ?>artists/<?php echo $row->user_id; ?>"><?php echo $row->first_name; ?> <?php echo $row->last_name; ?></a>
 			</li>
 			<?php endforeach; ?>
 		</ul>
@@ -57,7 +57,7 @@
 		<ul class="places unstyled">
 			<?php foreach($popular_places as $row): ?>
 		    <li>
-				<a href="<?php echo base_url(); ?>index.php/places/<?php echo $row->id; ?>"><?php echo $row->address_1 . ', ' . $row->address_2 . ', ' . $row->city ?></a>
+				<a href="<?php echo site_url(); ?>places/<?php echo $row->id; ?>"><?php echo $row->address_1 . ', ' . $row->address_2 . ', ' . $row->city ?></a>
 			</li>
 			<?php endforeach; ?>
 		</ul>
@@ -72,7 +72,7 @@
 				$oDate = new DateTime($row->created_date);
 				$sDate = $oDate->format($format);
 			?>
-				<a href="<?php echo base_url(); ?>index.php//groups/render/<?php echo $row->id; ?>"><?php echo $row->group_name; ?></a> (<?= $sDate ?>)
+				<a href="<?php echo site_url(); ?>groups/render/<?php echo $row->id; ?>"><?php echo $row->group_name; ?></a> (<?= $sDate ?>)
 			</li>
 			<?php endforeach; ?>
 		</ul>

@@ -29,7 +29,7 @@ class Friends extends CI_Controller
 			$data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
 	
 		    //pagination
-		    $url = base_url() . 'index.php/admin/friends/';
+		    $url = site_url() . 'admin/friends/';
 		    $page = (isset($params['page'])) ? $params['page'] : 1;
 		    $offset = (isset($params['offset'])) ? $params['offset'] : 1;
 		    $pagination_config = array(

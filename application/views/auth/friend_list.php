@@ -11,7 +11,7 @@
 			<ul class="friends unstyled">
 			<?php foreach($pending_friends as $fr)
 			{
-				echo '<li><a href="' . $fr['id'] . '">' . $fr['name'] . ' <span><a href="' . base_url() . 'index.php/api/confirmfriend/' . $this->tank_auth->get_user_id() . '/' . $fr['id'] . '/" class="btn success friend">Confirm friend</a></span></li>';
+				echo '<li><a href="' . $fr['id'] . '">' . $fr['name'] . ' <span><a href="' . site_url() . 'api/confirmfriend/' . $this->tank_auth->get_user_id() . '/' . $fr['id'] . '/" class="btn success friend">Confirm friend</a></span></li>';
 			} ?>
 			</ul><?php
 		}
@@ -22,7 +22,7 @@
 			<ul class="events unstyled">
 			<?php foreach($friends as $fr)
 			{
-				echo '<li>' . $fr['name'] . ' <a href="' . base_url() . 'index.php/api/unfriend/' . $this->tank_auth->get_user_id() . '/' . $fr['id'] . '/" class="btn danger friend">Unfriend</a></li>';
+				echo '<li>' . $fr['name'] . ' <a href="' . site_url() . 'api/unfriend/' . $this->tank_auth->get_user_id() . '/' . $fr['id'] . '/" class="btn danger friend">Unfriend</a></li>';
 			} ?>
 			</ul><?php
 		
@@ -36,7 +36,7 @@
 			echo '<ul class="events unstyled">';
 			foreach($friends_paginated as $fr)
 			{
-				echo '<li>' . $fr['name'] . ' <a href="' . base_url() . 'index.php/api/unfriend/' . $this->tank_auth->get_user_id() . '/' . $fr['id'] . '/" class="btn danger friend">Unfriend</a></li>';
+				echo '<li>' . $fr['name'] . ' <a href="' . site_url() . 'api/unfriend/' . $this->tank_auth->get_user_id() . '/' . $fr['id'] . '/" class="btn danger friend">Unfriend</a></li>';
 			} ?>
 			</ul><?php
 		}

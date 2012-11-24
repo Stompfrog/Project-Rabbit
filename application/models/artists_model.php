@@ -519,16 +519,14 @@ class Artists_model extends CI_Model {
 	    
 	    return $query->row_array();
 	}
-	
-
 
 	/****** Geolocational section ********************************
-	
-	
 	*************************************************************/
-	
-	
-	
+	function get_geo_addresses ($distance, $lat, $lng) {
+	    $results = array();
+	    $query = $this->db->query('SELECT *, ( 3959 * acos( cos( radians(37) ) * cos( radians( ' . $lat . ' ) ) * cos( radians( ' . $lng . ' ) - radians(-122) ) + sin( radians(37) ) * sin( radians( ' . $lat . ' ) ) ) ) AS distance FROM address HAVING distance < ' . $distance . ' ORDER BY distance LIMIT 0 , 20');
+	    return $query->result_array();
+	}
 	
 	/****** Groups section ***************************************
 	

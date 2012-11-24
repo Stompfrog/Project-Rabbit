@@ -6,6 +6,6 @@
 		<h2>Sorry, this user could not be found!</h2>
 		<hr />
 		<h3>Search for artists</h3>
-		<input class="span3" type="text" placeholder="Search..." /> <a href="<?= base_url(); ?>index.php/search/" class="btn primary" />Go</a>
+		<input class="span3" type="text" placeholder="Search..." /> <a href="<?= site_url(); ?>search/" class="btn primary" />Go</a>
 	</div>
 </div>

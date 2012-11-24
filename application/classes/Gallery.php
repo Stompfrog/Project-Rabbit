@@ -54,7 +54,7 @@
 		*/
 		public function get_admin_url()
 		{
-			return base_url() . 'index.php/admin/galleries/gallery/' . $this->id . '/';
+			return site_url() . 'admin/galleries/gallery/' . $this->id . '/';
 		}
 
 		/*
@@ -62,7 +62,7 @@
 		*/
 		public function get_url()
 		{
-			return base_url() . 'index.php/artists/' . $this->user_id . '/gallery/' . $this->id . '/';
+			return site_url() . 'artists/' . $this->user_id . '/gallery/' . $this->id . '/';
 		}
 
 		function get_thumb()

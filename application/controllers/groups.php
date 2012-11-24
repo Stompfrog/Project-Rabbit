@@ -22,7 +22,7 @@ class Groups extends CI_Controller
 		$data = array();
 		//used for pagination, page, offset
 	    $params = $this->input->get(NULL, TRUE);
-	    $url = base_url() . 'index.php/groups/';
+	    $url = site_url() . 'groups/';
 	    $page = (isset($params['page'])) ? $params['page'] : 1;
 	    $offset = (isset($params['offset'])) ? $params['offset'] : 2;
 	    

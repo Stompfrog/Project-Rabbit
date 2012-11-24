@@ -11,40 +11,40 @@
 		   <li>Aliquam tincidunt mauris eu risus.</li>
 		   <li>Vestibulum auctor dapibus neque.</li>
 		</ul>
-		<a class="btn success" href="<?php echo base_url(); ?>index.php/auth/register">Add a new place!</a>
+		<a class="btn success" href="<?php echo site_url(); ?>auth/register">Add a new place!</a>
        <hr />
 		<h2>Latest Places</h2>
 		<hr />
 		<ul class="search-results">
 			<li>
-				<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/places/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<h3><a href="<?php echo base_url(); ?>index.php/places/render">Place Name</a></h3>
+				<ul class="media-grid"><li><a href="<?php echo site_url(); ?>places/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
+				<h3><a href="<?php echo site_url(); ?>places/render">Place Name</a></h3>
 				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-				<span class="label success">Shop</span> <a class="pull-right" href="<?php echo base_url(); ?>index.php/places/render">View profile &raquo;</a>
+				<span class="label success">Shop</span> <a class="pull-right" href="<?php echo site_url(); ?>places/render">View profile &raquo;</a>
 			</li>
 			<li>
-				<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/places/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<h3><a href="<?php echo base_url(); ?>index.php/places/render">Place Name</a></h3>
+				<ul class="media-grid"><li><a href="<?php echo site_url(); ?>places/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
+				<h3><a href="<?php echo site_url(); ?>places/render">Place Name</a></h3>
 				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-				<span class="label success">Private residence</span> <a class="pull-right" href="<?php echo base_url(); ?>index.php/places/render">View profile &raquo;</a>
+				<span class="label success">Private residence</span> <a class="pull-right" href="<?php echo site_url(); ?>places/render">View profile &raquo;</a>
 			</li>
 			<li>
-				<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/places/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<h3><a href="<?php echo base_url(); ?>index.php/places/render">Place Name</a></h3>
+				<ul class="media-grid"><li><a href="<?php echo site_url(); ?>places/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
+				<h3><a href="<?php echo site_url(); ?>places/render">Place Name</a></h3>
 				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-				<span class="label success">Gallery</span> <a class="pull-right" href="<?php echo base_url(); ?>index.php/places/render">View profile &raquo;</a>
+				<span class="label success">Gallery</span> <a class="pull-right" href="<?php echo site_url(); ?>places/render">View profile &raquo;</a>
 			</li>
 			<li>
-				<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/places/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<h3><a href="<?php echo base_url(); ?>index.php/places/render">Place Name</a></h3>
+				<ul class="media-grid"><li><a href="<?php echo site_url(); ?>places/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
+				<h3><a href="<?php echo site_url(); ?>places/render">Place Name</a></h3>
 				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-				<span class="label success">Shop</span> <a class="pull-right" href="<?php echo base_url(); ?>index.php/places/render">View profile &raquo;</a>
+				<span class="label success">Shop</span> <a class="pull-right" href="<?php echo site_url(); ?>places/render">View profile &raquo;</a>
 			</li>
 			<li>
-				<ul class="media-grid"><li><a href="<?php echo base_url(); ?>index.php/places/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
-				<h3><a href="<?php echo base_url(); ?>index.php/places/render">Place Name</a></h3>
+				<ul class="media-grid"><li><a href="<?php echo site_url(); ?>places/render"><img alt="" src="http://placehold.it/60x60" class="thumbnail"></a></li></ul>
+				<h3><a href="<?php echo site_url(); ?>places/render">Place Name</a></h3>
 				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-				<span class="label success">Gallery</span> <a class="pull-right" href="<?php echo base_url(); ?>index.php/places/render">View profile &raquo;</a>
+				<span class="label success">Gallery</span> <a class="pull-right" href="<?php echo site_url(); ?>places/render">View profile &raquo;</a>
 			</li>
 		</ul>
 		<div class="pagination">
@@ -61,15 +61,15 @@
 	</div>
 	<div class="span4">
 		<h3>Search places</h3>
-		<input class="span3" type="text" placeholder="Search..." /> <a href="<?= base_url(); ?>index.php/search/" class="btn primary" />Go</a>
+		<input class="span3" type="text" placeholder="Search..." /> <a href="<?= site_url(); ?>search/" class="btn primary" />Go</a>
 		<br /><br />
 		<h3>Popular Places</h3>
 		<ul class="events unstyled">
-			<li><a href="<?php echo base_url(); ?>index.php/places/render">Place 1</a></li>
-			<li><a href="<?php echo base_url(); ?>index.php/places/render">Place 2</a></li>
-			<li><a href="<?php echo base_url(); ?>index.php/places/render">Place 3</a></li>
-			<li><a href="<?php echo base_url(); ?>index.php/places/render">Place 4</a></li>
-			<li><a href="<?php echo base_url(); ?>index.php/places/render">Place 5</a></li>
+			<li><a href="<?php echo site_url(); ?>places/render">Place 1</a></li>
+			<li><a href="<?php echo site_url(); ?>places/render">Place 2</a></li>
+			<li><a href="<?php echo site_url(); ?>places/render">Place 3</a></li>
+			<li><a href="<?php echo site_url(); ?>places/render">Place 4</a></li>
+			<li><a href="<?php echo site_url(); ?>places/render">Place 5</a></li>
 		</ul>
 	</div>
 </div>

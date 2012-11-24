@@ -95,7 +95,7 @@ class Artists extends CI_Controller
 	    //used for pagination, page, offset
 	    $params = $this->input->get(NULL, TRUE);
 	    
-	    $url = base_url() . 'index.php/artists/';
+	    $url = site_url() . 'artists/';
 	    $page = (isset($params['page'])) ? $params['page'] : 1;
 	    $offset = (isset($params['offset'])) ? $params['offset'] : 5;
 	    $pagination_config = array(
@@ -117,6 +117,9 @@ class Artists extends CI_Controller
 	
 	function get_user($user_id)
 	{
+		if ($user_id === null) {
+			show_404('page', 'log_error');
+		}
 	    $data['user'] = $this->artists_model->get_user($user_id);
 	    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
 	    $data['friends'] = $this->artists_model->get_friends($user_id);
@@ -414,11 +417,6 @@ class Artists extends CI_Controller
 		    $this->load->view('auth/message_conversation',$data);
 		    $this->load->view('templates/footer');	
  		}
-	}	
-	
-	function page_not_found()
-	{
-		//404 error
 	}
         
 }

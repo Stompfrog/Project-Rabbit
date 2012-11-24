@@ -35,7 +35,7 @@ $config['thumb_path'] = 'pb/img/tn/';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php';
+$config['index_page'] = '';
 
 /*
 |--------------------------------------------------------------------------

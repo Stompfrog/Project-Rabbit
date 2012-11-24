@@ -52,9 +52,9 @@ class Api extends CI_Controller
 	    $this->load->view('api/json',$data);
 	}
 	
-	function get_artists($lat, $lng)
+	function get_artists()
 	{
-	
+		//$lat, $lng)
 	}
 	
 	/*
@@ -131,6 +131,25 @@ class Api extends CI_Controller
 	/*
 	* Addresses
 	*/
+	//get addresses by passing in coordinates
+	function get_addresses()
+	{
+	    $addresses = $this->artists_model->get_geo_addresses($this->uri->segment(3), $this->uri->segment(4), $this->uri->segment(5));
+	    $data['encoded_data'] = json_encode($addresses);         
+	    $this->load->view('api/json',$data);
+	}	
+	
+	//get a specific address
+	function get_address ()
+	{
+	
+	}
+	//get users address/es
+	function get_user_addresses ()
+	{
+	
+	}
+
 
 	/*
 	* Groups
