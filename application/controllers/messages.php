@@ -15,8 +15,6 @@ class Messages extends CI_Controller
 
 	    $this->load->model('artists_model');
 		$this->load->model('tank_auth/profiles', 'profiles_model');
-		
-    	include_once(APPPATH.'classes/Profile_Image.php');
 	}
 	
 	/**
@@ -64,7 +62,7 @@ class Messages extends CI_Controller
 			}		
 	
 		    $this->load->view('templates/header');
-		    $this->load->view('auth/message_list',$data);
+		    $this->load->view('messages/message_list',$data);
 		    $this->load->view('templates/footer');
 		}	
 	}

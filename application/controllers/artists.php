@@ -144,7 +144,7 @@ class Artists extends CI_Controller
 	    $data['friends'] = $this->artists_model->get_friends($user_id);
 	    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
 		
-		if (is_numeric ($gallery_id) && $this->artists_model->valid_gallery($gallery_id, $user_id) ) {
+		if (is_numeric ($gallery_id) && $this->artists_model->valid_gallery($user_id, $gallery_id) ) {
 			$gallery = $gallery_id;
 		}
 		
@@ -345,7 +345,7 @@ class Artists extends CI_Controller
 			if (is_numeric ($this->uri->segment(2))) {
 				if ($this->form_validation->run() == TRUE)
 					$this->artists_model->send_message ($this->form_validation->set_value('message'), $this->tank_auth->get_user_id(), $this->uri->segment(2));
-				$data['message_form'] = $this->load->view('auth/message_form',  $data, true);
+				$data['message_form'] = $this->load->view('messages/message_form',  $data, true);
 				$messages = $this->artists_model->get_messages_from_user($this->uri->segment(2), $this->tank_auth->get_user_id());
 				if ($messages) {
 					foreach ($messages as $message) {
@@ -360,7 +360,7 @@ class Artists extends CI_Controller
 			}
 
 		    $this->load->view('templates/header');
-		    $this->load->view('auth/message_conversation',$data);
+		    $this->load->view('messages/message_conversation',$data);
 		    $this->load->view('templates/footer');	
  		}
 	}

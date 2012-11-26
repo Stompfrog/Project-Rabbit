@@ -32,6 +32,10 @@
 								<ul class="dropdown-menu">
 									<li><?php echo anchor('artists/'.$user_id,'View Profile'); ?></li>
 									<li><?php echo anchor('admin/profile','Edit Profile'); ?></li>
+									<li class="divider"></li>
+									<li><?= anchor('/auth/change_password/', 'Change password'); ?></li>
+									<li><?= anchor('/auth/unregister/', 'Unregister'); ?></li>
+									<li class="divider"></li>
 									<li><?php echo anchor('admin/images/profile_images','Add profile image'); ?></li>
 									<li class="divider"></li>
 									<li><?php echo anchor('auth/logout','Log out'); ?></li>

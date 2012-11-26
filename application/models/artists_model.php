@@ -113,13 +113,16 @@ class Artists_model extends CI_Model {
 	    }
 	}
 
+
+	/*
+		Get artists based on thier interests
+	*/
 	function all_artists_interests($params = array())
 	{
 		$query = 'SELECT * FROM user_profiles, address where address.user_id = user_profiles.user_id';
 	
 		if(sizeof($params) > 0 && $params !== false) {
 			$query .= ' AND user_profiles.user_id IN (SELECT user_id FROM user_interests WHERE interest_type_id IN (' . implode(",", $params) . '))';
-
 	    }
 	    
 	    $users = $this->db->query($query);

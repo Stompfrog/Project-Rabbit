@@ -9,7 +9,7 @@ if (isset($friends) && sizeof($friends) > 0)
 	</ul>
 <?php
 } else {
-	echo '<p>No friends yet</p>';
+	echo '<h3>No friends yet</h3>';
 }
 	
 //if the user is logged in and not viewing their own page

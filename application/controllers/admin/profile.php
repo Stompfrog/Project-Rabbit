@@ -9,7 +9,6 @@ class Profile extends CI_Controller
 	    $this->load->library('tank_auth');
 	    $this->load->library('form_validation');
 		$this->load->library('security');
-		$this->load->library('tank_auth');
 
 		$this->lang->load('tank_auth');
 
@@ -35,6 +34,12 @@ class Profile extends CI_Controller
 			$data = array();
 			
 			$user_id = $this->tank_auth->get_user_id();
+			
+		    $data['user'] = $this->artists_model->get_user($user_id);
+		    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
+		    $data['friends'] = $this->artists_model->get_friends($user_id);
+		    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
+		    
 			$table_values = $this->profiles_model->get_profile($user_id);
 			
 			$data['table_values'] = $table_values;

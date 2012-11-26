@@ -14,7 +14,6 @@ class Galleries extends CI_Controller
 		$this->load->library('security');
 		    
 	    $this->load->model('artists_model');
-	    $this->load->model('tank_auth/profiles', 'profiles_model');
 
 		$this->lang->load('tank_auth');
 		
@@ -29,12 +28,20 @@ class Galleries extends CI_Controller
 			redirect('/auth/login/');
 		} else {
 			$data = array();
+			
+			$user_id = $this->tank_auth->get_user_id();
+			
+		    $data['user'] = $this->artists_model->get_user($user_id);
+		    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
+		    $data['friends'] = $this->artists_model->get_friends($user_id);
+		    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
+			
 			$galleries = $this->artists_model->get_galleries($this->tank_auth->get_user_id());
 			if ($galleries)	{
 				$data['galleries'] = $galleries;
 			}
 		    $this->load->view('templates/header');
-		    $this->load->view('auth/gallery_list',$data);
+		    $this->load->view('gallery/gallery_list',$data);
 		    $this->load->view('templates/footer');
 		}
 	}
@@ -46,10 +53,17 @@ class Galleries extends CI_Controller
 		} else {
 			//get 
 			$data = array();
+			
 			$user_id = $this->tank_auth->get_user_id();
+			
 			$gallery_id = false;
 			
-			if (is_numeric ($this->uri->segment(4)) && $this->artists_model->valid_gallery($this->uri->segment(4), $user_id) ) {
+		    $data['user'] = $this->artists_model->get_user($user_id);
+		    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
+		    $data['friends'] = $this->artists_model->get_friends($user_id);
+		    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
+			
+			if (is_numeric ($this->uri->segment(4)) && $this->artists_model->valid_gallery($user_id, $this->uri->segment(4)) ) {
 				$gallery_id = $this->uri->segment(4);
 			}
 			
@@ -60,7 +74,7 @@ class Galleries extends CI_Controller
 			}
 
 		    $this->load->view('templates/header');
-		    $this->load->view('auth/gallery',$data);
+		    $this->load->view('gallery/gallery',$data);
 		    $this->load->view('templates/footer');
 		}
 	}
@@ -72,6 +86,13 @@ class Galleries extends CI_Controller
 		} else {
 		
 			$data = array();
+			
+			$user_id = $this->tank_auth->get_user_id();
+			
+		    $data['user'] = $this->artists_model->get_user($user_id);
+		    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
+		    $data['friends'] = $this->artists_model->get_friends($user_id);
+		    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
 			
 			$this->form_validation->set_rules('title', 'title', 'trim|xss_clean|required');
 			$this->form_validation->set_rules('description', 'description', 'trim|xss_clean');
