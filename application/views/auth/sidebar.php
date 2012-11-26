@@ -1,8 +1,6 @@
 	<div class="span4">
 		<h3>Your account</h3>
 		<ul class="events unstyled">
-			<li><?= anchor('/artists/' . $this->tank_auth->get_user_id(), 'View profile'); ?></li>
-			<li><?= anchor('/artists/' . $this->tank_auth->get_user_id(), '/messages/', 'Messages'); ?></li>
 			<li><?= anchor('/auth/change_password/', 'Change password'); ?></li>
 			<li><?= anchor('/auth/unregister/', 'Unregister'); ?></li>
 		</ul>

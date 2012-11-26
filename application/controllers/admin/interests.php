@@ -15,7 +15,6 @@ class Interests extends CI_Controller
 
 	    $this->load->model('artists_model');
 		$this->load->model('upload_model');
-		$this->load->model('tank_auth/profiles', 'profiles_model');
     
 	}
 	
@@ -38,7 +37,7 @@ class Interests extends CI_Controller
 			
 			$dump = '';
 
-			$interests = $this->profiles_model->get_full_user_interests($this->tank_auth->get_user_id());
+			$interests = $this->artists_model->get_full_user_interests($this->tank_auth->get_user_id());
 			
 			if (!$this->input->post(NULL, TRUE))
 			{
@@ -60,15 +59,15 @@ class Interests extends CI_Controller
 					if (is_null($interest['interest_type_id']) && in_array($interest['id'], $post)) {
 						//check if it exists in the $_POST
 						//if it is there, continue. if it isnt, delete the record
-						$this->profiles_model->add_user_interest($this->tank_auth->get_user_id(), $interest['id']);
+						$this->artists_model->add_user_interest($this->tank_auth->get_user_id(), $interest['id']);
 					} else if (!is_null($interest['interest_type_id']) && !in_array($interest['id'], $post)) {
 						//if the user does not have the interest, check if it exists
-						$this->profiles_model->delete_user_interest($this->tank_auth->get_user_id(), $interest['id']);
+						$this->artists_model->delete_user_interest($this->tank_auth->get_user_id(), $interest['id']);
 					}
 					//if it does, create new record in the user_interests table
 				}
 				//now get the updated records
-				$interests = $this->profiles_model->get_full_user_interests($this->tank_auth->get_user_id());
+				$interests = $this->artists_model->get_full_user_interests($this->tank_auth->get_user_id());
 				$data['interests'] = $interests;
 				
 				//select exists (select interest_type_id from user_interests where user_id = 1)

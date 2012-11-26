@@ -41,6 +41,13 @@ require ([
 				  $(parentEl).html(html);
 				});
 		    });
+
+			$('#explore_interests').submit(function() {
+				Artify.map.jsonUrl = this.action + '?' + $(this).serialize();
+				Artify.map.getArtists();
+				return false;
+			});            
+ 
 		});
 	}
 );

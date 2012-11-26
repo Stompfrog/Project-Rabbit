@@ -11,6 +11,11 @@
 		        <li>Get the artist with id 2 as JSON = <?php echo anchor('/api/artist/2', '/api/artist/2'); ?></li>
 		        <li>Get the all artists JSON = <?php echo anchor('/api/allartists', '/api/allartists'); ?></li>
 		</ul>
+		
+		<ul id="api-links">
+		        <li>Get the all artists with interests in Acrylics and Watercolour JSON = <?php echo anchor('/api/all_artists_interests/?interests[]=3&interests[]=4', '/api/all_artists_interests/?interests[]=3&interests[]=4'); ?></li>
+		</ul>
+		
 		<ul id="api-links">
 		        <li>Get number of artists JSON = <?php echo anchor('/api/gettotalartists', '/api/gettotalartists'); ?></li>
 		</ul>

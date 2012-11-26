@@ -50,6 +50,16 @@ class Api extends CI_Controller
 	    $all_artists = $this->artists_model->all_artists();
 	    $data['encoded_data'] = json_encode($all_artists);              
 	    $this->load->view('api/json',$data);
+	    
+	}
+	
+	function all_artists_interests()
+	{
+		//get any get parameters
+	    $params = $this->input->get('interests');
+	    $all_artists = $this->artists_model->all_artists_interests((is_array($params)) ? $params : null);
+	    $data['encoded_data'] = json_encode($all_artists);
+	    $this->load->view('api/json',$data);    
 	}
 	
 	function get_artists()

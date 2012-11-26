@@ -1,6 +1,7 @@
 		        </div>
 		        <footer>
-		                <p>&copy; Artify.co 2012</p>
+		                <small>&copy; Artify.co 2012</small>
+		                <a href="/contact">Contact us</a>
 		        </footer>
 		</div>
 		

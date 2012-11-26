@@ -15,10 +15,10 @@
 						<li <?php if($this->uri->segment(1)=="welcome" || !$this->uri->segment(1)){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>">Home</a></li>
 						<li <?php if($this->uri->segment(1)=="explore"){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>explore/">Explore</a></li>
 						<li <?php if($this->uri->segment(1)=="artists"){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>artists/">Artists</a></li>
-						<li <?php if($this->uri->segment(1)=="groups"){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>groups/">Groups</a></li>
+						<li <?php if($this->uri->segment(1)=="groups"){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>groups/">Groups</a></li><?php /*
 						<li <?php if($this->uri->segment(1)=="places"){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>places/">Places</a></li>
-						<li <?php if($this->uri->segment(1)=="events"){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>events/">Events</a></li>
-						<li <?php if($this->uri->segment(1)=="api"){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>/api/">API</a></li>
+						<li <?php if($this->uri->segment(1)=="events"){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>events/">Events</a></li> */ ?>
+						<li <?php if($this->uri->segment(1)=="api"){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>api/">API</a></li>
 					</ul>
 					<ul class="nav secondary-nav">
 						<?php if ($this->tank_auth->is_logged_in()) { ?>
