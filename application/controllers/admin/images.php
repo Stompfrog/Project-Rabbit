@@ -12,7 +12,6 @@ class Images extends CI_Controller
 	    $this->load->library('pagination');
 	    $this->load->library('form_validation');
 		$this->load->library('security');
-		$this->load->library('form_validation');
 		    
 	    $this->load->model('artists_model');
 	    $this->load->model('upload_model');
@@ -29,6 +28,14 @@ class Images extends CI_Controller
 			redirect('/auth/login/');
 		} else {
 			$data = array();
+			
+			$user_id = $this->tank_auth->get_user_id();
+			
+		    $data['user'] = $this->artists_model->get_user($user_id);
+		    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
+		    $data['friends'] = $this->artists_model->get_friends($user_id);
+		    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
+			
 			$images = $this->artists_model->get_images($this->tank_auth->get_user_id());
 			if ($images)	{
 				$data['images'] = $images;
@@ -47,6 +54,12 @@ class Images extends CI_Controller
 			//get 
 			$data = array();
 			$user_id = $this->tank_auth->get_user_id();
+			
+		    $data['user'] = $this->artists_model->get_user($user_id);
+		    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
+		    $data['friends'] = $this->artists_model->get_friends($user_id);
+		    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
+			
 			$image_id = false;
 			
 			if (is_numeric ($this->uri->segment(4)) && $this->artists_model->valid_image($user_id, $this->uri->segment(4))) {
@@ -54,7 +67,7 @@ class Images extends CI_Controller
 			}
 			
 			if ($image_id) {
-				$data['images'] = $this->artists_model->get_user_image($user_id, $image_id);			
+				$data['image'] = $this->artists_model->get_user_image($user_id, $image_id);			
 			} else {
 				$data['error'] = 'Oops, there has been a problem';
 			}
@@ -77,11 +90,19 @@ class Images extends CI_Controller
 			redirect('/auth/login/');
 		} else {
 			$data = array();
+			
+			$user_id = $this->tank_auth->get_user_id();
+			
+		    $data['user'] = $this->artists_model->get_user($user_id);
+		    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
+		    $data['friends'] = $this->artists_model->get_friends($user_id);
+		    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
+			
 			if ($this->input->post('upload')) {
 				$data = $this->upload_model->img_upload();
 			}
 			$this->load->view('/templates/header', $data);
-			$this->load->view('/auth/add_image', $data);
+			$this->load->view('/images/add_image', $data);
 			$this->load->view('/templates/footer', $data);
 		}
 	}
@@ -92,11 +113,19 @@ class Images extends CI_Controller
 			redirect('/auth/login/');
 		} else {
 			$data = array();
+			
+			$user_id = $this->tank_auth->get_user_id();
+			
+		    $data['user'] = $this->artists_model->get_user($user_id);
+		    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
+		    $data['friends'] = $this->artists_model->get_friends($user_id);
+		    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
+			
 			if ($this->input->post('upload')) {
 				$data = $this->upload_model->profile_img_upload();
 			}
 			$this->load->view('/templates/header', $data);
-			$this->load->view('/auth/add_image', $data);
+			$this->load->view('/images/add_image', $data);
 			$this->load->view('/templates/footer', $data);
 		}
 	}
@@ -107,12 +136,20 @@ class Images extends CI_Controller
 		//if posted
 		if ($this->tank_auth->is_logged_in()) {
 			$data = array();
+			
+			$user_id = $this->tank_auth->get_user_id();
+			
+		    $data['user'] = $this->artists_model->get_user($user_id);
+		    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
+		    $data['friends'] = $this->artists_model->get_friends($user_id);
+		    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
+			
 			$data['profile_images'] = $this->artists_model->get_all_profile_images($this->tank_auth->get_user_id());
 			if ($this->input->post('upload')) {
 				$data = $this->upload_model->profile_img_upload();
 			}
 			$this->load->view('/templates/header', $data);
-			$this->load->view('/auth/profile_image', $data);
+			$this->load->view('/images/profile_image', $data);
 			$this->load->view('/templates/footer', $data);
 		} else {
 			redirect('/auth/login/');
@@ -130,7 +167,6 @@ class Images extends CI_Controller
 		} else {
 			if (is_numeric ($this->uri->segment(4))) {
 				$this->artists_model->delete_image ($this->uri->segment(4), $this->tank_auth->get_user_id());
-				
 			}
 			redirect('/admin/images/');
 		}
@@ -147,7 +183,14 @@ class Images extends CI_Controller
 		} else {
 
 			$data = array();
+
 			$user_id = $this->tank_auth->get_user_id();
+			
+		    $data['user'] = $this->artists_model->get_user($user_id);
+		    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
+		    $data['friends'] = $this->artists_model->get_friends($user_id);
+		    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
+		    
 			$image_id = false;
 			
 			if (is_numeric ($this->uri->segment(4)) && $this->artists_model->valid_image($user_id, $this->uri->segment(4))) {
@@ -167,9 +210,6 @@ class Images extends CI_Controller
 		    $this->load->view('templates/header');
 		    $this->load->view('images/edit_image',$data);
 		    $this->load->view('templates/footer');
-
-
-
 		}
 	}
 

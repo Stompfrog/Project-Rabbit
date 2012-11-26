@@ -34,7 +34,14 @@ class Interests extends CI_Controller
 			redirect('/auth/login/');
 		} else {
 			$data = array();
+
+			$user_id = $this->tank_auth->get_user_id();
 			
+		    $data['user'] = $this->artists_model->get_user($user_id);
+		    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
+		    $data['friends'] = $this->artists_model->get_friends($user_id);
+		    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
+		    
 			$dump = '';
 
 			$interests = $this->artists_model->get_full_user_interests($this->tank_auth->get_user_id());

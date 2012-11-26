@@ -102,7 +102,7 @@ class Galleries extends CI_Controller
 			$this->load->view('/templates/header', $data);
 			if ($this->form_validation->run() == FALSE)
 			{
-				$this->load->view('/auth/add_gallery', $data);
+				$this->load->view('/gallery/add_gallery', $data);
 			}
 			else
 			{
@@ -114,10 +114,10 @@ class Galleries extends CI_Controller
 				if($this->artists_model->add_gallery($data))
 				{
 					$data['message'] = 'Gallery added successfully!';
-					$this->load->view('/auth/add_gallery', $data);
+					$this->load->view('/gallery/add_gallery', $data);
 				} else {
 					$data['message'] = 'Oops, there was a problem adding to the database.';
-					$this->load->view('/auth/add_gallery', $data);
+					$this->load->view('/gallery/add_gallery', $data);
 				}
 			}
 			$this->load->view('/templates/footer', $data);

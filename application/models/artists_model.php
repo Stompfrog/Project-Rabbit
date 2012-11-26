@@ -943,7 +943,7 @@ class Artists_model extends CI_Model {
 			$images = '';
 			foreach ($query->result_array() as $row)
 			{
-				$images .= '<li><a href="#"><img class="thumbnail" src="' . base_url() . $this->config->item('profile_thumb_path') . $row['file_name'] . '" alt=""></a></li>';
+				$images .= '<li><a href="' . site_url() . 'artists/' . $user_id . '/image/' . $row['image_id'] . '"><img class="thumbnail" src="' . site_url() . $this->config->item('thumb_path') . $row['file_name'] . '" alt=""></a></li>';
 			}
 			return $images;
 	    }

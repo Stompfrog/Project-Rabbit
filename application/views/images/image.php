@@ -17,7 +17,7 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 		<?php } ?>
 		<?php
 			if ($logged_in_user) { ?>
-				<p><a href="<?= site_url() ?>/artists/<?= $user->get_id() ?>/edit_image/<?= $image->get_id() ?>">Edit image</a></p>
+				<p><a href="<?= site_url() ?>artists/<?= $user->get_id() ?>/edit_image/<?= $image->get_id() ?>">Edit image</a></p>
 			<?php } else if (isset($error)) {
 				echo '<p>' . $error . '</p>';
 			}
