@@ -102,11 +102,6 @@
 			return $this->description;
 		}
 
-		public function get_admin_url()
-		{
-			return site_url() . 'admin/groups/group/' . $this->id . '/';
-		}
-
 		public function get_url()
 		{
 			return site_url() . 'groups/group/' . $this->id . '/';

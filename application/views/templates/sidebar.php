@@ -22,9 +22,9 @@
 
 		$group_data['groups'] = $user->get_groups();
 		if ($logged_in_user) {
-			echo '<h3><a href="' . site_url() . 'admin/groups/">Groups</a></h3>';
+			echo '<h3><a href="' . site_url() . 'artists/' . $user->get_id() . '/groups/">Groups</a></h3>';
 			$this->load->view('templates/groups', $group_data);
-			echo '<p>' . anchor('/admin/groups/create_group/', 'Create group') . '</p>';
+			echo '<p>' . anchor('groups/create/', 'Create group') . '</p>';
 		} else {
 			echo '<h3>Groups</h3>';
 			$this->load->view('templates/groups', $group_data);
@@ -53,14 +53,12 @@
         $this->load->view('templates/friends', $data);
         
         if ($logged_in_user) { ?>
-			<h3>Interests</h3>
+			<h3><a href="/admin/interests/">Interests</a></h3>
+			<h3><a href="/admin/events/">Events</a></h3>
 			<ul class="events unstyled">
-				<li><?php echo anchor('/admin/interests/', 'Your interests'); ?></li>
+				<li><?php echo anchor('events/add_event/', 'Add event'); ?></li>
 			</ul>
-			<h3>Events</h3>
-			<ul class="events unstyled">
-				<li><?php echo anchor('/admin/events/', 'Your events'); ?></li>
-				<li><?php echo anchor('/admin/groups/add_event/', 'Add event'); ?></li>
-			</ul>
-		<?php } ?>
+		<?php } else {
+			//get user interest cloud
+		} ?>
 </div>

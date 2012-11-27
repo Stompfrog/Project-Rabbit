@@ -66,6 +66,9 @@ class Artists extends CI_Controller
 				else
 					$this->gallery($this->uri->segment(2), $this->uri->segment(4));
 				break;
+			case ($this->uri->segment(3) && ($this->uri->segment(3) === 'groups')):
+				$this->groups();
+				break;
 			case ($this->uri->segment(3) && ($this->uri->segment(3) === 'message')):
 				if (!is_numeric ($this->uri->segment(2)))
 					$this->message($this->artists_model->get_user_id_from_username($this->uri->segment(2)));
@@ -79,7 +82,7 @@ class Artists extends CI_Controller
 				$this->get_user($this->uri->segment(2));
 				break;
 			default:
-				$this->page_not_found();
+				show_404();
 				break;
 		}
 	}
@@ -315,6 +318,32 @@ class Artists extends CI_Controller
 				$this->load->view('/templates/footer', $data);
 			}
 		}
+	}
+	
+	function groups ()
+	{
+		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
+			redirect('/auth/login/');
+		} else {
+			$user_id = $this->tank_auth->get_user_id();
+			$data = array();
+			
+			$user_id = $this->tank_auth->get_user_id();
+			
+		    $data['user'] = $this->artists_model->get_user($user_id);
+		    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
+		    $data['friends'] = $this->artists_model->get_friends($user_id);
+		    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
+			
+		    $groups = $this->artists_model->get_groups($user_id);
+		    if ($groups)
+				$data['groups'] = $groups;
+				
+		    $this->load->view('templates/header');
+		    $this->load->view('auth/group_list',$data);
+		    $this->load->view('templates/footer');
+	    }
+
 	}
 	
 	/*

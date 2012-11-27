@@ -72,7 +72,7 @@
 				$oDate = new DateTime($row->created_date);
 				$sDate = $oDate->format($format);
 			?>
-				<a href="<?php echo site_url(); ?>groups/render/<?php echo $row->id; ?>"><?php echo $row->group_name; ?></a> (<?= $sDate ?>)
+				<a href="<?php echo site_url(); ?>groups/<?php echo $row->id; ?>"><?php echo $row->group_name; ?></a> (<?= $sDate ?>)
 			</li>
 			<?php endforeach; ?>
 		</ul>

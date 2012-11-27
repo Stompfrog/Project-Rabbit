@@ -586,12 +586,11 @@ class Artists_model extends CI_Model {
         return false;
 	}
 	
-	function delete_group ($group_id, $user_id) 
+	function delete_group ($user_id, $group_id) 
 	{
 		//if user is admin at least. If other admin are there, ask their permission too?
 		//where user_id is creator_id
-		if ($this->db->delete('group_users', array('id' => $group_id, 'user_id' => $user_id))) {
-			$this->db->delete('group', array('id' => $group_id));
+		if ($this->db->delete('group', array('id' => $group_id))) {
 			return true;
 		}
 		return false;
@@ -700,36 +699,17 @@ class Artists_model extends CI_Model {
 		return false;
 	}
 	
-	/*function get_groups () {
-
-		$query = $this->db->query('SELECT * FROM `group`');
-	    if ($query->num_rows() > 0)
-	    {
-			return $query->row_array();
-	    }
-	    return false;
-	}*/
-	
 	function get_group ($group_id) {
-		$query = $this->db->query('SELECT DISTINCT * FROM `group_users`, `group` WHERE `group`.`id` = `group_users`.`group_id` and `group`.`id` = ' . $group_id);
-	    if ($query->num_rows() > 0) {
-			$group = new Group($query->row_array());
-			return $group;
-		}
-	    return false;
-	}
-	
-	//legacy function, delete when safely tested
-	/*function get_group ($group_id) {
 		$query = $this->db->query('SELECT DISTINCT * FROM `group_users`, `group` WHERE `group`.`id` = `group_users`.`group_id` and `group`.`id` = ' . $group_id);
 	    if ($query->num_rows() > 0) {
 	    	$data = array();
 	    	$data['group_members'] = $this->get_group_members($group_id);
 	    	$data = array_merge($data, $query->row_array());
-			return $data;
+			$group = new Group($data);
+			return $group;
 		}
 	    return false;
-	}*/
+	}
 	
 	function get_user_group ($user_id, $group_id) {
 	    $query = $this->db->query("SELECT * FROM `group_users`, `group` WHERE `group`.`id` = `group_users`.`group_id` and `group`.`id` = " . $group_id . " AND `group_users`.`user_id` = " . $user_id);
