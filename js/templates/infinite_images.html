@@ -1,0 +1,4 @@
+<% _.each(images, function(image) { %>
+<li><a href="/artists/<%= image.user_id %>/image/<%= image.id %>/" title=""><img src="/pb/img/tn/<%= image.file_name %>" alt="<%= image.alt %>"></a></li>
+<% });
+%>

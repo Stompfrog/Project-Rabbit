@@ -3,8 +3,9 @@ require ([
 	'jQuery', 
 	'Underscore', 
 	'Backbone',
-	'Artify'], 
-	function ($, _, Backbone, Artify) {
+	'Artify',
+	'text!templates/infinite_images.html'], 
+	function ($, _, Backbone, Artify, images_template) {
 
 		/*
 		$(function() {
@@ -48,6 +49,34 @@ require ([
 				return false;
 			});            
  
+ 			//infinite scroll on hopepage at the moment
+ 			if (document.getElementById('images_scroll')) {	
+				var scroll_handler = (function () {
+					var page = 1, per_page = 12;
+					return function () {
+						if($(window).scrollTop() + $(window).height() == $(document).height()) {
+							console.log('performing ajax call');
+							page++;
+							$.ajax({
+							    type: "GET",
+							    url: "/api/images/" + page + "/" + per_page + "/",
+							    success: function(result) {
+									if(result == "false") {
+										//if response is false, remove this function from window
+										$(window).unbind("scroll");
+									} else {
+										console.log(page);
+										$("#images_scroll ul").append(_.template(images_template, {images : JSON.parse(result) }));
+									}
+							    }
+							});
+						}
+					}
+					
+				})();
+				
+				$(window).scroll(scroll_handler);		
+ 			}
 		});
 	}
 );

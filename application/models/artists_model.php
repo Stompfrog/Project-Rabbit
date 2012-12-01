@@ -550,13 +550,13 @@ class Artists_model extends CI_Model {
 	    return $query->result_array();
 	}
 	
-	/****** Groups section ***************************************
+	/****************************** Groups section ******************************/
 	
-	//Create group
+	/*********************************************
+	
+	Function: Create group
 	
 	*************************************************************/
-	
-		/****************************** Groups section ******************************/
 	
 	function create_group ($user_id, $data) 
 	{
@@ -719,9 +719,21 @@ class Artists_model extends CI_Model {
 	    }
 	    return false;
 	}
+	
+	//TODO: 
+	//request to join group
+	
+	//invite user to join group
+	
+	//get user requests to join group
+	
+	//accept user into group
+	
+	//deny user entry into group
+	
+	//remove user from group
 		
-	/****** Gallery and Image methods ****************************************
-	*************************************************************/
+	/****** Gallery and Image methods **********************************/
 	
 	function get_galleries ($user_id) {
 		$galleries = array();
@@ -832,6 +844,17 @@ class Artists_model extends CI_Model {
 			return $image;
 		}
 		return false;
+	}
+	
+	function get_all_images($page = 1, $limit = 12) {
+
+	    $offset = ($page - 1) * $limit;
+	    $query = $this->db->query("SELECT * FROM image WHERE NOT EXISTS (SELECT avatar FROM user_profiles WHERE user_profiles.avatar = image.id) ORDER BY image.date_added  DESC LIMIT " . $offset . ", " . $limit);
+
+	    if ($query->num_rows() > 0) {
+			return $query->result_array();
+		}
+	    return false;
 	}
 
 	function get_image_data ($user_id, $image_id) {
@@ -1083,30 +1106,6 @@ class Artists_model extends CI_Model {
 
 	function get_all_messages ($user_id)
 	{
-		/*
-			//join user profiles. need to join on the sender/recipient
-			SELECT DISTINCT * FROM `messages` AS msg LEFT JOIN `user_profiles` ON msg.sender_id = `user_profiles`.user_id WHERE recipient_id = 1 OR (sender_id = 1 AND NOT EXISTS (SELECT recipient_id FROM `messages` WHERE recipient_id = 1 AND sender_id = msg.recipient_id))  GROUP BY `sender_id`, `recipient_id` ORDER BY date
-			
-			//this is without avatar
-			'SELECT DISTINCT * FROM `messages` AS msg WHERE recipient_id = ' . $user_id . ' OR (sender_id = ' . $user_id . ' AND NOT EXISTS (SELECT recipient_id FROM `messages` WHERE recipient_id = ' . $user_id . ' AND sender_id = msg.recipient_id)) GROUP BY `sender_id`, `recipient_id` ORDER BY date'
-		*/
-		
-		/*
-		SELECT DISTINCT * FROM `messages` AS msg 
-		LEFT JOIN `user_profiles` ON msg.sender_id = `user_profiles`.user_id
-		WHERE recipient_id = 2 
-		OR (sender_id = 1 AND NOT EXISTS (SELECT recipient_id FROM `messages` WHERE recipient_id = 2 AND sender_id = msg.recipient_id))  
-		GROUP BY `sender_id`, `recipient_id` 
-		ORDER BY date
-		
-		SELECT DISTINCT * FROM `messages` AS msg, `user_profiles`
-		WHERE msg.sender_id = `user_profiles`.user_id
-		AND recipient_id = 2 
-		OR (sender_id = 1 AND NOT EXISTS (SELECT recipient_id FROM `messages` WHERE recipient_id = 2 AND sender_id = msg.recipient_id))  
-		GROUP BY `sender_id`, `recipient_id` 
-		ORDER BY date
-		*/
-
 		$query = $this->db->query('SELECT DISTINCT * FROM `messages` AS msg LEFT JOIN `user_profiles` ON msg.sender_id = `user_profiles`.user_id WHERE recipient_id = ' . $user_id . ' OR (sender_id = ' . $user_id . ' AND NOT EXISTS (SELECT recipient_id FROM `messages` WHERE recipient_id = ' . $user_id . ' AND sender_id = msg.recipient_id))  GROUP BY `sender_id`, `recipient_id` ORDER BY date');
 
 		if($query->num_rows() > 0) {

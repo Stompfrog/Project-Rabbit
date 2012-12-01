@@ -90,17 +90,19 @@ class Images extends CI_Controller
 			redirect('/auth/login/');
 		} else {
 			$data = array();
+
+			if ($this->input->post('upload')) {
+				$data = $this->upload_model->img_upload();
+			}
 			
+
 			$user_id = $this->tank_auth->get_user_id();
 			
 		    $data['user'] = $this->artists_model->get_user($user_id);
 		    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
 		    $data['friends'] = $this->artists_model->get_friends($user_id);
 		    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
-			
-			if ($this->input->post('upload')) {
-				$data = $this->upload_model->img_upload();
-			}
+		    
 			$this->load->view('/templates/header', $data);
 			$this->load->view('/images/add_image', $data);
 			$this->load->view('/templates/footer', $data);

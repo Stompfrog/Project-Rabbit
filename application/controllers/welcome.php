@@ -20,7 +20,8 @@ class Welcome extends CI_Controller
 		$data['popular_places'] = $this->artists_model->get_popular_places(5);
 		$data['latest_events'] = $this->artists_model->get_latest_events(5);
 		$data['latest_groups'] = $this->artists_model->get_latest_groups(5);
-		
+		$data['latest_images'] = $this->artists_model->get_all_images(1, 12);
+
 		$this->load->view('templates/header');
 		$this->load->view('welcome_message',$data);
 		$this->load->view('templates/footer');

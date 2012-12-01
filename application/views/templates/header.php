@@ -7,6 +7,10 @@
 		<link rel="stylesheet" href="<?= base_url(); ?>css/style.css" />
 	</head>
 	<body>
+<?php if ($this->tank_auth->is_logged_in()) {
+		$user_id = $this->tank_auth->get_user_id();
+		$user_name = $this->tank_auth->get_username();
+} ?>
 		<div class="topbar">
 			<div class="fill">
 				<div class="container">
@@ -15,18 +19,24 @@
 						<li <?php if($this->uri->segment(1)=="welcome" || !$this->uri->segment(1)){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>">Home</a></li>
 						<li <?php if($this->uri->segment(1)=="explore"){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>explore/">Explore</a></li>
 						<li <?php if($this->uri->segment(1)=="artists"){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>artists/">Artists</a></li>
-						<li <?php if($this->uri->segment(1)=="groups"){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>groups/">Groups</a></li><?php /*
+						<?php if ($this->tank_auth->is_logged_in()) { ?>
+						<li class="dropdown" data-dropdown="dropdown">
+							<a href="<?= site_url(); ?>groups/" class="dropdown-toggle">Groups</a>
+							<ul class="dropdown-menu">
+								<li><a href="<?= site_url(); ?>groups/">All Groups</a></li>
+								<li><?php echo anchor('artists/' . $user_id . '/groups/','My Groups'); ?></li>
+							</ul>
+						</li>
+						<?php } else { ?>
+							<li <?php if($this->uri->segment(1)=="groups"){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>groups/">Groups</a></li>
+						<?php } ?>
+						<?php /*
 						<li <?php if($this->uri->segment(1)=="places"){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>places/">Places</a></li>
 						<li <?php if($this->uri->segment(1)=="events"){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>events/">Events</a></li> */ ?>
 						<li <?php if($this->uri->segment(1)=="api"){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>api/">API</a></li>
 					</ul>
 					<ul class="nav secondary-nav">
 						<?php if ($this->tank_auth->is_logged_in()) { ?>
-							<?php 
-								$user_id = $this->tank_auth->get_user_id();
-								$user_name = $this->tank_auth->get_username();
-							?>
-
 							<li class="dropdown" data-dropdown="dropdown">
 								<?php echo anchor('artists/render',$user_name,'class="dropdown-toggle"'); ?>
 								<ul class="dropdown-menu">

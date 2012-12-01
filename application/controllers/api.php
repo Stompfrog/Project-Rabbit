@@ -135,6 +135,16 @@ class Api extends CI_Controller
 	}
 
 	/*
+	* Images
+	*/
+
+	function images () {
+	    $images = $this->artists_model->get_all_images($this->uri->segment(3), $this->uri->segment(4));
+	    $data['encoded_data'] = json_encode($images);         
+	    $this->load->view('api/json',$data);
+	}
+
+	/*
 	* Messages
 	*/
 

@@ -13,7 +13,7 @@
 			$message_data['user_id'] = $user->get_id();
 			$this->load->view('templates/message', $message_data);
 		}
-		
+		echo '<hr/>';
 		if ($user->get_addresses()) {
 			echo '<h3><a href="/addresses/">Addresses</a></h3>';
 			echo $user->get_addresses();
@@ -29,22 +29,22 @@
 			echo '<h3>Groups</h3>';
 			$this->load->view('templates/groups', $group_data);
 		}
-
+		echo '<hr/>';
 		if ($logged_in_user) {
 			echo '<h3><a href="' . site_url() . 'admin/images/">Images</a></h3>';
-			echo '<ul class="events unstyled">';
+			echo '<ul class="artists unstyled">';
 			echo '	<li>' . anchor('/admin/images/add_image/', 'Add image') . '</li>';
 			echo '	<li>' . anchor('/admin/images/profile_images/', 'View and add profile images') . '</li>';
 			echo '</ul>';
 		} else {
 			echo '<h3><a href="' . site_url() . 'artists/' . $user->get_id() . '/images">Images</a></h3>';
 		}
-
+		echo '<hr/>';
 		if ($logged_in_user) {
 			echo '<h3><a href="' . site_url() . 'admin/galleries/">Galleries</a></h3>';
 			echo '<p>' . anchor('admin/galleries/add_gallery/', 'Add gallery') . '</p>';
 		}
-
+		echo '<hr/>';
         $data = array();
         $data['friends'] = $friends;
         $data['total_friends'] = $total_friends;

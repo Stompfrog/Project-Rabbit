@@ -24,7 +24,7 @@
 					<?php foreach($artists as $row): ?>
 					    <li>
 							<ul class="media-grid">
-								<li><a href="<?php echo site_url(); ?>artists/get_user"><img src="http://www.gravatar.com/avatar/<?= md5( strtolower( trim( $row->email ) ) )?>?s=60" class="thumbnail" /></a></li>
+								<li><a href="<?php echo site_url(); ?>artists/<?php echo $row->user_id; ?>"><img src="http://www.gravatar.com/avatar/<?= md5( strtolower( trim( $row->email ) ) )?>?s=60" class="thumbnail" /></a></li>
 							</ul>
 							<h3><a href="<?php echo site_url(); ?>artists/<?php echo $row->user_id; ?>"><?php echo $row->first_name; ?> <?php echo $row->last_name; ?></a></h3>
 							<p><?php echo $row->about_me; ?></p>

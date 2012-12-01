@@ -58,10 +58,18 @@ class Groups extends CI_Controller
 	 * 	Groups -  show list of interests, with links to edit/delete
 	 */
 	function index ()
-	{
-		
+	{	
 		//public view
 		$data = array();
+		
+		if ($this->tank_auth->is_logged_in()) { // not logged in or not activated
+			$user_id = $this->tank_auth->get_user_id();
+		    $data['user'] = $this->artists_model->get_user($user_id);
+		    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
+		    $data['friends'] = $this->artists_model->get_friends($user_id);
+		    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
+		}
+		
 		//used for pagination, page, offset
 	    $params = $this->input->get(NULL, TRUE);
 	    $url = site_url() . 'groups/';
@@ -246,7 +254,7 @@ class Groups extends CI_Controller
 			//if an administrator is not the creator of the group but deletes,
 			//the creator is notified and ok's it.
 			
-			redirect('/groups/');
+			redirect('/artists/' . $user_id . '/groups/');
 		}
 	}
 	
