@@ -228,35 +228,34 @@ var Artify = Artify || {};
         autoComplete: function () {
             var self = this;
             $(document).ready(function() {                            
-              $(function() {
-              if(document.getElementById('address')) {
-	                $("#address").autocomplete({
-	                  //This bit uses the geocoder to fetch address values
-	                  source: function(request, response) {
-	                    self.geocoder.geocode( {'address': request.term }, function(results, status) {
-	                      response($.map(results, function(item) {
-	                        return {
-	                          label:  item.formatted_address,
-	                          value: item.formatted_address,
-	                          latitude: item.geometry.location.lat(),
-	                          longitude: item.geometry.location.lng()
-	                        }
-	                      }));
-	                    })
-	                  },
-	                  //This bit is executed upon selection of an address
-	                  select: function(event, ui) {
-	                    $("#lat").val(ui.item.latitude);
-	                    $("#lon").val(ui.item.longitude);
-	                    var location = new google.maps.LatLng(ui.item.latitude, ui.item.longitude);
-	                    self.marker.setPosition(location);
-	                    self.mapObj.setCenter(location);
-	                  }
-	                });
-				}
-              });
-              
-            });
+				$(function() {
+					if(document.getElementById('address')) {
+					    $("#address").autocomplete({
+					      //This bit uses the geocoder to fetch address values
+					      source: function(request, response) {
+					        self.geocoder.geocode( {'address': request.term }, function(results, status) {
+					          response($.map(results, function(item) {
+					            return {
+					              label:  item.formatted_address,
+					              value: item.formatted_address,
+					              latitude: item.geometry.location.lat(),
+					              longitude: item.geometry.location.lng()
+					            }
+					          }));
+					        })
+					      },
+					      //This bit is executed upon selection of an address
+					      select: function(event, ui) {
+					        $("#lat").val(ui.item.latitude);
+					        $("#lon").val(ui.item.longitude);
+					        var location = new google.maps.LatLng(ui.item.latitude, ui.item.longitude);
+					        self.marker.setPosition(location);
+					        self.mapObj.setCenter(location);
+					      }
+					    });
+					}
+				});  
+			});
         }
 	};
 

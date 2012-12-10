@@ -78,7 +78,7 @@ class Groups extends CI_Controller
 	    
 	    $pagination_config = array(
 	            'url' => $url,
-	            'total' => $this->artists_model->get_total_groups(),
+	            'total' => $this->artists_model->total_groups(),
 	            'page' => $page,
 	            'offset' => $offset
 	    );
@@ -137,7 +137,6 @@ class Groups extends CI_Controller
 				redirect('/auth/groups/');
 			}
 	    }
-
 	}
 	
 	function create () {
@@ -248,7 +247,7 @@ class Groups extends CI_Controller
 			//user must be creator to delete group.
 			//Other users must be updated that the group has been deleted			
 			if (($this->artists_model->valid_user_group($group_id, $user_id)) && ($this->artists_model->user_is_group_creator($user_id, $group_id)) ) {
-				$this->artists_model->delete_group ($user_id, $group_id);
+				$this->artists_model->delete_group ($group_id);
 			}
 			
 			//if an administrator is not the creator of the group but deletes,

@@ -14,7 +14,7 @@
                    <li>Organise exhibitions, art days, get togethers, and show the world!</li>
                 </ul>
                 <?php if (!$this->tank_auth->is_logged_in()) { ?>
-                        <a class="btn danger" href="<?php echo site_url(); ?>auth/register">Sign up as an artist!</a>
+                	<a class="btn danger" href="<?php echo site_url(); ?>auth/register">Sign up as an artist!</a>
                 <?php }
                 ?>
            <hr />
@@ -24,11 +24,15 @@
 					<?php foreach($artists as $row): ?>
 					    <li>
 							<ul class="media-grid">
-								<li><a href="<?php echo site_url(); ?>artists/<?php echo $row->user_id; ?>"><img src="http://www.gravatar.com/avatar/<?= md5( strtolower( trim( $row->email ) ) )?>?s=60" class="thumbnail" /></a></li>
+							<?php 
+								if ($row->avatar !== null) {
+									echo '<li><a href="' . site_url() . 'artists/' . $row->user_id . '">' . $row->avatar->get_profile_thumb_image('style="width: 60; height: 60px"') . '</a></li>';
+								} else {
+									echo '<li><a href="' . site_url() . 'artists/' . $row->user_id . '"><img class="thumbnail" src="http://placehold.it/60x60" alt="" /></a></li>';
+								} ?>
 							</ul>
 							<h3><a href="<?php echo site_url(); ?>artists/<?php echo $row->user_id; ?>"><?php echo $row->first_name; ?> <?php echo $row->last_name; ?></a></h3>
 							<p><?php echo $row->about_me; ?></p>
-							
 							<?php
 							foreach ($row->interests as $interest) {
 							    echo '<span class="label important">' . $interest . '</span> ';

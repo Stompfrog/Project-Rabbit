@@ -113,7 +113,6 @@ class Artists_model extends CI_Model {
 	    }
 	}
 
-
 	/*
 		Get artists based on thier interests
 	*/
@@ -126,7 +125,6 @@ class Artists_model extends CI_Model {
 	    }
 	    
 	    $users = $this->db->query($query);
-
 	    
 	    if ($users->num_rows() > 0) {
 	    	return $users->result_array();
@@ -167,6 +165,9 @@ class Artists_model extends CI_Model {
 	    foreach ($query->result() as $row)
 	    {
 			$row->interests = $this->get_interests($row->user_id);
+			if ($row->avatar !== null) {
+				$row->avatar = $this->artists_model->get_profile_image($row->avatar);
+			}
 			array_push($results, $row);
 	    }
 	    
@@ -534,7 +535,7 @@ class Artists_model extends CI_Model {
 	
 	/********* Places ****************************************************/
 
-	function get_popular_places ($limit = 5) {
+	function popular_places ($limit = 5) {
 	
 	    $results = array();
 	    $query = $this->db->query("SELECT * FROM address WHERE is_venue = 1 ORDER BY id DESC LIMIT " . $limit);
@@ -552,10 +553,10 @@ class Artists_model extends CI_Model {
 	
 	/****************************** Groups section ******************************/
 	
-	/*********************************************
-	
-	Function: Create group
-	
+	/************************************************************
+	*
+	* Function: Create group
+	*
 	*************************************************************/
 	
 	function create_group ($user_id, $data) 
@@ -586,12 +587,15 @@ class Artists_model extends CI_Model {
         return false;
 	}
 	
-	function delete_group ($user_id, $group_id) 
+	function delete_group ($group_id) 
 	{
-		//if user is admin at least. If other admin are there, ask their permission too?
-		//where user_id is creator_id
-		if ($this->db->delete('group', array('id' => $group_id))) {
-			return true;
+		$user_id = $this->tank_auth->get_user_id();
+		if ($this->tank_auth->is_logged_in() && $this->user_is_group_creator($user_id, $group_id)) {
+			//if user is admin at least. If other admin are there, ask their permission too?
+			//where user_id is creator_id
+			if ($this->db->delete('group', array('id' => $group_id))) {
+				return true;
+			}	
 		}
 		return false;
 	}
@@ -651,6 +655,45 @@ class Artists_model extends CI_Model {
 	    return false;
 	}
 	
+	function group_user_request ($user_id) {
+	
+	    $query = $this->db->query("SELECT is_admin, is_creator, is_member, invited, requested, COUNT(*) AS total_groups FROM `group_users` WHERE user_id = " . $user_id);
+	
+		//user record already exists, now find out what they are
+		if ($query->num_rows() > 0) {
+			$row = $query->row();
+			if($row->total_groups > 0) {
+				$error = array();
+				//is_admin, is_creator, is_member, invited, requested 
+				
+				if ($row->is_creator == 1) {
+					$error["message"] = "You are the creator of this group already";
+					return $error;
+				}
+				if ($row->is_admin == 1) {
+					$error["message"] = "You are an administrator of this group already";
+					return $error;
+				}
+				if ($row->is_member == 1) {
+					return $error["message"] = "You are already a member";
+					return $error;
+				}
+				if ($row->invited == 1) {
+					$error["message"] = "You have already been invited";
+					return $error;
+				}
+				if ($row->requested == 1) {
+					return $error["message"] = "You have already requested to join group";
+					return $error;
+				}
+			} else {
+	    		return true;
+	    	}
+	    }
+	    //generic error fallover
+	    return false;
+	}
+	
 	function get_all_groups($page = 1, $limit = 5)
 	{
 		$offset = ($page - 1) * $limit;
@@ -663,7 +706,7 @@ class Artists_model extends CI_Model {
 	    return false;
 	}
 	
-	function get_total_groups ()
+	function total_groups ()
 	{
 	    $query = $this->db->query("SELECT COUNT(id) AS total_groups FROM `group`");
 	
@@ -676,7 +719,7 @@ class Artists_model extends CI_Model {
 	    return false;
 	}
 	
-	function get_latest_groups ($limit = 5) {
+	function latest_groups ($limit = 5) {
 	
 	    $results = array();
 	    $query = $this->db->query("SELECT * FROM `group` ORDER BY `created_date` DESC LIMIT " . $limit);
@@ -711,6 +754,14 @@ class Artists_model extends CI_Model {
 	    return false;
 	}
 	
+	function get_group_json ($group_id) {
+		$query = $this->db->query('SELECT DISTINCT * FROM `group_users`, `group` WHERE `group`.`id` = `group_users`.`group_id` and `group`.`id` = ' . $group_id);
+	    if ($query->num_rows() > 0) {
+			return $query->row_array();
+		}
+	    return false;
+	}
+	
 	function get_user_group ($user_id, $group_id) {
 	    $query = $this->db->query("SELECT * FROM `group_users`, `group` WHERE `group`.`id` = `group_users`.`group_id` and `group`.`id` = " . $group_id . " AND `group_users`.`user_id` = " . $user_id);
 	    if ($query->num_rows() > 0)
@@ -720,13 +771,96 @@ class Artists_model extends CI_Model {
 	    return false;
 	}
 	
-	//TODO: 
-	//request to join group
+	/*
+	Table fields
 	
-	//invite user to join group
+	id
+	group_id
+	user_id
+	is_admin
+	join_date
+	is_creator NULL
+	is_member NULL
+	invited NULL
+	requested NULL
+	*/
+	
+	//request to join group
+	function join_group ($group_id)
+	{
+		//TODO: if user doesnt exist, return "user not recognised"
+		if ($this->tank_auth->is_logged_in()) {
+			
+			$user_id = $this->tank_auth->get_user_id();
+			//if the group is not valid return "group does not exist"
+			if (!$this->valid_group($group_id)) {
+				return "group does not exist";
+			}
+			
+			//if user is already a member return "you are already a member"
+			//if user has already requested membership return "you have already requested membership"
+			$user_result = $this->group_user_request($user_id);
+			if ($user_result !== true) {
+				//handle error response
+				return $user_result;
+			}
+
+			//otherwise
+			$group_user = array(
+				'group_id' => $group_id,
+				'user_id' => $user_id,
+				'join_date' => date('Y-m-d H:i:s'),
+				'requested' => 1
+			);
+
+			if($this->db->insert('group_users', $group_user)) {
+				return true;
+			} else {
+				return "There was an error with your request";
+			}
+		}
+		return false;
+	}
 	
 	//get user requests to join group
+	function get_group_requests($group_id) {
+		$query = $this->db->query("SELECT `group_users`.`id`, `user_profiles`.* FROM `group_users`, `user_profiles` WHERE `group_users`.`group_id` = " . $group_id . " AND `group_users`.`requested` = 1 AND `user_profiles`.`user_id` = `group_users`.`user_id`");
+	    if ($query->num_rows() > 0) {
+	    	return $query->result_array();
+	    }
+	    return false;
+	}
 	
+	//invite user to join group
+	function invite_user_to_group($user_id, $group_id)
+	{
+		$inviter_id = $this->tank_auth->get_user_id();
+		//find out if group is valid
+		if (!$this->valid_group($group_id)) {
+			$message = array("error" => "Group does not exist");
+			return $message;
+		}
+		//find out if user has admin rights
+		if (!$this->user_is_group_admin($inviter_id, $group_id)) {
+			$message = array("error" => "You do not have admin rights to invite users");
+			return $message;
+		}
+		//find out if user has already been invited or has requested
+		$user_result = $this->group_user_request($user_id);
+		if ($user_result !== true) {
+			//handle error response
+			return $user_result;
+		}
+
+		$data = array('group_id' => $group_id, 'user_id' => $user_id, 'is_admin' => 0, 'is_creator' => 0, 'is_member' => 0, 'invited' => 1, 'requested' => 0);
+
+		if ($this->db->insert('group_users', $data))
+			return true;
+		return false;
+	}
+	
+	//TODO: 
+
 	//accept user into group
 	
 	//deny user entry into group
@@ -846,10 +980,10 @@ class Artists_model extends CI_Model {
 		return false;
 	}
 	
-	function get_all_images($page = 1, $limit = 12) {
+	function all_images($page = 1, $limit = 12) {
 
 	    $offset = ($page - 1) * $limit;
-	    $query = $this->db->query("SELECT * FROM image WHERE NOT EXISTS (SELECT avatar FROM user_profiles WHERE user_profiles.avatar = image.id) ORDER BY image.date_added  DESC LIMIT " . $offset . ", " . $limit);
+	    $query = $this->db->query("SELECT * FROM image WHERE NOT EXISTS (SELECT avatar FROM user_profiles WHERE user_profiles.avatar = image.id) ORDER BY image.date_added  ASC LIMIT " . $offset . ", " . $limit);
 
 	    if ($query->num_rows() > 0) {
 			return $query->result_array();
@@ -991,7 +1125,7 @@ class Artists_model extends CI_Model {
 	*************************************************************/
 	
 	
-	function get_latest_events ($limit = 5) {
+	function latest_events ($limit = 5) {
 	
 	    $results = array();
 	    $query = $this->db->query("SELECT * FROM events ORDER BY id DESC LIMIT " . $limit);
@@ -1138,13 +1272,11 @@ class Artists_model extends CI_Model {
 		
 	}
 	
-	
-	
-	
-	/****** Timeline methods ****************************************
-	
-	
+	/************************************************************
+	* Timeline methods 
+	*
 	*************************************************************/
+	
 	/*
 	this should be updated each time any of the above methods are called
 	*/
@@ -1158,11 +1290,5 @@ class Artists_model extends CI_Model {
 	            description?
 	            
 	    */
-	}
-    
-    
-    
-    
-    
-
+	} 
 }

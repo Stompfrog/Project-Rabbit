@@ -33,7 +33,7 @@
 						<?php /*
 						<li <?php if($this->uri->segment(1)=="places"){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>places/">Places</a></li>
 						<li <?php if($this->uri->segment(1)=="events"){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>events/">Events</a></li> */ ?>
-						<li <?php if($this->uri->segment(1)=="api"){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>api/">API</a></li>
+						<li <?php if($this->uri->segment(1)=="developers"){ echo "class='active' "; } ?>><a href="<?= site_url(); ?>developers/">Developers</a></li>
 					</ul>
 					<ul class="nav secondary-nav">
 						<?php if ($this->tank_auth->is_logged_in()) { ?>
