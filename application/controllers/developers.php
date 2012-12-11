@@ -19,21 +19,5 @@ class Developers extends CI_Controller
 	    $this->load->view('templates/header');
 	    $this->load->view('api/index');
 	    $this->load->view('templates/footer');
-	}
-
-
-
-
-	/*
-	* Venues
-	*/
-
-	/*
-	* Events
-	*/
-	
-	/*
-	* Interests
-	*/
-	    
+	} 
 }

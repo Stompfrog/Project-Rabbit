@@ -610,10 +610,10 @@ class Artists_model extends CI_Model {
 	}
 	
 	function user_is_group_admin ($user_id, $group_id) {
-		$query = $this->db->query('SELECT count(*) AS is_admin FROM `group_users` WHERE `user_id` = ' . $user_id . ' AND `group_id` = ' . $group_id);
+		$query = $this->db->query('SELECT count(*) AS admin FROM `group_users` WHERE `user_id` = ' . $user_id . ' AND `group_id` = ' . $group_id . ' AND `group_users`.`is_admin` = 1');
 	    if ($query->num_rows() > 0) {
 			$row = $query->row_array();
-			if ( $row['is_admin'] > 0) return true;
+			if ( $row['admin'] > 0) return true;
 		}
 	    return false;
 	}
@@ -623,6 +623,24 @@ class Artists_model extends CI_Model {
 	    if ($query->num_rows() > 0) {
 			$row = $query->row_array();
 			if ( $row['is_creator'] > 0) return true;
+		}
+	    return false;
+	}
+	
+	function user_is_group_member ($user_id, $group_id) {
+		$query = $this->db->query('SELECT count(*) AS is_member FROM `group_users`, `group` WHERE `group`.`id` = `group_users`.`group_id` and `group`.`id` = ' . $group_id . ' AND `group_users`.`user_id` = ' . $user_id . ' AND `group_users`.`is_member` = 1');
+	    if ($query->num_rows() > 0) {
+			$row = $query->row_array();
+			if ( $row['is_member'] > 0) return true;
+		}
+	    return false;
+	}
+	
+	function user_group_invited ($user_id, $group_id) {
+		$query = $this->db->query('SELECT count(*) AS is_invited FROM `group_users` WHERE `user_id` = ' . $user_id . ' AND `group_id` = ' . $group_id . ' AND `invited` = 1');
+	    if ($query->num_rows() > 0) {
+			$row = $query->row_array();
+			if ( $row['is_invited'] == 1) return true;
 		}
 	    return false;
 	}
@@ -655,6 +673,9 @@ class Artists_model extends CI_Model {
 	    return false;
 	}
 	
+	/*
+		Find out if user is connected to this group in any capacity
+	*/
 	function group_user_request ($user_id) {
 	
 	    $query = $this->db->query("SELECT is_admin, is_creator, is_member, invited, requested, COUNT(*) AS total_groups FROM `group_users` WHERE user_id = " . $user_id);
@@ -667,23 +688,23 @@ class Artists_model extends CI_Model {
 				//is_admin, is_creator, is_member, invited, requested 
 				
 				if ($row->is_creator == 1) {
-					$error["message"] = "You are the creator of this group already";
+					$error["message"] = "User is the creator of this group already";
 					return $error;
 				}
 				if ($row->is_admin == 1) {
-					$error["message"] = "You are an administrator of this group already";
+					$error["message"] = "User is an administrator of this group already";
 					return $error;
 				}
 				if ($row->is_member == 1) {
-					return $error["message"] = "You are already a member";
+					return $error["message"] = "User is already a member";
 					return $error;
 				}
 				if ($row->invited == 1) {
-					$error["message"] = "You have already been invited";
+					$error["message"] = "User has already been invited";
 					return $error;
 				}
 				if ($row->requested == 1) {
-					return $error["message"] = "You have already requested to join group";
+					return $error["message"] = "User has already requested to join group";
 					return $error;
 				}
 			} else {
@@ -770,21 +791,7 @@ class Artists_model extends CI_Model {
 	    }
 	    return false;
 	}
-	
-	/*
-	Table fields
-	
-	id
-	group_id
-	user_id
-	is_admin
-	join_date
-	is_creator NULL
-	is_member NULL
-	invited NULL
-	requested NULL
-	*/
-	
+
 	//request to join group
 	function join_group ($group_id)
 	{
@@ -834,38 +841,138 @@ class Artists_model extends CI_Model {
 	//invite user to join group
 	function invite_user_to_group($user_id, $group_id)
 	{
-		$inviter_id = $this->tank_auth->get_user_id();
-		//find out if group is valid
-		if (!$this->valid_group($group_id)) {
-			$message = array("error" => "Group does not exist");
-			return $message;
+		if($this->tank_auth->is_logged_in()) {
+	
+			$inviter_id = $this->tank_auth->get_user_id();
+			//find out if group is valid
+			if (!$this->valid_group($group_id)) {
+				$message = array("error" => "Group does not exist");
+				return $message;
+			}
+			//find out if user has admin rights
+			if (!$this->user_is_group_admin($inviter_id, $group_id)) {
+				$message = array("error" => "You do not have admin rights to invite users");
+				return $message;
+			}
+			//find out if user has already been invited or has requested
+			$user_result = $this->group_user_request($user_id);
+			if ($user_result !== true) {
+				//handle error response
+				return $user_result;
+			}
+	
+			$data = array('group_id' => $group_id, 'user_id' => $user_id, 'is_admin' => 0, 'is_creator' => 0, 'is_member' => 0, 'invited' => 1, 'requested' => 0);
+	
+			if ($this->db->insert('group_users', $data))
+				return true;
 		}
-		//find out if user has admin rights
-		if (!$this->user_is_group_admin($inviter_id, $group_id)) {
-			$message = array("error" => "You do not have admin rights to invite users");
-			return $message;
-		}
-		//find out if user has already been invited or has requested
-		$user_result = $this->group_user_request($user_id);
-		if ($user_result !== true) {
-			//handle error response
-			return $user_result;
-		}
-
-		$data = array('group_id' => $group_id, 'user_id' => $user_id, 'is_admin' => 0, 'is_creator' => 0, 'is_member' => 0, 'invited' => 1, 'requested' => 0);
-
-		if ($this->db->insert('group_users', $data))
-			return true;
+		
 		return false;
 	}
 	
-	//TODO: 
-
-	//accept user into group
+	//user declines group invite
+	function decline_group_invite ($group_id)
+	{
+		if($this->tank_auth->is_logged_in()) {
+			$user_id = $this->tank_auth->get_user_id();
+			//find out if user has been invited
+			if ($this->user_group_invited($user_id, $group_id)) {
+				//if yes, update group_users, set declined to 1
+				$data = array('invited' => 0,
+							  'declined' => 1);
+				$this->db->where('user_id', (int) $user_id);
+				$this->db->where('group_id', (int) $group_id);
+		        if ($this->db->update('group_users', $data))
+		        	return true;
+		        return false;
+					//return true
+			} else {
+				return "You have not been invited into this group";
+			}
+		}
+		
+		//otherwise return false
+		return false;
+	}
 	
 	//deny user entry into group
+	function deny_user_group_entry ($user_id, $group_id) 
+	{
+		if($this->tank_auth->is_logged_in()) {
+			$admin_id = $this->tank_auth->get_user_id();
+			//if user is group admin
+			if ($this->user_is_group_admin($admin_id, $group_id)) {
+				if (!$this->user_is_group_member($user_id, $group_id)) {
+					//if yes, update group_users, set declined to 1
+					$data = array('invited' => 0,
+								  'requested' => 0,
+								  'declined' => 1);
+					$this->db->where('user_id', (int) $user_id);
+					$this->db->where('group_id', (int) $group_id);
+			        if ($this->db->update('group_users', $data))
+			        	return true;
+			    } else {
+			    	return "User is already a member of the group";
+			    }   	
+			} else {
+				return "You are not authorised to perform this action";
+			}
+		}
+		
+		//otherwise return false
+		return false;
+	}
+
+	//accept user into group
+	function accept_user_into_group ($user_id, $group_id) 
+	{
+		if($this->tank_auth->is_logged_in()) {
+			$admin_id = $this->tank_auth->get_user_id();
+			//if user is group admin
+			if ($this->user_is_group_admin($admin_id, $group_id)) {
+	
+				//if yes, update group_users, set is_member to 1
+				$data = array('invited' => 0,
+							  'requested' => 0,
+							  'declined' => 0,
+							  'is_member' => 1);
+				$this->db->where('user_id', (int) $user_id);
+				$this->db->where('group_id', (int) $group_id);
+		        if ($this->db->update('group_users', $data))
+		        	return true;
+			} else {
+				return "You are not authorised to perform this action";
+			}
+		}
+		
+		//otherwise return false
+		return false;
+	}
 	
 	//remove user from group
+	function  remove_user_from_group ($user_id, $group_id)
+	{
+		if($this->tank_auth->is_logged_in()) {
+			$admin_id = $this->tank_auth->get_user_id();
+			//if user is group admin
+			if ($this->user_is_group_admin($admin_id, $group_id)) {
+				//if yes, update group_users, set declined to 1
+				$data = array('invited' => 0,
+							  'requested' => 0,
+							  'declined' => 1,
+							  'is_member' => 0);
+				$this->db->where('user_id', (int) $user_id);
+				$this->db->where('group_id', (int) $group_id);
+		        if ($this->db->update('group_users', $data))
+		        	return true;
+			} else {
+				return "You are not authorised to perform this action";
+			}
+		}
+		
+		//otherwise return false
+		return false;
+	}
 		
 	/****** Gallery and Image methods **********************************/
 	
@@ -918,8 +1025,8 @@ class Artists_model extends CI_Model {
 	function update_gallery ($user_id, $gallery_id, $data) {
         $this->db->where('user_id', (int) $user_id);
         if ($this->db->update('gallery', $data))
-        	return TRUE;
-        return FALSE;
+        	return false;
+        return false;
 	}	
 
 	function delete_gallery ($gallery_id, $user_id) 

@@ -39,7 +39,7 @@
 		<hr />
 		<h3>Location search</h3>
 		<ul id="api-links">     
-		    <li>Artists near location (miles, lat, lng) = <?php echo anchor('/api/addresses/near/9999/55.0/-1.56/', 'api/addresses/near/9999/55.0/-1.56/'); ?></li>
+		    <li>Artists near location (miles, lat, lng) = <?php echo anchor('/api/addresses/near/20/55.0/-1.56/', 'api/addresses/near/20/55.0/-1.56/'); ?></li>
 		</ul>
 		<hr />
 		<h3>Groups and group membership</h3>
@@ -49,8 +49,9 @@
 			<li>user requests to join group = <?php echo anchor('/api/groups/group/join/10/', '/api/groups/group/join/10/'); ?></li>
 			<li>get all user's requests to join group = <?php echo anchor('/api/groups/group/requests/10/', '/api/groups/group/requests/10/'); ?></li>
 			<li>member invites another user to join group = <?php echo anchor('/api/groups/group/invite/10/2/', 'api/groups/group/invite/10/2/'); ?></li>
+			<li>invited user declines joining group = <?php echo anchor('/api/groups/group/decline/10/', 'api/groups/group/decline/10/'); ?></li>
 			<li>accept user into group = <?php echo anchor('/api/groups/group/accept/10/2/', '/api/groups/group/accept/10/2/'); ?></li>
-			<li>deny user entry into group = <?php echo anchor('/api/groups/group/block/10/2/', '/api/groups/group/block/10/2/'); ?></li>
+			<li>deny user entry into group = <?php echo anchor('/api/groups/group/deny/10/2/', '/api/groups/group/deny/10/2/'); ?></li>
 			<li>remove user from group = <?php echo anchor('/api/groups/group/remove/10/2/', '/api/groups/group/remove/10/2/'); ?></li>
 		</ul>
 		<pre id="result">Results of API call will be loaded here...</pre>
