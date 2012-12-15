@@ -47,12 +47,13 @@
 			<li>total groups = <?php echo anchor('/api/groups/total/', '/api/groups/total/'); ?></li>
 			<li>get group 10 = <?php echo anchor('/api/groups/group/10/', '/api/groups/group/10/'); ?></li>
 			<li>user requests to join group = <?php echo anchor('/api/groups/group/join/10/', '/api/groups/group/join/10/'); ?></li>
-			<li>get all user's requests to join group = <?php echo anchor('/api/groups/group/requests/10/', '/api/groups/group/requests/10/'); ?></li>
+			<li>get all user requests to join group = <?php echo anchor('/api/groups/group/requests/10/', '/api/groups/group/requests/10/'); ?></li>
 			<li>member invites another user to join group = <?php echo anchor('/api/groups/group/invite/10/2/', 'api/groups/group/invite/10/2/'); ?></li>
+			<li>member leaves group = <?php echo anchor('/api/groups/group/leave/10/', 'api/groups/group/leave/10/'); ?></li>
 			<li>invited user declines joining group = <?php echo anchor('/api/groups/group/decline/10/', 'api/groups/group/decline/10/'); ?></li>
-			<li>accept user into group = <?php echo anchor('/api/groups/group/accept/10/2/', '/api/groups/group/accept/10/2/'); ?></li>
-			<li>deny user entry into group = <?php echo anchor('/api/groups/group/deny/10/2/', '/api/groups/group/deny/10/2/'); ?></li>
-			<li>remove user from group = <?php echo anchor('/api/groups/group/remove/10/2/', '/api/groups/group/remove/10/2/'); ?></li>
+			<li>administrator or above accept user into group = <?php echo anchor('/api/groups/group/accept/10/2/', '/api/groups/group/accept/10/2/'); ?></li>
+			<li>administrator or above deny user entry into group = <?php echo anchor('/api/groups/group/deny/10/2/', '/api/groups/group/deny/10/2/'); ?></li>
+			<li>administrator or above remove user from group = <?php echo anchor('/api/groups/group/remove/10/2/', '/api/groups/group/remove/10/2/'); ?></li>
 		</ul>
 		<pre id="result">Results of API call will be loaded here...</pre>
 	</div>

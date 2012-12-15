@@ -36,6 +36,12 @@ class Groups extends CI_Controller
 				else
 					show_404();
 				break;
+			case ($this->uri->segment(4) && ($this->uri->segment(4) === 'leave')):
+				if ($this->uri->segment(5) && is_numeric($this->uri->segment(5)))
+					$this->leave($this->uri->segment(5));
+				else
+					show_404();
+				break;
 			case ($this->uri->segment(4) && ($this->uri->segment(4) === 'requests')):
 				if ($this->uri->segment(5) && is_numeric($this->uri->segment(5)))
 					$this->requests($this->uri->segment(5));
@@ -118,6 +124,17 @@ class Groups extends CI_Controller
 		if($this->tank_auth->is_logged_in()) {
 		    $join_result = $this->artists_model->join_group($group_id);
 		    $data['encoded_data'] = json_encode($join_result);
+		    $this->load->view('api/json',$data);
+		} else {
+			$this->load->view('api/json', 'You are not logged in');
+		}	    
+	}
+
+	function leave($group_id)
+	{
+		if($this->tank_auth->is_logged_in()) {
+		    $leave_result = $this->artists_model->leave_group($group_id);
+		    $data['encoded_data'] = json_encode($leave_result);
 		    $this->load->view('api/json',$data);
 		} else {
 			$this->load->view('api/json', 'You are not logged in');

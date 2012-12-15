@@ -58,7 +58,7 @@ require ([
 							page++;
 							$.ajax({
 							    type: "GET",
-							    url: "/api/images/" + page + "/" + per_page + "/",
+							    url: "/api/images/latest/" + page + "/" + per_page + "/",
 							    success: function(result) {
 									if(result == "false") {
 										//if response is false, remove this function from window

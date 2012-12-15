@@ -15,7 +15,8 @@
 				echo '<li><a href="' . site_url() . 'artists/' . $members[$i]['user_id'] . '">' . $members[$i]['first_name'] . ' ' .$members[$i]['last_name'] . '</a>';
 				if($members[$i]['is_creator'] == 1) {
 					if($members[$i]['user_id'] == $user_id) {
-						echo ' | You are owner';
+						echo ' | <a href="' . site_url() . 'groups/edit_group/' . $group->get_id() . '">Edit group</a>';
+						echo ' | <a href="' . site_url() . 'groups/group/' . $group->get_id() . '">Delete group</a>';
 					} else {
 						echo ' | Owner';
 					}
@@ -28,6 +29,7 @@
 		</ul>
 	</div>
 	<div class="span4">
+	<p></p>
 	<?php
 		//<ul class="media-grid pull-left"><li><a href="#"><img alt="" src="http://placehold.it/210x210" class="thumbnail"></a></li></ul>
 		//<a href="#">Upload/edit profile picture</a>

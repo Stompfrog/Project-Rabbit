@@ -14,7 +14,7 @@ var Artify = Artify || {};
         markersArray: [],
         marker: undefined,
         geocoder: undefined,
-        jsonUrl: '/api/allartists',
+        jsonUrl: '/api/artists/',
         currentAjaxRequest: undefined,
         currentOverlay: undefined,
         filter: {
@@ -62,7 +62,7 @@ var Artify = Artify || {};
 	            */
 	            jsontTemplate: {
 	                "self": "{container}",
-	                "container": "<h2>{$.first_name} {$.last_name}</h2><p>{$.about_me}{$.website}</p>",
+	                "container": '<h2><a href="/artists/{$.user_id}">{$.first_name} {$.last_name}</a></h2><p>{$.about_me}{$.website}</p>',
 	                "container.status": "<h3>{$.status}</h2>",
 	                "container.about_me": function (about_me) {
 	                    return about_me ? "<p>" + about_me + "</p>" : "";

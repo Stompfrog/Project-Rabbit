@@ -14,22 +14,42 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 		<ul>
 		<?php
 			$user_id = $this->tank_auth->get_user_id();
+			$is_member = false;
 			$members = $group->get_group_members();
 			for ($i = 0; $i < sizeof($members); $i++ ) {
-				echo '<li><a href="' . site_url() . 'artists/' . $members[$i]['user_id'] . '">' . $members[$i]['first_name'] . ' ' .$members[$i]['last_name'] . '</a>';
+				echo '<li><a href="' . site_url() . 'artists/' . $members[$i]['user_id'] . '">' . $members[$i]['first_name'] . ' ' . $members[$i]['last_name'] . '</a>';
 				if($members[$i]['is_creator'] == 1) {
+					$is_member = true;
 					if($members[$i]['user_id'] == $user_id) {
-						echo ' | You are owner';
+						echo ' | <a href="' . site_url() . 'groups/edit_group/' . $group->get_id() . '">Edit group</a>';
+						echo ' | <a href="' . site_url() . 'groups/delete_group/' . $group->get_id() . '">Delete group</a>';
 					} else {
 						echo ' | Owner';
 					}
 				}
-				if ($members[$i]['is_admin'] == 1)
+				if ($members[$i]['is_admin'] == 1) {
 					echo ' | Administrator';
+				}
+				if ($members[$i]['user_id'] == $user_id && $members[$i]['is_creator'] != 1) {
+					$is_member = true;
+					echo ' | <a href="' . site_url() . 'api/groups/group/leave/' . $group->get_id() . '" class="group">Leave group</a>';
+				} else {
+					echo ' | Member';
+				}
 				echo '</li>';
 			}
 			?>
 		</ul>
+		
+		<?php
+			//if current user is not a member of the group
+			if ($logged_in_user && !$is_member) {
+				echo '<a href="">Join Group</a>';
+				//if user is a member, show leave group button
+				//if not a member already, show join group button
+				//if administrator, 
+			}
+		?>
 	
 	</div>
 	<?php

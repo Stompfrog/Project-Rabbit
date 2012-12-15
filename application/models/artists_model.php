@@ -420,8 +420,7 @@ class Artists_model extends CI_Model {
 	
 	    $query = $this->db->query("SELECT COUNT(id) AS friend_requested FROM friends where u1_id = " . $u1_id . " AND u2_id = " . $u2_id . " AND `friends`.`status` = 'requested'");
 	
-	    if ($query->num_rows() > 0)
-	    {
+	    if ($query->num_rows() > 0) {
 	       $row = $query->row();
 	       if ($row->friend_requested == 1) return true;
 	    }
@@ -824,6 +823,26 @@ class Artists_model extends CI_Model {
 				return true;
 			} else {
 				return "There was an error with your request";
+			}
+		}
+		return false;
+	}
+	
+	function leave_group($group_id)
+	{
+		if ($this->tank_auth->is_logged_in()) {
+			$user_id = $this->tank_auth->get_user_id();
+			//if user is creator of group, the user has to pass the group onto someone else? or all administrator
+			if ($this->user_is_group_creator($user_id, $group_id)) {
+				return "You are the creator of the group";
+			}
+			//if they are a member of the group, delete their entry in users_groups
+			if ($this->user_is_group_member($user_id, $group_id)) {
+				if ($this->db->delete('users_groups', array('user_id' => $user_id, 'group_id' => $group_id))) {
+					return true;
+				}			
+			} else {
+				return "You are not a member of the group";
 			}
 		}
 		return false;
