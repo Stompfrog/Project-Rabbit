@@ -13,7 +13,7 @@
 			$members = $group->get_group_members();
 			for ($i = 0; $i < sizeof($members); $i++ ) {
 				echo '<li><a href="' . site_url() . 'artists/' . $members[$i]['user_id'] . '">' . $members[$i]['first_name'] . ' ' .$members[$i]['last_name'] . '</a>';
-				if($members[$i]['is_creator'] == 1) {
+				if($members[$i]['rights'] == 1) {
 					if($members[$i]['user_id'] == $user_id) {
 						echo ' | <a href="' . site_url() . 'groups/edit_group/' . $group->get_id() . '">Edit group</a>';
 						echo ' | <a href="' . site_url() . 'groups/group/' . $group->get_id() . '">Delete group</a>';

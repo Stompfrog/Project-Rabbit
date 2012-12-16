@@ -125,17 +125,16 @@ class Groups extends CI_Controller
 		    $data['friends'] = $this->artists_model->get_friends($user_id);
 		    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
 		    
-			if ($this->artists_model->valid_user_group($group_id, $user_id) ) {
-			    $group = $this->artists_model->get_group($group_id);
-			    if ($group)
-					$data['group'] = $group;
-					
-			    $this->load->view('templates/header');
-			    $this->load->view('auth/group', $data);
-			    $this->load->view('templates/footer');			
-			} else {
-				redirect('/auth/groups/');
-			}
+			//if ($this->artists_model->valid_user_group($group_id, $user_id) ) { }
+			
+		    $group = $this->artists_model->get_group($group_id);
+		    if ($group)
+				$data['group'] = $group;
+				
+		    $this->load->view('templates/header');
+		    $this->load->view('auth/group', $data);
+		    $this->load->view('templates/footer');					
+
 	    }
 	}
 	

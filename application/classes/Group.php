@@ -19,9 +19,7 @@
 		protected $id;
 		protected $user_id;
 		protected $created_date;
-		protected $is_creator;
-		protected $is_admin;
-		protected $is_member;
+		protected $rights;
 		protected $group_name;
 		protected $join_date;
 		protected $description;
@@ -36,16 +34,11 @@
 			$this->group_name = $properties['group_name'];
 			$this->join_date = $properties['join_date'];
 			$this->description = $properties['description'];
+			$this->rights = $properties['rights'];
 			if (isset($properties['created_date']))
 				$this->created_date = $properties['created_date'];
 			if (isset($properties['images']))
 				$this->images = $properties['images'];
-			if (isset($properties['is_creator']))	
-				$this->is_creator = $properties['is_creator'];
-			if (isset($properties['is_admin']))	
-				$this->is_admin = $properties['is_admin'];
-			if (isset($properties['is_member']))	
-				$this->is_member = $properties['is_member'];
 			if (isset($properties['group_members']))	
 				$this->group_members = $properties['group_members'];
 		}
@@ -62,9 +55,14 @@
 			return $sDate;
 		}
 
+		public function get_rights()
+		{
+			return $this->rights;
+		}
+
 		public function is_creator ()
 		{
-			return $this->is_creator;
+			return $this->rights == 1;
 		}
 		
 		public function get_group_members ()
@@ -74,14 +72,34 @@
 		
 		public function is_admin ()
 		{
-			return $this->is_admin;
+			return $this->rights <= 2;
 		}
 	
 		public function is_member ()
 		{
-			return $this->is_member;
+			return $this->rights <= 3;
 		}
 		
+		public function has_requested ()
+		{
+			return $this->rights == 4;
+		}
+		
+		public function is_invited ()
+		{
+			return $this->rights == 5;
+		}
+		
+		public function is_blocked ()
+		{
+			return $this->rights == 6;
+		}
+
+		public function has_declined ()
+		{
+			return $this->rights == 7;
+		}
+
 		public function get_join_date ()
 		{
 			return $this->join_date;

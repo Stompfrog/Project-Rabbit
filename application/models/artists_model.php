@@ -225,38 +225,49 @@ class Artists_model extends CI_Model {
 	    
 	*************************************************************/
 	
-	function add_friend ($u1_id, $u2_id)
-	{               
-	    //find out if both users exist
-	    $u1_id_query = $this->db->query('SELECT COUNT(id) AS id FROM users where id = ' . $u1_id);
-	    $u2_id_query = $this->db->query('SELECT COUNT(id) AS id FROM users where id = ' . $u2_id);
+	function add_friend ($u2_id)
+	{
+		if ($this->tank_auth->is_logged_in()) {
+		
+			$u1_id = $this->tank_auth->get_user_id();
+		
+		    //find out if user exist
+		    $u2_id_query = $this->db->query('SELECT COUNT(id) AS id FROM users where id = ' . $u2_id);
+		    
+		    $u2 = $u2_id_query->row();
+		    
+		    if ($u1_id == $u2_id) {
+		    	return "You cannot add yourself as a friend";
+		    }
+		    
+		    if($u2->id == 1)
+		    {
+				if(! $this->friend_requested($u2_id)) {
+				    //check to see if they are already friends
+				    if (! $this->already_friends($u2_id))
+				    {
+						//if true, insert into friends table
+						$sql = 'INSERT INTO friends (u1_id, u2_id, status) VALUES (' . $u1_id . ', ' . $u2_id . ', \'requested\')';
+						$this->db->query($sql);
+						if($this->db->affected_rows() > 0)
+						{
+						    return 'We have sent a request to the user';
+						}
+					//they are friends
+				    } else {
+				    	return 'you are already friends';
+				    }
+				} else {
+				    return 'you have already requested to be friends';
+				}
+		    }
+		    
+		    return 'It was not possible to add this user as a friend';
+		}
+	           
+		return "You are not logged in";
 	    
-	    $u1 = $u1_id_query->row();
-	    $u2 = $u2_id_query->row();
 	    
-	    if($u1->id == 1 && $u2->id == 1)
-	    {
-			if(! $this->friend_requested($u1_id, $u2_id)) {
-			    //check to see if they are already friends
-			    if (! $this->already_friends($u1_id, $u2_id))
-			    {
-					//if true, insert into friends table
-					$sql = 'INSERT INTO friends (u1_id, u2_id, status) VALUES (' . $u1_id . ', ' . $u2_id . ', \'requested\')';
-					$this->db->query($sql);
-					if($this->db->affected_rows() > 0)
-					{
-					    return 'We have sent a request to the user';
-					}
-				//they are friends
-			    } else {
-			    	return 'you are already friends';
-			    }
-			} else {
-			    return 'you have already requested to be friends';
-			}
-	    }
-	    
-	    return 'It was not possible to add this user as a friend';
 	}
 	
 	/*
@@ -265,46 +276,62 @@ class Artists_model extends CI_Model {
 	    requester is u1_id and new friend is u2_id
 	    so user_id becomes u2_id, and u1_id is friend_id
 	*/
-	function confirm_friend ($user_id, $friend_id)
+	function confirm_friend ($u2_id)
 	{
-	    if($this->already_friends($user_id, $friend_id)) return 'you are already friends';
-	    if(! $this->friend_requested($friend_id, $user_id)) return 'friendship was not requested from that user';
 	
-	    $data = array(
-		   'status' => 'friend',
-		   'befriended' => date('Y-m-d H:i:s')
-		);
-	    $this->db->where('u1_id', $friend_id);
-	    $this->db->where('u2_id', $user_id);
-	    $this->db->update('friends', $data);
-	    
-	    /*
-	            now, create 2 way friendship by inserting a new record for user_id
-	    */
-	    
-	    $data = array(
-	       'u1_id' => $user_id,
-	       'u2_id' => $friend_id,
-	       'status' => 'friend' ,
-	       'befriended' => date('Y-m-d H:i:s')
-	    );
-	    $this->db->insert('friends', $data);
-	    
-	    return "You are now friends";
+		if ($this->tank_auth->is_logged_in()) {
+		
+			$u1_id = $this->tank_auth->get_user_id();
+
+		    if($this->already_friends($u2_id)) return 'you are already friends';
+		    if(! $this->friend_invite($u2_id)) return 'friendship was not requested from that user';
+		
+		    $data = array(
+			   'status' => 'friend',
+			   'befriended' => date('Y-m-d H:i:s')
+			);
+		    $this->db->where('u1_id', $u2_id);
+		    $this->db->where('u2_id', $u1_id);
+		    $this->db->update('friends', $data);
+		    
+		    /*
+		            now, create 2 way friendship by inserting a new record for user_id
+		    */
+		    
+		    $data = array(
+		       'u1_id' => $u1_id,
+		       'u2_id' => $u2_id,
+		       'status' => 'friend' ,
+		       'befriended' => date('Y-m-d H:i:s')
+		    );
+		    $this->db->insert('friends', $data);
+		    
+		    return "You are now friends";
+		} else {
+			return "You are not logged in";
+		}
 	}
 	
 	/*
 	    I think we should just remove the records rather than setting the status
 	*/
-	function unfriend ($user_id, $friend_id)
+	function unfriend ($friend_id)
 	{
-	    $this->db->delete('friends', array('u1_id' => $user_id, 'u2_id' => $friend_id));
-	    $this->db->delete('friends', array('u2_id' => $user_id, 'u1_id' => $friend_id));
-	    if($this->db->affected_rows() > 0) {
-	    	return "You are no longer friends";
-	    } else {
-	    	return "No records have been changed";
-	    }
+		if ($this->tank_auth->is_logged_in()) {
+		
+			$user_id = $this->tank_auth->get_user_id();
+			
+		    $this->db->delete('friends', array('u1_id' => $user_id, 'u2_id' => $friend_id));
+		    $this->db->delete('friends', array('u2_id' => $user_id, 'u1_id' => $friend_id));
+		    if($this->db->affected_rows() > 0) {
+		    	return "You are no longer friends";
+		    } else {
+		    	return "No records have been changed";
+		    }
+		}
+		
+		return "You are not logged in";
+
 	}
 	
 	/*
@@ -398,33 +425,62 @@ class Artists_model extends CI_Model {
 	/*
 	    Establish if the two users are aready friends
 	*/
-	function already_friends ($u1_id, $u2_id) {
+	function already_friends ($u2_id)
+	{
 	
-	    $query = $this->db->query("SELECT COUNT(id) AS is_friend FROM friends where u1_id = " . $u1_id . " AND u2_id = " . $u2_id . " AND `friends`.`status` = 'friend'");
+		if ($this->tank_auth->is_logged_in()) {
+		
+			$u1_id = $this->tank_auth->get_user_id();
+			
+		    $query = $this->db->query("SELECT COUNT(id) AS is_friend FROM friends where u1_id = " . $u1_id . " AND u2_id = " . $u2_id . " AND `friends`.`status` = 'friend'");
+		
+		    if ($query->num_rows() > 0)
+		    {
+		       $row = $query->row();
+		       if($row->is_friend == 1) return true;
+		    }			
+		}
+
+	    return false;
+	}
 	
-	    if ($query->num_rows() > 0)
-	    {
-	       $row = $query->row();
-	       if($row->is_friend == 1) return true;
-	    }
+	function friend_invite ($u2_id) 
+	{
+		if ($this->tank_auth->is_logged_in()) {
+		
+			$u1_id = $this->tank_auth->get_user_id();
+		
+		    $query = $this->db->query("SELECT COUNT(id) AS friend_requested FROM friends where u1_id = " . $u2_id . " AND u2_id = " . $u1_id . " AND `friends`.`status` = 'requested'");
+		
+		    if ($query->num_rows() > 0) {
+		       $row = $query->row();
+		       if ($row->friend_requested == 1) return true;
+		    }		
+		}
 
 	    return false;
 	}
 	
 	/*
-	    Establish if a friendship as been requested
-	    $u1_id = person who initiates the request
-	    $u2_id = person who has been asked to be a friend
-	*/
-	function friend_requested ($u1_id, $u2_id) {
-	
-	    $query = $this->db->query("SELECT COUNT(id) AS friend_requested FROM friends where u1_id = " . $u1_id . " AND u2_id = " . $u2_id . " AND `friends`.`status` = 'requested'");
-	
-	    if ($query->num_rows() > 0) {
-	       $row = $query->row();
-	       if ($row->friend_requested == 1) return true;
-	    }
+	    Establish if a friendship as been requested. 
 	    
+	    $u1_id = person who has been asked to be a friend
+	    $u2_id = person who initiates the request
+	*/
+	function friend_requested ($u2_id) {
+		
+		if ($this->tank_auth->is_logged_in()) {
+		
+			$u1_id = $this->tank_auth->get_user_id();
+		
+		    $query = $this->db->query("SELECT COUNT(id) AS friend_requested FROM friends where u1_id = " . $u1_id . " AND u2_id = " . $u2_id . " AND `friends`.`status` = 'requested'");
+		
+		    if ($query->num_rows() > 0) {
+		       $row = $query->row();
+		       if ($row->friend_requested == 1) return true;
+		    }		
+		}
+
 	    return false;
 	
 	}
@@ -552,6 +608,21 @@ class Artists_model extends CI_Model {
 	
 	/****************************** Groups section ******************************/
 	
+	
+	/************************************************************
+	*
+	* Information: Group membership (`group_users`.`rights` column)
+	*
+	* Creator: 1
+	* Admin: 2
+	* Member: 3
+	* Registered: 4
+	* Invited: 5
+	* Blocked: 6
+	* Declined: 7
+	*
+	*************************************************************/
+
 	/************************************************************
 	*
 	* Function: Create group
@@ -565,9 +636,8 @@ class Artists_model extends CI_Model {
 			$group_users = array(
 				'group_id' => $this->db->insert_id(),
 				'user_id' => $user_id,
-				'is_admin' => 1,
 				'join_date' => date('Y-m-d H:i:s'),
-				'is_creator' => 1
+				'rights' => 1
 			);
 			
 			if( $this->db->insert('group_users', $group_users))
@@ -609,7 +679,7 @@ class Artists_model extends CI_Model {
 	}
 	
 	function user_is_group_admin ($user_id, $group_id) {
-		$query = $this->db->query('SELECT count(*) AS admin FROM `group_users` WHERE `user_id` = ' . $user_id . ' AND `group_id` = ' . $group_id . ' AND `group_users`.`is_admin` = 1');
+		$query = $this->db->query('SELECT count(*) AS admin FROM `group_users` WHERE `user_id` = ' . $user_id . ' AND `group_id` = ' . $group_id . ' AND `group_users`.`rights` <= 2');
 	    if ($query->num_rows() > 0) {
 			$row = $query->row_array();
 			if ( $row['admin'] > 0) return true;
@@ -618,7 +688,7 @@ class Artists_model extends CI_Model {
 	}
 	
 	function user_is_group_creator ($user_id, $group_id) {
-		$query = $this->db->query('SELECT count(*) AS is_creator FROM `group_users`, `group` WHERE `group`.`id` = `group_users`.`group_id` and `group`.`id` = ' . $group_id . ' AND `group_users`.`user_id` = ' . $user_id . ' AND `group_users`.`is_creator` = 1');
+		$query = $this->db->query('SELECT count(*) AS is_creator FROM `group_users`, `group` WHERE `group`.`id` = `group_users`.`group_id` and `group`.`id` = ' . $group_id . ' AND `group_users`.`user_id` = ' . $user_id . ' AND `group_users`.`rights` = 1');
 	    if ($query->num_rows() > 0) {
 			$row = $query->row_array();
 			if ( $row['is_creator'] > 0) return true;
@@ -627,7 +697,7 @@ class Artists_model extends CI_Model {
 	}
 	
 	function user_is_group_member ($user_id, $group_id) {
-		$query = $this->db->query('SELECT count(*) AS is_member FROM `group_users`, `group` WHERE `group`.`id` = `group_users`.`group_id` and `group`.`id` = ' . $group_id . ' AND `group_users`.`user_id` = ' . $user_id . ' AND `group_users`.`is_member` = 1');
+		$query = $this->db->query('SELECT count(*) AS is_member FROM `group_users`, `group` WHERE `group`.`id` = `group_users`.`group_id` and `group`.`id` = ' . $group_id . ' AND `group_users`.`user_id` = ' . $user_id . ' AND `group_users`.`rights` <= 3');
 	    if ($query->num_rows() > 0) {
 			$row = $query->row_array();
 			if ( $row['is_member'] > 0) return true;
@@ -636,7 +706,7 @@ class Artists_model extends CI_Model {
 	}
 	
 	function user_group_invited ($user_id, $group_id) {
-		$query = $this->db->query('SELECT count(*) AS is_invited FROM `group_users` WHERE `user_id` = ' . $user_id . ' AND `group_id` = ' . $group_id . ' AND `invited` = 1');
+		$query = $this->db->query('SELECT count(*) AS is_invited FROM `group_users` WHERE `user_id` = ' . $user_id . ' AND `group_id` = ' . $group_id . ' AND `rights` = 5');
 	    if ($query->num_rows() > 0) {
 			$row = $query->row_array();
 			if ( $row['is_invited'] == 1) return true;
@@ -675,37 +745,58 @@ class Artists_model extends CI_Model {
 	/*
 		Find out if user is connected to this group in any capacity
 	*/
-	function group_user_request ($user_id) {
+	function group_user_request ($user_id, $group_id) {
 	
-	    $query = $this->db->query("SELECT is_admin, is_creator, is_member, invited, requested, COUNT(*) AS total_groups FROM `group_users` WHERE user_id = " . $user_id);
+	    $query = $this->db->query("SELECT rights, COUNT(*) AS total_groups FROM `group_users` WHERE group_id = " . $group_id . " AND user_id = " . $user_id);
 	
 		//user record already exists, now find out what they are
 		if ($query->num_rows() > 0) {
+		
 			$row = $query->row();
+			
 			if($row->total_groups > 0) {
+			
 				$error = array();
-				//is_admin, is_creator, is_member, invited, requested 
+				//is_admin, is_creator, is_member, invited, requested, blocked, declined
 				
-				if ($row->is_creator == 1) {
-					$error["message"] = "User is the creator of this group already";
-					return $error;
+				switch ($row->rights) {
+					case 1:
+						//is creator
+						$error["message"] = "User is the creator of this group already";
+						return $error;
+				        break;
+				    case 2:
+				    	//is admin
+						$error["message"] = "User is an administrator of this group already";
+						return $error;
+				        break;
+				    case 3:
+				    	//is member
+						return $error["message"] = "User is already a member";
+						return $error;
+				        break;
+				   	case 4:
+				   		//has requested
+				   		$error["message"] = "User has already requested to join";
+						return $error;
+				   		break;
+				   	case 5:
+				   		//is invited
+						$error["message"] = "User has already been invited";
+						return $error;				   	
+				   		break;
+				   	case 6:
+				   		//user is blocked
+						return $error["message"] = "User is blocked from this group";
+						return $error;				   		
+				   		break;
+				   	case 7:
+				   		//user has declined invite
+						return $error["message"] = "User does not want to join group";
+						return $error;				   		
+				   		break;
 				}
-				if ($row->is_admin == 1) {
-					$error["message"] = "User is an administrator of this group already";
-					return $error;
-				}
-				if ($row->is_member == 1) {
-					return $error["message"] = "User is already a member";
-					return $error;
-				}
-				if ($row->invited == 1) {
-					$error["message"] = "User has already been invited";
-					return $error;
-				}
-				if ($row->requested == 1) {
-					return $error["message"] = "User has already requested to join group";
-					return $error;
-				}
+
 			} else {
 	    		return true;
 	    	}
@@ -763,7 +854,7 @@ class Artists_model extends CI_Model {
 	}
 	
 	function get_group ($group_id) {
-		$query = $this->db->query('SELECT DISTINCT * FROM `group_users`, `group` WHERE `group`.`id` = `group_users`.`group_id` and `group`.`id` = ' . $group_id);
+		$query = $this->db->query('SELECT DISTINCT * FROM `group_users`, `group` WHERE `group`.`id` = `group_users`.`group_id` and `group`.`id` = ' . $group_id . ' AND `group_users`.`rights` <= 3');
 	    if ($query->num_rows() > 0) {
 	    	$data = array();
 	    	$data['group_members'] = $this->get_group_members($group_id);
@@ -805,7 +896,7 @@ class Artists_model extends CI_Model {
 			
 			//if user is already a member return "you are already a member"
 			//if user has already requested membership return "you have already requested membership"
-			$user_result = $this->group_user_request($user_id);
+			$user_result = $this->group_user_request($user_id, $group_id);
 			if ($user_result !== true) {
 				//handle error response
 				return $user_result;
@@ -816,7 +907,7 @@ class Artists_model extends CI_Model {
 				'group_id' => $group_id,
 				'user_id' => $user_id,
 				'join_date' => date('Y-m-d H:i:s'),
-				'requested' => 1
+				'rights' => 4
 			);
 
 			if($this->db->insert('group_users', $group_user)) {
@@ -850,7 +941,7 @@ class Artists_model extends CI_Model {
 	
 	//get user requests to join group
 	function get_group_requests($group_id) {
-		$query = $this->db->query("SELECT `group_users`.`id`, `user_profiles`.* FROM `group_users`, `user_profiles` WHERE `group_users`.`group_id` = " . $group_id . " AND `group_users`.`requested` = 1 AND `user_profiles`.`user_id` = `group_users`.`user_id`");
+		$query = $this->db->query("SELECT `group_users`.`id`, `user_profiles`.* FROM `group_users`, `user_profiles` WHERE `group_users`.`group_id` = " . $group_id . " AND `group_users`.`rights` = 4 AND `user_profiles`.`user_id` = `group_users`.`user_id`");
 	    if ($query->num_rows() > 0) {
 	    	return $query->result_array();
 	    }
@@ -874,13 +965,13 @@ class Artists_model extends CI_Model {
 				return $message;
 			}
 			//find out if user has already been invited or has requested
-			$user_result = $this->group_user_request($user_id);
+			$user_result = $this->group_user_request($user_id, $group_id);
 			if ($user_result !== true) {
 				//handle error response
 				return $user_result;
 			}
 	
-			$data = array('group_id' => $group_id, 'user_id' => $user_id, 'is_admin' => 0, 'is_creator' => 0, 'is_member' => 0, 'invited' => 1, 'requested' => 0);
+			$data = array('group_id' => $group_id, 'user_id' => $user_id, 'rights' => 5);
 	
 			if ($this->db->insert('group_users', $data))
 				return true;
@@ -896,9 +987,8 @@ class Artists_model extends CI_Model {
 			$user_id = $this->tank_auth->get_user_id();
 			//find out if user has been invited
 			if ($this->user_group_invited($user_id, $group_id)) {
-				//if yes, update group_users, set declined to 1
-				$data = array('invited' => 0,
-							  'declined' => 1);
+				//if yes, update group_users, set rights to 7
+				$data = array('rights' => 7);
 				$this->db->where('user_id', (int) $user_id);
 				$this->db->where('group_id', (int) $group_id);
 		        if ($this->db->update('group_users', $data))
@@ -923,9 +1013,7 @@ class Artists_model extends CI_Model {
 			if ($this->user_is_group_admin($admin_id, $group_id)) {
 				if (!$this->user_is_group_member($user_id, $group_id)) {
 					//if yes, update group_users, set declined to 1
-					$data = array('invited' => 0,
-								  'requested' => 0,
-								  'declined' => 1);
+					$data = array('rights' => 6);
 					$this->db->where('user_id', (int) $user_id);
 					$this->db->where('group_id', (int) $group_id);
 			        if ($this->db->update('group_users', $data))
@@ -950,11 +1038,8 @@ class Artists_model extends CI_Model {
 			//if user is group admin
 			if ($this->user_is_group_admin($admin_id, $group_id)) {
 	
-				//if yes, update group_users, set is_member to 1
-				$data = array('invited' => 0,
-							  'requested' => 0,
-							  'declined' => 0,
-							  'is_member' => 1);
+				//if yes, update group_users, set rights to 3
+				$data = array('rights' => 3);
 				$this->db->where('user_id', (int) $user_id);
 				$this->db->where('group_id', (int) $group_id);
 		        if ($this->db->update('group_users', $data))
@@ -975,11 +1060,8 @@ class Artists_model extends CI_Model {
 			$admin_id = $this->tank_auth->get_user_id();
 			//if user is group admin
 			if ($this->user_is_group_admin($admin_id, $group_id)) {
-				//if yes, update group_users, set declined to 1
-				$data = array('invited' => 0,
-							  'requested' => 0,
-							  'declined' => 1,
-							  'is_member' => 0);
+				//if yes, update group_users, set rights to 6
+				$data = array('rights' => 6,);
 				$this->db->where('user_id', (int) $user_id);
 				$this->db->where('group_id', (int) $group_id);
 		        if ($this->db->update('group_users', $data))

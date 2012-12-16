@@ -127,7 +127,7 @@ class Groups extends CI_Controller
 		    $this->load->view('api/json',$data);
 		} else {
 			$this->load->view('api/json', 'You are not logged in');
-		}	    
+		}  
 	}
 
 	function leave($group_id)

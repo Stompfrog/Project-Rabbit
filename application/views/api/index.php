@@ -30,11 +30,12 @@
 		</ul>
 		<hr />
 		<ul id="api-links">     
-			<li>User 3 requesting user 1 to be friends = <?php echo anchor('/api/friends/add/3/1/', '/api/friends/add/3/1/'); ?></li>
-			<li>User 3 has already requested user 1 = <?php echo anchor('/api/friends/already_requested/3/1/', '/api/friends/already_requested/3/1/'); ?></li>
-			<li>User 1 confirming user 3 as a friend = <?php echo anchor('/api/friends/confirm/1/3/', '/api/friends/confirm/1/3/'); ?></li>
-			<li>User 1 removing user 3 as a friend = <?php echo anchor('/api/friends/unfriend/1/3/', '/api/friends/unfriend/1/3/'); ?></li>
-			<li>User 1 is friends with user 3 = <?php echo anchor('/api/friends/already_friends/1/3/', '/api/friends/already_friends/1/3/'); ?></li>
+			<li>Current user requesting user 1 to be friends = <?php echo anchor('/api/friends/add/1/', '/api/friends/add/1/'); ?></li>
+			<li>Current user has already requested user 3 = <?php echo anchor('/api/friends/already_requested/3/', '/api/friends/already_requested/3/'); ?></li>
+			<li>User 3 has invited current user = <?php echo anchor('/api/friends/has_invited/3/', '/api/friends/has_invited/3/'); ?></li>
+			<li>Current user confirming user 3 as a friend = <?php echo anchor('/api/friends/confirm/3/', '/api/friends/confirm/3/'); ?></li>
+			<li>Current user removing user 3 as a friend = <?php echo anchor('/api/friends/unfriend/3/', '/api/friends/unfriend/3/'); ?></li>
+			<li>Current user is friends with user 3 = <?php echo anchor('/api/friends/already_friends/3/', '/api/friends/already_friends/3/'); ?></li>
 		</ul>
 		<hr />
 		<h3>Location search</h3>

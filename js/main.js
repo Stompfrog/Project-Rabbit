@@ -41,6 +41,17 @@ require ([
 				  $(parentEl).html(html);
 				});
 		    });
+		    
+		    $('a.group').on('click', function (e) {
+			    e.preventDefault();
+			    var parentEl = $(this).parent();
+				$.ajax({
+				  url: this.href
+				}).done(function( html ) {
+				  $(this).remove();
+				  $(parentEl).html(html);
+				});
+		    });
 
 			$('#explore_interests').submit(function() {
 				Artify.map.jsonUrl = this.action + '?' + $(this).serialize();

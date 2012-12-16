@@ -31,13 +31,16 @@ class Friends extends CI_Controller
 					$this->confirm($this->uri->segment(4));
 				break;
 			case 'unfriend':
-					$this->unfriend();
+					$this->unfriend($this->uri->segment(4));
 				break;
 			case 'already_friends':
-				$this->already_friends();
+				$this->already_friends($this->uri->segment(4));
 				break;
 			case 'already_requested':
-				$this->already_requested();
+				$this->already_requested($this->uri->segment(4));
+				break;
+			case 'has_invited':
+				$this->has_invited($this->uri->segment(4));
 				break;
 			default:
 				show_404();
@@ -65,8 +68,8 @@ class Friends extends CI_Controller
 
 	function add()
 	{
-		if ($this->tank_auth->is_logged_in() && $this->tank_auth->get_user_id() == $this->uri->segment(4)) {
-			$friend_request_message = $this->artists_model->add_friend($this->tank_auth->get_user_id(), $this->uri->segment(5));
+		if ($this->tank_auth->is_logged_in() && $this->uri->segment(4)) {
+			$friend_request_message = $this->artists_model->add_friend($this->uri->segment(4));
 			$data['encoded_data'] = json_encode($friend_request_message);
 		} else {
 			$data['encoded_data'] = json_encode(false);
@@ -74,10 +77,10 @@ class Friends extends CI_Controller
 		$this->load->view('api/json',$data);
 	}
 	
-	function confirm()
+	function confirm($friend_id)
 	{
-		if ($this->tank_auth->is_logged_in() && $this->tank_auth->get_user_id() == $this->uri->segment(4)) {
-		    $friend_request_message = $this->artists_model->confirm_friend($this->tank_auth->get_user_id(), $this->uri->segment(4));
+		if ($this->tank_auth->is_logged_in()) {
+		    $friend_request_message = $this->artists_model->confirm_friend($friend_id);
 		    $data['encoded_data'] = json_encode($friend_request_message);
 		} else {
 			$data['encoded_data'] = json_encode(false);           
@@ -85,10 +88,10 @@ class Friends extends CI_Controller
 		$this->load->view('api/json',$data);
 	}
 	
-	function unfriend()
+	function unfriend($friend_id)
 	{
 		if ($this->tank_auth->is_logged_in()) {
-			$friend_request_message = $this->artists_model->unfriend($this->tank_auth->get_user_id(), $this->uri->segment(5));
+			$friend_request_message = $this->artists_model->unfriend($friend_id);
 			$data['encoded_data'] = json_encode($friend_request_message);
 		} else {
 			$data['encoded_data'] = json_encode(false);           
@@ -96,14 +99,20 @@ class Friends extends CI_Controller
 		$this->load->view('api/json',$data);
 	}
 	
-	function already_friends () {
-	    $isfriend_message = $this->artists_model->already_friends($this->uri->segment(4), $this->uri->segment(5));
+	function already_friends ($friend_id) {
+	    $isfriend_message = $this->artists_model->already_friends($friend_id);
+	    $data['encoded_data'] = json_encode($isfriend_message);         
+	    $this->load->view('api/json',$data);
+	}
+
+	function has_invited ($friend_id) {
+	    $isfriend_message = $this->artists_model->friend_invite($friend_id);
 	    $data['encoded_data'] = json_encode($isfriend_message);         
 	    $this->load->view('api/json',$data);
 	}
 	
-	function already_requested () {
-	    $isfriend_message = $this->artists_model->friend_requested($this->uri->segment(4), $this->uri->segment(5));
+	function already_requested ($friend_id) {
+	    $isfriend_message = $this->artists_model->friend_requested($friend_id);
 	    $data['encoded_data'] = json_encode($isfriend_message);         
 	    $this->load->view('api/json',$data);
 	}
