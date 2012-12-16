@@ -52,6 +52,7 @@
 			<li>member invites another user to join group = <?php echo anchor('/api/groups/group/invite/10/2/', 'api/groups/group/invite/10/2/'); ?></li>
 			<li>member leaves group = <?php echo anchor('/api/groups/group/leave/10/', 'api/groups/group/leave/10/'); ?></li>
 			<li>invited user declines joining group = <?php echo anchor('/api/groups/group/decline/10/', 'api/groups/group/decline/10/'); ?></li>
+			<li>user accepts group invitation = <?php echo anchor('/api/groups/group/accept/10/', '/api/groups/group/accept/10/'); ?></li>
 			<li>administrator or above accept user into group = <?php echo anchor('/api/groups/group/accept/10/2/', '/api/groups/group/accept/10/2/'); ?></li>
 			<li>administrator or above deny user entry into group = <?php echo anchor('/api/groups/group/deny/10/2/', '/api/groups/group/deny/10/2/'); ?></li>
 			<li>administrator or above remove user from group = <?php echo anchor('/api/groups/group/remove/10/2/', '/api/groups/group/remove/10/2/'); ?></li>

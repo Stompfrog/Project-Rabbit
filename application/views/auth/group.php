@@ -18,38 +18,55 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 			$members = $group->get_group_members();
 			
 			for ($i = 0; $i < sizeof($members); $i++ ) {
-				echo '<li><a href="' . site_url() . 'artists/' . $members[$i]['user_id'] . '">' . $members[$i]['first_name'] . ' ' . $members[$i]['last_name'] . '</a>';
-				if($members[$i]['rights'] == 1) {
-					if($members[$i]['user_id'] == $user_id) {
-						$is_member = true;
-						echo ' | <a href="' . site_url() . 'groups/edit_group/' . $group->get_id() . '">Edit group</a>';
-						echo ' | <a href="' . site_url() . 'groups/delete_group/' . $group->get_id() . '">Delete group</a>';
-					} else {
-						echo ' | Owner';
+			
+				//user is in current group, whatever capacity
+				if ($members[$i]['user_id'] == $user_id) {
+					$is_member = $members[$i]['rights'];
+				}
+			
+				if ($members[$i]['rights'] <= 3) {
+					echo '<li><a href="' . site_url() . 'artists/' . $members[$i]['user_id'] . '">' . $members[$i]['first_name'] . ' ' . $members[$i]['last_name'] . '</a>';
+					if($members[$i]['rights'] == 1) {
+						if($members[$i]['user_id'] == $user_id) {
+							$is_member = true;
+							echo ' | <a href="' . site_url() . 'groups/edit_group/' . $group->get_id() . '">Edit group</a>';
+							echo ' | <a href="' . site_url() . 'groups/delete_group/' . $group->get_id() . '">Delete group</a>';
+						} else {
+							echo ' | Owner';
+						}
 					}
+					if ($members[$i]['rights'] == 2) {
+						echo ' | Administrator';
+					}
+					//if current user, and is not admin
+					if ($members[$i]['user_id'] == $user_id && $members[$i]['rights'] > 2) {
+						$is_member = true;
+						echo ' | <a href="' . site_url() . 'api/groups/group/leave/' . $group->get_id() . '" class="group">Leave group</a>';
+					} else {
+						echo ' | Member';
+					}
+					echo '</li>';
 				}
-				if ($members[$i]['rights'] == 2) {
-					echo ' | Administrator';
-				}
-				//if current user, and is not admin
-				if ($members[$i]['user_id'] == $user_id && $members[$i]['rights'] !== 1) {
-					$is_member = true;
-					echo ' | <a href="' . site_url() . 'api/groups/group/leave/' . $group->get_id() . '" class="group">Leave group</a>';
-				} else {
-					echo ' | Member';
-				}
-				echo '</li>';
 			}
 			?>
 		</ul>
-		
 		<?php
 			//if current user is not a member of the group
-			if ($logged_in_user && !$is_member) {
-				echo '<a href="' . site_url() . 'api/groups/group/join/' . $group->get_id() . '" class="btn success group">Join Group</a>';
+			if($logged_in_user) {
+			
+				switch ($is_member) {
+				    case false:
+				        echo '<a href="' . site_url() . 'api/groups/group/join/' . $group->get_id() . '" class="btn success group">Join Group</a>';
+				        break;
+				    case 4:
+				        echo "Your request is pending";
+				        break;
+				    case 5:
+				        echo 'You have been invited. <a href="' . site_url() . 'api/groups/group/accept/' . $group->get_id() . '" class="btn success group">Accept invitation</a>';
+				        break;
+				}
 			}
 		?>
-	
 	</div>
 	<?php
 		$data['logged_in_user'] = $logged_in_user;

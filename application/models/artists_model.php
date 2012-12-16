@@ -927,9 +927,9 @@ class Artists_model extends CI_Model {
 			if ($this->user_is_group_creator($user_id, $group_id)) {
 				return "You are the creator of the group";
 			}
-			//if they are a member of the group, delete their entry in users_groups
+			//if they are a member of the group, delete their entry in group_users
 			if ($this->user_is_group_member($user_id, $group_id)) {
-				if ($this->db->delete('users_groups', array('user_id' => $user_id, 'group_id' => $group_id))) {
+				if ($this->db->delete('group_users', array('user_id' => $user_id, 'group_id' => $group_id))) {
 					return true;
 				}			
 			} else {
@@ -1031,6 +1031,28 @@ class Artists_model extends CI_Model {
 	}
 
 	//accept user into group
+	function accept_group_invitation ($group_id) 
+	{
+		if($this->tank_auth->is_logged_in()) {
+			$user_id = $this->tank_auth->get_user_id();
+			//if user is group admin
+			if ($this->user_group_invited($user_id, $group_id)) {
+				//if yes, update group_users, set rights to 3
+				$data = array('rights' => 3);
+				$this->db->where('user_id', (int) $user_id);
+				$this->db->where('group_id', (int) $group_id);
+		        if ($this->db->update('group_users', $data))
+		        	return true;
+			} else {
+				return "You have not been invited into this group";
+			}
+		}
+		
+		//otherwise return false
+		return false;
+	}
+
+	//accept user into group
 	function accept_user_into_group ($user_id, $group_id) 
 	{
 		if($this->tank_auth->is_logged_in()) {
@@ -1054,7 +1076,7 @@ class Artists_model extends CI_Model {
 	}
 	
 	//remove user from group
-	function  remove_user_from_group ($user_id, $group_id)
+	function remove_user_from_group ($user_id, $group_id)
 	{
 		if($this->tank_auth->is_logged_in()) {
 			$admin_id = $this->tank_auth->get_user_id();

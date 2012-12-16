@@ -12,18 +12,22 @@
 			$user_id = $this->tank_auth->get_user_id();
 			$members = $group->get_group_members();
 			for ($i = 0; $i < sizeof($members); $i++ ) {
-				echo '<li><a href="' . site_url() . 'artists/' . $members[$i]['user_id'] . '">' . $members[$i]['first_name'] . ' ' .$members[$i]['last_name'] . '</a>';
-				if($members[$i]['rights'] == 1) {
-					if($members[$i]['user_id'] == $user_id) {
-						echo ' | <a href="' . site_url() . 'groups/edit_group/' . $group->get_id() . '">Edit group</a>';
-						echo ' | <a href="' . site_url() . 'groups/group/' . $group->get_id() . '">Delete group</a>';
-					} else {
-						echo ' | Owner';
+				if ($members[$i]['rights'] <= 3) {
+					echo '<li><a href="' . site_url() . 'artists/' . $members[$i]['user_id'] . '">' . $members[$i]['first_name'] . ' ' .$members[$i]['last_name'] . '</a>';
+					if($members[$i]['rights'] == 1) {
+						//if current user is owner, show edit and delete links
+						if($members[$i]['user_id'] == $user_id) {
+							echo ' | <a href="' . site_url() . 'groups/edit_group/' . $group->get_id() . '">Edit group</a>';
+							echo ' | <a href="' . site_url() . 'groups/group/' . $group->get_id() . '">Delete group</a>';
+						} else {
+							//otherwise just state they are owners
+							echo ' | Owner';
+						}
 					}
+					if ($members[$i]['rights'] <= 2)
+						echo ' | Administrator';
+					echo '</li>';
 				}
-				if ($members[$i]['is_admin'] == 1)
-					echo ' | Administrator';
-				echo '</li>';
 			}
 			?>
 		</ul>

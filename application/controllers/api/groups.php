@@ -67,10 +67,16 @@ class Groups extends CI_Controller
 					show_404();
 				break;
 			case ($this->uri->segment(4) && ($this->uri->segment(4) === 'accept')):
-				if ($this->uri->segment(5) && is_numeric($this->uri->segment(5)) && $this->uri->segment(6) && is_numeric($this->uri->segment(6)))
-					$this->accept($this->uri->segment(5), $this->uri->segment(6));
-				else
+				if ($this->uri->segment(5) && is_numeric($this->uri->segment(5))) {
+				
+					if ($this->uri->segment(6) && is_numeric($this->uri->segment(6))) {
+						$this->accept($this->uri->segment(5), $this->uri->segment(6));
+					} else {
+						$this->accept_group_invitation($this->uri->segment(5));
+					}
+				} else {
 					show_404();
+				}
 				break;
 			case ($this->uri->segment(4) && ($this->uri->segment(4) === 'remove')):
 				if ($this->uri->segment(5) && is_numeric($this->uri->segment(5)) && $this->uri->segment(6) && is_numeric($this->uri->segment(6)))
@@ -157,6 +163,18 @@ class Groups extends CI_Controller
 		if($this->tank_auth->is_logged_in()) {
 		    $invite_result = $this->artists_model->invite_user_to_group($user_id, $group_id);
 		    $data['encoded_data'] = json_encode($invite_result);
+		    $this->load->view('api/json',$data);
+		} else {
+			$this->load->view('api/json', 'You are not logged in');
+		}
+	}
+	
+	
+	function accept_group_invitation ($group_id)
+	{
+		if($this->tank_auth->is_logged_in()) {
+			$accepted = $this->artists_model->accept_group_invitation($group_id);
+		    $data['encoded_data'] = json_encode($accepted);
 		    $this->load->view('api/json',$data);
 		} else {
 			$this->load->view('api/json', 'You are not logged in');
