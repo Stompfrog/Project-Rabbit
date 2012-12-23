@@ -616,7 +616,7 @@ class Artists_model extends CI_Model {
 	* Creator: 1
 	* Admin: 2
 	* Member: 3
-	* Registered: 4
+	* Requested: 4
 	* Invited: 5
 	* Blocked: 6
 	* Declined: 7
@@ -670,7 +670,7 @@ class Artists_model extends CI_Model {
 	}
 	
 	function get_group_members ($group_id) {
-	    $query = $this->db->query("SELECT * FROM `group_users`, `user_profiles` WHERE `group_users`.`user_id` = `user_profiles`.`user_id` AND `group_users`.`group_id` = " . $group_id);
+	    $query = $this->db->query("SELECT * FROM `group_users`, `user_profiles` WHERE `group_users`.`user_id` = `user_profiles`.`user_id` AND `group_users`.`group_id` = " . $group_id . ' AND `group_users`.`rights` < 4');
 	    if ($query->num_rows() > 0)
 	    {
 	    	return $query->result_array();
@@ -1095,6 +1095,17 @@ class Artists_model extends CI_Model {
 		
 		//otherwise return false
 		return false;
+	}
+	
+	/* set user as group creator*/
+	function reassign_group ($user_id, $group_id) 
+	{
+        $this->db->where('user_id', (int) $user_id);
+        $this->db->where('group_id', (int) $group_id);
+        $data = array('rights' => 1);
+        if ($this->db->update('group_users', $data))
+        	return true;
+        return false;
 	}
 		
 	/****** Gallery and Image methods **********************************/

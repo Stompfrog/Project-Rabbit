@@ -56,6 +56,7 @@
 			<li>administrator or above accept user into group = <?php echo anchor('/api/groups/group/accept/10/2/', '/api/groups/group/accept/10/2/'); ?></li>
 			<li>administrator or above deny user entry into group = <?php echo anchor('/api/groups/group/deny/10/2/', '/api/groups/group/deny/10/2/'); ?></li>
 			<li>administrator or above remove user from group = <?php echo anchor('/api/groups/group/remove/10/2/', '/api/groups/group/remove/10/2/'); ?></li>
+			<li>creator reassigns user as group creator = <?php echo anchor('/api/groups/group/reassign/10/2/', '/api/groups/group/reassign/10/2/'); ?></li>
 		</ul>
 		<pre id="result">Results of API call will be loaded here...</pre>
 	</div>

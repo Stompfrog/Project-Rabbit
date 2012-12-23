@@ -84,6 +84,12 @@ class Groups extends CI_Controller
 				else
 					show_404();
 				break;
+			case ($this->uri->segment(4) && ($this->uri->segment(4) === 'reassign')):
+				if ($this->uri->segment(5) && is_numeric($this->uri->segment(5)) && $this->uri->segment(6) && is_numeric($this->uri->segment(6)))
+					$this->reassign($this->uri->segment(5), $this->uri->segment(6));
+				else
+					show_404();
+				break;
 			case 'group':
 				if ($this->uri->segment(4))
 					$this->group($this->uri->segment(4));
@@ -213,10 +219,21 @@ class Groups extends CI_Controller
 		}
 	}
 	
-	function remove($group_id, $user_id)
+	function remove ($group_id, $user_id)
 	{
 		if($this->tank_auth->is_logged_in()) {
 			$removed = $this->artists_model->remove_user_from_group($user_id, $group_id);
+		    $data['encoded_data'] = json_encode($removed);
+		    $this->load->view('api/json',$data);
+		} else {
+			$this->load->view('api/json', 'You are not logged in');
+		}
+	}
+	
+	function reassign ($group_id, $user_id)
+	{
+		if($this->tank_auth->is_logged_in()) {
+			$removed = $this->artists_model->reassign_group($user_id, $group_id);
 		    $data['encoded_data'] = json_encode($removed);
 		    $this->load->view('api/json',$data);
 		} else {

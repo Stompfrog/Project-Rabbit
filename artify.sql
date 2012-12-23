@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 17, 2012 at 09:06 PM
+-- Generation Time: Dec 23, 2012 at 02:46 AM
 -- Server version: 5.1.44
 -- PHP Version: 5.3.2
 
@@ -25,7 +25,6 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Table structure for table `address`
 --
 
-DROP TABLE IF EXISTS `address`;
 CREATE TABLE `address` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -35,18 +34,19 @@ CREATE TABLE `address` (
   `address_2` varchar(100) DEFAULT NULL,
   `city` varchar(255) NOT NULL,
   `postcode` varchar(10) NOT NULL,
+  `country` varchar(50) NOT NULL,
   `lat` double NOT NULL,
   `lon` double NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_address_user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `address`
 --
 
-INSERT INTO `address` VALUES(1, 1, 0, '', '23 QUEENS COURT', 'BARRACK ROAD', 'NEWCASTLE UPON TYNE', 'NE4 6BJ', 54.9760013112287, -1.62846726797488);
-INSERT INTO `address` VALUES(3, 1, 0, '1', '23 QUEENS COURT', 'BARRACK ROAD', 'NEWCASTLE UPON TYNE', 'NE4 6BJ', 34.3430121117359, -118.5509991);
+INSERT INTO `address` VALUES(5, 1, 0, '', '23 Queens Court', 'Barrack Road', 'Newcastle upon Tyne', 'NE4 6BJ', '', 55.2519418889556, -1.94053076875002);
+INSERT INTO `address` VALUES(6, 1, 0, '1', '16 Richborne Terrace', 'London Borough of Lambeth', 'London', 'SW8 1AU', '', 51.4792222, -0.116817573016306);
 
 -- --------------------------------------------------------
 
@@ -54,7 +54,6 @@ INSERT INTO `address` VALUES(3, 1, 0, '1', '23 QUEENS COURT', 'BARRACK ROAD', 'N
 -- Table structure for table `ci_sessions`
 --
 
-DROP TABLE IF EXISTS `ci_sessions`;
 CREATE TABLE `ci_sessions` (
   `session_id` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '0',
   `ip_address` varchar(16) COLLATE utf8_bin NOT NULL DEFAULT '0',
@@ -75,7 +74,6 @@ CREATE TABLE `ci_sessions` (
 -- Table structure for table `events`
 --
 
-DROP TABLE IF EXISTS `events`;
 CREATE TABLE `events` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -94,7 +92,6 @@ CREATE TABLE `events` (
 -- Table structure for table `friends`
 --
 
-DROP TABLE IF EXISTS `friends`;
 CREATE TABLE `friends` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `u1_id` int(11) NOT NULL,
@@ -104,17 +101,15 @@ CREATE TABLE `friends` (
   PRIMARY KEY (`id`),
   KEY `FK_user1_id` (`u1_id`),
   KEY `FK_user2_id` (`u2_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=91 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=119 ;
 
 --
 -- Dumping data for table `friends`
 --
 
-INSERT INTO `friends` VALUES(82, 4, 1, 'friend', '2012-04-19');
-INSERT INTO `friends` VALUES(83, 1, 4, 'friend', '2012-04-19');
-INSERT INTO `friends` VALUES(84, 1, 2, 'requested', '0000-00-00');
-INSERT INTO `friends` VALUES(85, 1, 5, 'requested', '0000-00-00');
-INSERT INTO `friends` VALUES(90, 1, 6, 'requested', '0000-00-00');
+INSERT INTO `friends` VALUES(91, 1, 4, 'requested', '0000-00-00');
+INSERT INTO `friends` VALUES(114, 2, 1, 'friend', '2012-12-16');
+INSERT INTO `friends` VALUES(115, 1, 2, 'friend', '2012-12-16');
 
 -- --------------------------------------------------------
 
@@ -122,7 +117,6 @@ INSERT INTO `friends` VALUES(90, 1, 6, 'requested', '0000-00-00');
 -- Table structure for table `gallery`
 --
 
-DROP TABLE IF EXISTS `gallery`;
 CREATE TABLE `gallery` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -130,13 +124,14 @@ CREATE TABLE `gallery` (
   `description` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_gallery_user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `gallery`
 --
 
-INSERT INTO `gallery` VALUES(1, 1, 'My First Gallery', 'This is my first artwork gallery');
+INSERT INTO `gallery` VALUES(1, 1, 'My First Gallery', 'This is my first artwork gallery test');
+INSERT INTO `gallery` VALUES(3, 1, 'My First Gallery test test', 'wooooo hop you like these!');
 
 -- --------------------------------------------------------
 
@@ -144,7 +139,6 @@ INSERT INTO `gallery` VALUES(1, 1, 'My First Gallery', 'This is my first artwork
 -- Table structure for table `gallery_image`
 --
 
-DROP TABLE IF EXISTS `gallery_image`;
 CREATE TABLE `gallery_image` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -168,22 +162,21 @@ CREATE TABLE `gallery_image` (
 -- Table structure for table `group`
 --
 
-DROP TABLE IF EXISTS `group`;
 CREATE TABLE `group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_name` varchar(255) NOT NULL,
   `created_date` datetime NOT NULL,
   `description` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `group`
 --
 
-INSERT INTO `group` VALUES(3, 'marks test group', '2012-09-30 16:39:08', 'test group 1, modified');
-INSERT INTO `group` VALUES(5, 'marks test group', '2012-09-30 18:47:52', 'This is my cool test group. I hope loads of people join :)');
-INSERT INTO `group` VALUES(6, 'Photography basics', '2012-09-30 18:48:40', 'Group for amateurs starting out with photography :)');
+INSERT INTO `group` VALUES(10, 'ttttt', '2012-11-27 21:28:44', 'sdfgadf sdfg sfdgsdfgvs');
+INSERT INTO `group` VALUES(16, 'chris''s group', '2012-12-16 17:36:46', 'test test test');
+INSERT INTO `group` VALUES(17, 'marks new group', '2012-12-18 20:49:54', 'test test test');
 
 -- --------------------------------------------------------
 
@@ -191,29 +184,27 @@ INSERT INTO `group` VALUES(6, 'Photography basics', '2012-09-30 18:48:40', 'Grou
 -- Table structure for table `group_users`
 --
 
-DROP TABLE IF EXISTS `group_users`;
 CREATE TABLE `group_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `is_admin` char(1) NOT NULL,
   `join_date` date NOT NULL,
-  `is_creator` char(1) NOT NULL,
-  `is_member` char(1) DEFAULT NULL,
-  `invited` char(1) DEFAULT NULL,
-  `requested` char(1) DEFAULT NULL,
+  `rights` char(1) NOT NULL DEFAULT '4',
   PRIMARY KEY (`id`),
   KEY `FK_group_users_user_id` (`user_id`),
   KEY `FK_group_id` (`group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
 
 --
 -- Dumping data for table `group_users`
 --
 
-INSERT INTO `group_users` VALUES(5, 3, 1, '1', '2012-09-30', '1', NULL, NULL, NULL);
-INSERT INTO `group_users` VALUES(7, 5, 1, '1', '2012-09-30', '1', NULL, NULL, NULL);
-INSERT INTO `group_users` VALUES(8, 6, 1, '1', '2012-09-30', '1', NULL, NULL, NULL);
+INSERT INTO `group_users` VALUES(12, 10, 1, '2012-11-27', '1');
+INSERT INTO `group_users` VALUES(20, 10, 2, '2012-12-10', '3');
+INSERT INTO `group_users` VALUES(21, 16, 2, '2012-12-16', '1');
+INSERT INTO `group_users` VALUES(23, 16, 1, '2012-12-16', '4');
+INSERT INTO `group_users` VALUES(24, 17, 1, '2012-12-18', '1');
+INSERT INTO `group_users` VALUES(25, 17, 2, '2012-09-29', '4');
 
 -- --------------------------------------------------------
 
@@ -221,7 +212,6 @@ INSERT INTO `group_users` VALUES(8, 6, 1, '1', '2012-09-30', '1', NULL, NULL, NU
 -- Table structure for table `image`
 --
 
-DROP TABLE IF EXISTS `image`;
 CREATE TABLE `image` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -229,16 +219,20 @@ CREATE TABLE `image` (
   `alt` varchar(255) DEFAULT NULL,
   `file_name` varchar(255) NOT NULL,
   `description` text NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `FK_image_user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
 
 --
 -- Dumping data for table `image`
 --
 
-INSERT INTO `image` VALUES(2, 1, '', '', '20694224174fa1d78cbd2448.81117954.jpg', '');
-INSERT INTO `image` VALUES(3, 1, '', '', '21345136494faa72a81f54b1.24679612.gif', '');
+INSERT INTO `image` VALUES(16, 1, '', '', '173034502850983c405b5824.20735573.jpg', '', '0000-00-00 00:00:00');
+INSERT INTO `image` VALUES(17, 1, 'Lollipop', '', '10411227245098445a283251.59367418.jpg', 'This is the first in the Little Girl series.', '2012-11-15 07:33:53');
+INSERT INTO `image` VALUES(18, 1, 'Starry starry skyline', '', '1907461393509ac7157c33e6.44520053.jpg', 'This was my first ever painting!', '2012-11-15 07:28:43');
+INSERT INTO `image` VALUES(19, 1, 'Weeping tree', '', '64257247050b7e7872e2158.24339244.jpg', 'Weeping tree', '2012-11-30 09:56:04');
+INSERT INTO `image` VALUES(21, 1, '', '', '119313204350d4fa6707cad1.27212067.jpg', '', '2012-12-22 11:10:16');
 
 -- --------------------------------------------------------
 
@@ -246,12 +240,11 @@ INSERT INTO `image` VALUES(3, 1, '', '', '21345136494faa72a81f54b1.24679612.gif'
 -- Table structure for table `interests`
 --
 
-DROP TABLE IF EXISTS `interests`;
 CREATE TABLE `interests` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `interests`
@@ -263,6 +256,7 @@ INSERT INTO `interests` VALUES(4, 'Watercolours');
 INSERT INTO `interests` VALUES(5, 'Sculpting');
 INSERT INTO `interests` VALUES(6, 'Mixed media');
 INSERT INTO `interests` VALUES(7, 'Venue owner');
+INSERT INTO `interests` VALUES(8, 'Curator');
 
 -- --------------------------------------------------------
 
@@ -270,7 +264,6 @@ INSERT INTO `interests` VALUES(7, 'Venue owner');
 -- Table structure for table `login_attempts`
 --
 
-DROP TABLE IF EXISTS `login_attempts`;
 CREATE TABLE `login_attempts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ip_address` varchar(40) COLLATE utf8_bin NOT NULL,
@@ -290,7 +283,6 @@ CREATE TABLE `login_attempts` (
 -- Table structure for table `messages`
 --
 
-DROP TABLE IF EXISTS `messages`;
 CREATE TABLE `messages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `message` text NOT NULL,
@@ -303,7 +295,7 @@ CREATE TABLE `messages` (
   PRIMARY KEY (`id`),
   KEY `FK_sender_id` (`sender_id`),
   KEY `FK_recipient_id` (`recipient_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
 
 --
 -- Dumping data for table `messages`
@@ -316,6 +308,11 @@ INSERT INTO `messages` VALUES(4, 'Its been a while', '2012-06-10 19:19:15', 1, 2
 INSERT INTO `messages` VALUES(9, 'It''s Mark', '2012-08-15 22:04:43', 1, 4, 0, 0, 0);
 INSERT INTO `messages` VALUES(10, 'Answer me please', '2012-08-15 22:08:05', 1, 4, 0, 0, 0);
 INSERT INTO `messages` VALUES(11, 'buyuyfuf', '2012-08-18 00:00:58', 1, 2, 0, 0, 0);
+INSERT INTO `messages` VALUES(12, 'tset', '2012-11-19 21:09:53', 1, 4, 0, 0, 0);
+INSERT INTO `messages` VALUES(13, 'trtrtr', '2012-11-19 21:16:40', 1, 2, 0, 0, 0);
+INSERT INTO `messages` VALUES(14, 'test', '2012-11-19 21:21:53', 1, 6, 0, 0, 0);
+INSERT INTO `messages` VALUES(15, 'test', '2012-11-26 00:02:31', 1, 4, 0, 0, 0);
+INSERT INTO `messages` VALUES(16, 'oi', '2012-11-26 20:16:28', 1, 4, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -323,7 +320,6 @@ INSERT INTO `messages` VALUES(11, 'buyuyfuf', '2012-08-18 00:00:58', 1, 2, 0, 0,
 -- Table structure for table `profile_image`
 --
 
-DROP TABLE IF EXISTS `profile_image`;
 CREATE TABLE `profile_image` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -331,14 +327,13 @@ CREATE TABLE `profile_image` (
   PRIMARY KEY (`id`),
   KEY `FK_img_user_id` (`user_id`),
   KEY `FK_prof_image_id` (`image_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `profile_image`
 --
 
-INSERT INTO `profile_image` VALUES(2, 1, 2);
-INSERT INTO `profile_image` VALUES(3, 1, 3);
+INSERT INTO `profile_image` VALUES(1, 1, 16);
 
 -- --------------------------------------------------------
 
@@ -346,7 +341,6 @@ INSERT INTO `profile_image` VALUES(3, 1, 3);
 -- Table structure for table `timeline`
 --
 
-DROP TABLE IF EXISTS `timeline`;
 CREATE TABLE `timeline` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -368,7 +362,6 @@ CREATE TABLE `timeline` (
 -- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) COLLATE utf8_bin NOT NULL,
@@ -386,18 +379,18 @@ CREATE TABLE `users` (
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` VALUES(1, 'roppa_uk', '$2a$08$vSOeF4KmPaXh/sTV6B9Ay.OAtMwn/4Rxci3PQHr6CNzi4wYcDJm3G', 'roppa_uk@hotmail.com', 1, 0, NULL, NULL, NULL, NULL, 'a5991f5072eaa2569d015d796cad4f6f', '127.0.0.1', '2012-10-13 11:02:17', '2012-01-21 13:34:48', '2012-10-13 11:02:17');
-INSERT INTO `users` VALUES(2, 'sompfrog', '$2a$08$xxAl6ZwZGAMkeO2KLBcpHO3PVpIDULTm7b6w/Gc8pCOPjjP0YLslK', 'chrisbewick@gmail.com', 1, 0, NULL, NULL, NULL, NULL, '700c92cfe378fdd91ef7b89fdb3a2d03', '127.0.0.1', '0000-00-00 00:00:00', '2012-01-28 10:12:30', '2012-01-28 10:12:59');
-INSERT INTO `users` VALUES(3, 'neslisever', '$2a$08$lL2NJTtvb4N1HICUOsDDgOpMDchwSmD5HthcFozB1xburUlG9.WFW', 'neslisever@yahoo.com', 1, 0, NULL, NULL, NULL, NULL, 'a629e15716b12a16846e1416c5fd7453', '127.0.0.1', '2012-01-28 23:02:47', '2012-01-28 14:33:48', '2012-01-28 23:02:47');
-INSERT INTO `users` VALUES(4, 'joch', '$2a$08$.QkhtqleQeoibY0NmVKyr.2L4f44k/kP9A4u0sbRRfQq68FZV56YO', 'joch@talktalk.net', 1, 0, NULL, NULL, NULL, NULL, '9a84fd9df2da3d9b71729212fb0f9a76', '127.0.0.1', '2012-03-31 18:38:45', '2012-02-10 20:59:22', '2012-03-31 18:38:45');
-INSERT INTO `users` VALUES(5, 'maribell64', '$2a$08$vbejdYwcB12ALKiPsSaPKeTNI/AsXboX.310lJx.SoHh3l9uBTofm', 'maribell_vargas7@hotmail.com', 1, 0, NULL, NULL, NULL, NULL, '4cd08f03e2527ac592a2d1a047420711', '127.0.0.1', '2012-04-17 11:37:08', '2012-04-06 17:59:23', '2012-04-17 11:37:08');
-INSERT INTO `users` VALUES(6, 'helen_pailing', '$2a$08$PERf8hy4tX8X8SQocRzDp.yjhl4D0TCblqMXX1.aZTDpKseaa9rAK', 'helen_pailing@hotmail.com', 1, 0, NULL, NULL, NULL, NULL, 'af287d2561040208d02a725c56d56237', '127.0.0.1', '2012-05-19 21:18:23', '2012-05-19 10:12:50', '2012-05-20 05:18:23');
+INSERT INTO `users` VALUES(1, 'roppa_uk', '$2a$08$vSOeF4KmPaXh/sTV6B9Ay.OAtMwn/4Rxci3PQHr6CNzi4wYcDJm3G', 'roppa_uk@hotmail.com', 1, 0, NULL, NULL, NULL, NULL, 'a5991f5072eaa2569d015d796cad4f6f', '127.0.0.1', '2012-12-23 00:53:07', '2012-01-21 13:34:48', '2012-12-23 11:53:07');
+INSERT INTO `users` VALUES(2, 'sompfrog', '$2a$08$xxAl6ZwZGAMkeO2KLBcpHO3PVpIDULTm7b6w/Gc8pCOPjjP0YLslK', 'chrisbewick@gmail.com', 1, 0, NULL, NULL, NULL, NULL, '700c92cfe378fdd91ef7b89fdb3a2d03', '127.0.0.1', '0000-00-00 00:00:00', '2012-01-28 10:12:30', '2012-01-28 21:12:59');
+INSERT INTO `users` VALUES(3, 'neslisever', '$2a$08$lL2NJTtvb4N1HICUOsDDgOpMDchwSmD5HthcFozB1xburUlG9.WFW', 'neslisever@yahoo.com', 1, 0, NULL, NULL, NULL, NULL, 'a629e15716b12a16846e1416c5fd7453', '127.0.0.1', '2012-01-28 23:02:47', '2012-01-28 14:33:48', '2012-01-29 10:02:47');
+INSERT INTO `users` VALUES(4, 'joch', '$2a$08$.QkhtqleQeoibY0NmVKyr.2L4f44k/kP9A4u0sbRRfQq68FZV56YO', 'joch@talktalk.net', 1, 0, NULL, NULL, NULL, NULL, '9a84fd9df2da3d9b71729212fb0f9a76', '127.0.0.1', '2012-03-31 18:38:45', '2012-02-10 20:59:22', '2012-04-01 03:38:45');
+INSERT INTO `users` VALUES(5, 'maribell64', '$2a$08$vbejdYwcB12ALKiPsSaPKeTNI/AsXboX.310lJx.SoHh3l9uBTofm', 'maribell_vargas7@hotmail.com', 1, 0, NULL, NULL, NULL, NULL, '4cd08f03e2527ac592a2d1a047420711', '127.0.0.1', '2012-04-17 11:37:08', '2012-04-06 17:59:23', '2012-04-17 20:37:08');
+INSERT INTO `users` VALUES(6, 'helen_pailing', '$2a$08$PERf8hy4tX8X8SQocRzDp.yjhl4D0TCblqMXX1.aZTDpKseaa9rAK', 'helen_pailing@hotmail.com', 1, 0, NULL, NULL, NULL, NULL, 'af287d2561040208d02a725c56d56237', '127.0.0.1', '2012-05-19 21:18:23', '2012-05-19 10:12:50', '2012-05-20 14:18:23');
 
 -- --------------------------------------------------------
 
@@ -405,7 +398,6 @@ INSERT INTO `users` VALUES(6, 'helen_pailing', '$2a$08$PERf8hy4tX8X8SQocRzDp.yjh
 -- Table structure for table `user_autologin`
 --
 
-DROP TABLE IF EXISTS `user_autologin`;
 CREATE TABLE `user_autologin` (
   `key_id` char(32) COLLATE utf8_bin NOT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0',
@@ -419,6 +411,7 @@ CREATE TABLE `user_autologin` (
 -- Dumping data for table `user_autologin`
 --
 
+INSERT INTO `user_autologin` VALUES('dd8b2a63c00d0c271354e5d885d7f96b', 7, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:16.0) Gecko/20100101 Firefox/16.0', '127.0.0.1', '2012-12-23 13:40:29');
 
 -- --------------------------------------------------------
 
@@ -426,7 +419,6 @@ CREATE TABLE `user_autologin` (
 -- Table structure for table `user_interests`
 --
 
-DROP TABLE IF EXISTS `user_interests`;
 CREATE TABLE `user_interests` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -434,7 +426,7 @@ CREATE TABLE `user_interests` (
   PRIMARY KEY (`id`),
   KEY `FK_interest_user_id` (`user_id`),
   KEY `FK_interest_type_id` (`interest_type_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `user_interests`
@@ -444,8 +436,8 @@ INSERT INTO `user_interests` VALUES(3, 3, 3);
 INSERT INTO `user_interests` VALUES(4, 3, 6);
 INSERT INTO `user_interests` VALUES(5, 1, 1);
 INSERT INTO `user_interests` VALUES(8, 1, 4);
-INSERT INTO `user_interests` VALUES(9, 1, 6);
 INSERT INTO `user_interests` VALUES(10, 1, 3);
+INSERT INTO `user_interests` VALUES(11, 1, 6);
 
 -- --------------------------------------------------------
 
@@ -453,7 +445,6 @@ INSERT INTO `user_interests` VALUES(10, 1, 3);
 -- Table structure for table `user_profiles`
 --
 
-DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
   `user_id` int(11) NOT NULL,
   `website` varchar(255) COLLATE utf8_bin DEFAULT NULL,
@@ -474,7 +465,7 @@ CREATE TABLE `user_profiles` (
 -- Dumping data for table `user_profiles`
 --
 
-INSERT INTO `user_profiles` VALUES(1, 'http://www.whiteforest.co.uk', 'Mark', 'Robson', 3, 'Painting a pretty picture', 'm', 0x492068617665206e6f74206265656e20666f726d616c6c7920747261696e656420616e6420626567616e207061696e74696e6720696e20446563656d626572203230313020616674657220616e20697272657369737469626c6520757267652e20416674657220636f6d706c6574696e67207468726565207061696e74696e6773204920626567616e20746f2067657420696d61676520616674657220696d61676520737072696e67696e6720696e746f206d79206d696e64202d2066756c6c7920666f726d656420616e642066696e6973686564207061696e74696e677320696e206120666c6173682e2054686520666c6f6f64676174657320686164206f70656e65642e2041667465722061207768696c652049207265616c69736564206d6f7374206f6620746865736520696d616765732077657265207265666c6578696f6e73206f66207768617420492073656520616e6420657870657269656e636520696e206d792064617920746f20646179206c6966652e2041206c6f74206f66207468656d20686f7765766572206172652066726f6d20736f6d65776865726520656c73652e2049206c696b6520746f207468696e6b206f66206d7920617274206173206d657461706879736963616c2e, '', '', '');
+INSERT INTO `user_profiles` VALUES(1, 'http://www.whiteforest.co.uk', 'Mark', 'Robson', 16, 'Painting a pretty picture', 'm', 0x492068617665206e6f74206265656e20666f726d616c6c7920747261696e656420616e6420626567616e207061696e74696e6720696e20446563656d626572203230313020616674657220616e20697272657369737469626c6520757267652e20416674657220636f6d706c6574696e67207468726565207061696e74696e6773204920626567616e20746f2067657420696d61676520616674657220696d61676520737072696e67696e6720696e746f206d79206d696e64202d2066756c6c7920666f726d656420616e642066696e6973686564207061696e74696e677320696e206120666c6173682e2054686520666c6f6f64676174657320686164206f70656e65642e2041667465722061207768696c652049207265616c69736564206d6f7374206f6620746865736520696d616765732077657265207265666c6578696f6e73206f66207768617420492073656520616e6420657870657269656e636520696e206d792064617920746f20646179206c6966652e2041206c6f74206f66207468656d20686f7765766572206172652066726f6d20736f6d65776865726520656c73652e2049206c696b6520746f207468696e6b206f66206d7920617274206173206d657461706879736963616c2e, '', '', '');
 INSERT INTO `user_profiles` VALUES(2, 'http://chrisbewick.com/blog/', 'Chris', 'Bewick', NULL, 'Creativity', 'm', 0x486572652069732061206c6974746c65206269742061626f7574206d652e20416e6420736f6d65206d6f72652061626f7574206d652e, '', '', '');
 INSERT INTO `user_profiles` VALUES(3, 'http://www.neslihansever.com/', 'Nesli', 'Sever', NULL, 'Kurdish art', 'f', 0x416476656e747572657320696e746f204b757264697368206172742e, '', '', '');
 INSERT INTO `user_profiles` VALUES(4, 'http://www.google.co.uk', 'Joachim', 'Sefzik', NULL, NULL, NULL, 0x746869732069732061626f7574206d65, '', '', '');

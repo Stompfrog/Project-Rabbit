@@ -19,11 +19,12 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 					echo '</ul>';
 					echo '<h3><a href="' . site_url() . 'groups/group/' . $group->get_id() . '">' . $group->get_group_name() . '</a></h3>';
 					echo '<p>' . $group->get_description() . '</p>';
-					if (($group->is_creator() !== null) && ($group->is_creator() == $this->tank_auth->get_user_id())) {
-						echo '<a class="btn small danger" href="' . site_url() . 'groups/delete/' . $group->get_id() . '">Delete group</a>';
-					}
 					if (($group->is_admin() !== null) && ($group->is_admin() == $this->tank_auth->get_user_id())) {
-						echo '<a class="btn small success" href="' . site_url() . 'groups/edit_group/' . $group->get_id() . '">Edit group</a>';
+						echo '<p><a class="btn small success" href="' . site_url() . 'groups/edit_group/' . $group->get_id() . '">Edit group</a></p>';
+					}
+					if (($group->is_creator() !== null) && ($group->is_creator() == $this->tank_auth->get_user_id())) {
+						echo '<p><a class="btn small danger" href="' . site_url() . 'groups/delete/' . $group->get_id() . '">Delete group</a></p>';
+						echo '<p><a class="btn small danger" href="' . site_url() . 'groups/reassign/' . $group->get_id() . '">Assign group to user</a></p>';
 					}
 					echo '<a class="pull-right" href="' . site_url() . 'groups/group/' . $group->get_id() . '">View group &raquo;</a>';
 				echo '</li>';

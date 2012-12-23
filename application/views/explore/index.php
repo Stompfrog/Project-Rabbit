@@ -10,7 +10,7 @@
 	
 	<div class="span14">
 		<h2>Refine search</h2>
-		<form method="get" action="<?= site_url() ?>api/all_artists_interests/" id="explore_interests">
+		<form method="get" action="<?= site_url() ?>api/artists/interests/" id="explore_interests">
 			<style>
 				label {
 					display: inline;

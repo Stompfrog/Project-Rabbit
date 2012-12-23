@@ -34,6 +34,13 @@ class Groups extends CI_Controller
 					show_404();
 				}
 				break;
+			case 'reassign':
+				if(is_numeric ($this->uri->segment(3)) && $this->artists_model->valid_user_group($this->uri->segment(3), $this->tank_auth->get_user_id())) {
+					$this->reassign($this->uri->segment(3));
+				} else {
+					show_404();
+				}
+				break;
 			case 'delete':
 				if (is_numeric ($this->uri->segment(3)) && $this->artists_model->valid_user_group($this->uri->segment(3), $this->tank_auth->get_user_id())) {
 					$this->delete($this->uri->segment(3));
@@ -195,7 +202,6 @@ class Groups extends CI_Controller
 		    $data['friends'] = $this->artists_model->get_friends($user_id);
 		    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
 
-			//if there is a parameter, and it is numeric, and it is a valid address
 			if ($group_id) {
 
 				$table_values = $this->artists_model->get_user_group($user_id, $group_id);
@@ -236,6 +242,31 @@ class Groups extends CI_Controller
 			}
 	    }
 	}
+
+	function reassign ($group_id = false) {
+		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
+			redirect('/auth/login/');
+		} else {
+
+			$data = array();
+	
+			$user_id = $this->tank_auth->get_user_id();
+			
+		    $data['user'] = $this->artists_model->get_user($user_id);
+		    $data['total_friends'] = $this->artists_model->get_total_friends($user_id);
+		    $data['friends'] = $this->artists_model->get_friends($user_id);
+		    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
+
+			//get a list of group members and above
+			$data['members'] = $this->artists_model->get_group_members($group_id);
+			$data['group'] = $this->artists_model->get_group($group_id);
+
+			$this->load->view('/templates/header');
+			$this->load->view('/auth/group_reassign', $data);
+			$this->load->view('/templates/footer', $data);
+	    }
+	}
+
 	
 	function delete ($group_id) {
 

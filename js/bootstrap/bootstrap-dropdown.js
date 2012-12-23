@@ -27,7 +27,7 @@
 
   $.fn.dropdown = function ( selector ) {
     return this.each(function () {
-    	console.log(1);
+
       $(this).delegate(selector || d, 'click', function (e) {
         var li = $(this).parent('li')
           , isActive = li.hasClass('open')
