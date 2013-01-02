@@ -1266,20 +1266,30 @@ class Artists_model extends CI_Model {
         return FALSE;
 	}
 
-	function delete_image ($image_id, $user_id)
+	function delete_image ($image_id)
 	{
-		$file_name = $this->get_image_file_name($image_id, $user_id);
-		//remove from image db
-		$this->db->delete('image', array('id' => $image_id, 'user_id' => $user_id));
-		//unlink the images
-		try {
-			unlink('./' . $this->config->item('large_path') . $file_name);
-			unlink('./' . $this->config->item('image_path') . $file_name);
-			unlink('./' . $this->config->item('thumb_path') . $file_name);
-			return true;
-		} catch(Exception $e) {
-			return $e;
+		if ($this->tank_auth->is_logged_in()) {
+			
+			$user_id = $this->tank_auth->get_user_id();
+			
+			$file_name = $this->get_image_file_name($image_id, $user_id);
+			
+			$this->db->delete('image', array('id' => $image_id, 'user_id' => $user_id));
+			
+			//TODO: Handle warning messages
+			//unlink the images
+			try {
+				unlink('./' . $this->config->item('large_path') . $file_name);
+				unlink('./' . $this->config->item('image_path') . $file_name);
+				unlink('./' . $this->config->item('thumb_path') . $file_name);
+				return true;
+			} catch(Exception $e) {
+				return $e;
+			}
+			
 		}
+		
+		return false;
 	}
 
 	function valid_image($user_id, $image_id) {
@@ -1335,8 +1345,7 @@ class Artists_model extends CI_Model {
 
 	function add_profile_image ($user_id, $file)
 	{
-		$img_id = $this->add_image($user_id, $file);
-		
+		$img_id = $file['image_id'];
 		$data = array(
 		   'user_id' => $user_id,
 		   'image_id' => $img_id

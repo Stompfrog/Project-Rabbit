@@ -131,6 +131,11 @@ class Groups extends CI_Controller
 		$this->load->view('api/json',$data);
 	}
 	
+	/*
+	Current logged in user selects "join" on individual group
+	Params: Group id
+	Returns: Boolean
+	*/
 	function join($group_id)
 	{
 		if($this->tank_auth->is_logged_in()) {
@@ -142,6 +147,11 @@ class Groups extends CI_Controller
 		}  
 	}
 
+	/*
+	Current logged in user selects "leave group"
+	Params: Group id
+	Returns: Boolean
+	*/
 	function leave($group_id)
 	{
 		if($this->tank_auth->is_logged_in()) {
@@ -153,6 +163,11 @@ class Groups extends CI_Controller
 		}	    
 	}
 	
+	/*
+	Current logged in user who is admin or above can access a list of users who have requested to join group
+	Params: Group id
+	Returns: Array of user data
+	*/
 	function requests($group_id)
 	{
 		if($this->tank_auth->is_logged_in()) {
@@ -164,6 +179,11 @@ class Groups extends CI_Controller
 		}
 	}
 	
+	/*
+	Current logged in user who is admin or above invites another user to join group
+	Params: Group id, user id
+	Returns: boolean
+	*/
 	function invite($group_id, $user_id)
 	{
 		if($this->tank_auth->is_logged_in()) {
@@ -175,7 +195,11 @@ class Groups extends CI_Controller
 		}
 	}
 	
-	
+	/*
+	Current logged in user who has been invited to join a group accepts
+	Params: Group id
+	Returns: Boolean
+	*/
 	function accept_group_invitation ($group_id)
 	{
 		if($this->tank_auth->is_logged_in()) {
@@ -186,7 +210,12 @@ class Groups extends CI_Controller
 			$this->load->view('api/json', 'You are not logged in');
 		}
 	}
-	
+
+	/*
+	Current logged in user who is admin or above accepts user into group
+	Params: Group id, user id
+	Returns: boolean
+	*/
 	function accept($group_id, $user_id)
 	{
 		if($this->tank_auth->is_logged_in()) {
@@ -198,6 +227,11 @@ class Groups extends CI_Controller
 		}
 	}
 	
+	/*
+	Current logged in user declines group invitation
+	Params: Group id
+	Returns: boolean
+	*/
 	function decline($group_id)
 	{
 		if($this->tank_auth->is_logged_in()) {
@@ -209,6 +243,11 @@ class Groups extends CI_Controller
 		}
 	}
 	
+	/*
+	Current logged in user who is admin or above denies user entry into group
+	Params: Group id, user id
+	Returns: boolean
+	*/
 	function deny ($group_id, $user_id) {
 		if($this->tank_auth->is_logged_in()) {
 			$declined = $this->artists_model->deny_user_group_entry($user_id, $group_id);
@@ -218,7 +257,12 @@ class Groups extends CI_Controller
 			$this->load->view('api/json', 'You are not logged in');
 		}
 	}
-	
+
+	/*
+	Current logged in user who is admin or above removes user from group
+	Params: Group id, user id
+	Returns: boolean
+	*/	
 	function remove ($group_id, $user_id)
 	{
 		if($this->tank_auth->is_logged_in()) {
@@ -229,7 +273,12 @@ class Groups extends CI_Controller
 			$this->load->view('api/json', 'You are not logged in');
 		}
 	}
-	
+
+	/*
+	Current logged in user who is creator of group assigns ownership to another member of the group
+	Params: Group id, user id
+	Returns: boolean
+	*/	
 	function reassign ($group_id, $user_id)
 	{
 		if($this->tank_auth->is_logged_in()) {

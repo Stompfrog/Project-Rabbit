@@ -228,11 +228,9 @@ CREATE TABLE `image` (
 -- Dumping data for table `image`
 --
 
-INSERT INTO `image` VALUES(16, 1, '', '', '173034502850983c405b5824.20735573.jpg', '', '0000-00-00 00:00:00');
 INSERT INTO `image` VALUES(17, 1, 'Lollipop', '', '10411227245098445a283251.59367418.jpg', 'This is the first in the Little Girl series.', '2012-11-15 07:33:53');
 INSERT INTO `image` VALUES(18, 1, 'Starry starry skyline', '', '1907461393509ac7157c33e6.44520053.jpg', 'This was my first ever painting!', '2012-11-15 07:28:43');
 INSERT INTO `image` VALUES(19, 1, 'Weeping tree', '', '64257247050b7e7872e2158.24339244.jpg', 'Weeping tree', '2012-11-30 09:56:04');
-INSERT INTO `image` VALUES(21, 1, '', '', '119313204350d4fa6707cad1.27212067.jpg', '', '2012-12-22 11:10:16');
 
 -- --------------------------------------------------------
 
@@ -333,7 +331,7 @@ CREATE TABLE `profile_image` (
 -- Dumping data for table `profile_image`
 --
 
-INSERT INTO `profile_image` VALUES(1, 1, 16);
+INSERT INTO `profile_image` VALUES(1, 1, 19);
 
 -- --------------------------------------------------------
 
@@ -503,17 +501,16 @@ ALTER TABLE `gallery_image`
   ADD CONSTRAINT `FK_image_id` FOREIGN KEY (`image_id`) REFERENCES `image` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `group_users`
---
-ALTER TABLE `group_users`
-  ADD CONSTRAINT `FK_group_id` FOREIGN KEY (`group_id`) REFERENCES `group` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_group_users_user_id` FOREIGN KEY (`user_id`) REFERENCES `user_profiles` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `image`
 --
 ALTER TABLE `image`
   ADD CONSTRAINT `FK_image_user_id` FOREIGN KEY (`user_id`) REFERENCES `user_profiles` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `profile_image`
+--
+ALTER TABLE `profile_image`
+  ADD CONSTRAINT `FK_prof_image_id` FOREIGN KEY (`image_id`) REFERENCES `image` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `messages`
@@ -523,10 +520,11 @@ ALTER TABLE `messages`
   ADD CONSTRAINT `FK_sender_id` FOREIGN KEY (`sender_id`) REFERENCES `user_profiles` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `profile_image`
+-- Constraints for table `group_users`
 --
-ALTER TABLE `profile_image`
-  ADD CONSTRAINT `FK_prof_image_id` FOREIGN KEY (`image_id`) REFERENCES `image` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `group_users`
+  ADD CONSTRAINT `FK_group_id` FOREIGN KEY (`group_id`) REFERENCES `group` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_group_users_user_id` FOREIGN KEY (`user_id`) REFERENCES `user_profiles` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `user_interests`
