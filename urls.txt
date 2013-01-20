@@ -15,8 +15,11 @@ Explore
 	
 Artists
 	/artists/
-	/artists/artist/artist_id/
-	/artists/artist/[artist_username]/
+	/artists/artist/[artist_id] || [artist_username]/
+	/artists/artist/[artist_id] || [artist_username]/images/
+	/artists/artist/[artist_id] || [artist_username]/image/[image_id]
+	
+	
 	/artists/add/
 	/artists/artist_id/edit/
 	/artists/latest/

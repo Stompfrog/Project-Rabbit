@@ -41,7 +41,7 @@ class Images extends CI_Controller
 				$data['images'] = $images;
 			}
 		    $this->load->view('templates/header');
-		    $this->load->view('auth/image_list',$data);
+		    $this->load->view('images/image_list',$data);
 		    $this->load->view('templates/footer');
 		}
 	}
@@ -108,6 +108,7 @@ class Images extends CI_Controller
 		}
 	}
 	
+	/*I think this is redundant*/
 	function add_profile_image ()
 	{
 		if (!$this->tank_auth->is_logged_in()) { // not logged in or not activated
@@ -150,6 +151,11 @@ class Images extends CI_Controller
 		    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
 			
 			$data['profile_images'] = $this->artists_model->get_all_profile_images($this->tank_auth->get_user_id());
+			
+			$images = $this->artists_model->get_images($this->tank_auth->get_user_id());
+			if ($images) {
+				$data['images'] = $images;
+			}
 
 			$this->load->view('/templates/header', $data);
 			$this->load->view('/images/profile_image', $data);

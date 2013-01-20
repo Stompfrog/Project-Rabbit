@@ -14,10 +14,18 @@
 			$this->load->view('templates/message', $message_data);
 		}
 		echo '<hr/>';
+		
 		if ($user->get_addresses()) {
 			echo '<h3><a href="/addresses/">Addresses</a></h3>';
 			echo $user->get_addresses();
-			echo '<p>' . anchor('/addresses/add_address/', 'Add address') . '</p>'; 
+		} else {
+			if ($logged_in_user) {
+				echo '<h3><a href="/addresses/">Addresses</a></h3>';
+				echo '<p>You have not added any addresses. You maynot be found by other artists in your area.</p>'; 
+				echo '<p>' . anchor('/addresses/add_address/', 'Add address') . '</p>'; 			
+			} else {
+				echo 'No addresses';
+			}
 		}
 
 		$group_data['groups'] = $user->get_groups();

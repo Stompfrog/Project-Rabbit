@@ -28,6 +28,20 @@ class Artists_model extends CI_Model {
 	*/
 	function get_user($user_id)
 	{
+		/*
+		//find out if param is an int
+			if it is, see if it is a valid user
+		//else if it is a string, see if it is a valid user
+		//else return false
+		if (is_int($user_id)) {
+		
+		}
+		*/
+		
+		if(! isset($user_id)) {
+			return false;
+		}
+		
 	    $properties = array();
 	
 		//get all artists addresses
@@ -79,11 +93,12 @@ class Artists_model extends CI_Model {
 			$query = $this->db->query("SELECT id FROM users WHERE username = '$user_name'");
 			if ($query->num_rows() > 0) {
 			    $row = $query->row_array();
-			    return $row['id'];
+			    return intval($row['id']);
 			}
 	    } else {
 	    	return $user_name;
 	    }
+	    return false;
 	}
 	
 	function get_user_data($user_id)
@@ -121,6 +136,10 @@ class Artists_model extends CI_Model {
 		$query = 'SELECT * FROM user_profiles, address where address.user_id = user_profiles.user_id';
 	
 		if(sizeof($params) > 0 && $params !== false) {
+			//make sure array is ok
+			foreach ($params as $param) {
+				
+			}
 			$query .= ' AND user_profiles.user_id IN (SELECT user_id FROM user_interests WHERE interest_type_id IN (' . implode(",", $params) . '))';
 	    }
 	    
@@ -133,7 +152,7 @@ class Artists_model extends CI_Model {
 	    }
 	}
 	
-	function latest_artists($limit = 5)
+	function latest_artists ($limit = 5)
 	{
 	    $results = array();
 	    //$query = $this->db->query("SELECT * FROM user_profiles ORDER BY user_id DESC LIMIT " . $limit);
@@ -159,7 +178,9 @@ class Artists_model extends CI_Model {
 	function latest_artists_paginated ($page = 1, $limit = 5)
 	{
 	    $offset = ($page - 1) * $limit;
+	    
 	    $results = array();
+	    
 	    $query = $this->db->query("SELECT user_profiles.*, users.email FROM user_profiles, users WHERE users.id = user_profiles.user_id ORDER BY user_profiles.user_id DESC LIMIT " . $offset . ", " . $limit);
 	    
 	    foreach ($query->result() as $row)
@@ -181,7 +202,7 @@ class Artists_model extends CI_Model {
 	    if ($query->num_rows() > 0)
 	    {
 	       $row = $query->row();
-	       return $row->total_artitsts;
+	       return intval($row->total_artitsts);
 	    }
 	    
 	    return false;
@@ -190,17 +211,17 @@ class Artists_model extends CI_Model {
 	function get_interests($user_id)
 	{
 	    $interests = array();
-	    $interests_query = $this->db->query("SELECT interests.title AS 'title' 
-                                            FROM interests, user_interests 
-                                            WHERE interests.id = user_interests.interest_type_id 
-                                            AND user_interests.user_id = " . (int) $user_id);
-	
-	    foreach ($interests_query->result_array() as $row)
-	    {
-	    	array_push($interests, $row['title']);
+	    $query = $this->db->query("SELECT interests.title AS 'title' 
+                                    FROM interests, user_interests 
+                                    WHERE interests.id = user_interests.interest_type_id 
+                                    AND user_interests.user_id = " . (int) $user_id);
+	    if ($query->num_rows() > 0) {
+		    foreach ($query->result_array() as $row) {
+		    	array_push($interests, $row['title']);
+		    }
+		    return $interests;
 	    }
-	    
-	    return $interests;
+	    return false;
 	}
 	
 	function get_all_interests ()
@@ -495,7 +516,7 @@ class Artists_model extends CI_Model {
 	    if ($query->num_rows() > 0)
 	    {
 	       $row = $query->row();
-	       return $row->total_friends;
+	       return intval($row->total_friends);
 	    }
 	    
 	    return false;
@@ -525,29 +546,17 @@ class Artists_model extends CI_Model {
 	    }
 	    return false;
 	}
-	
-	//legacy - delete when safely checked
-	/*function get_addresses ($user_id) {
-		$addresses = array();
-		$query = $this->db->query('SELECT * FROM `address` WHERE `user_id` = ' . $user_id);
-	    if ($query->num_rows() > 0)
-	    {
-			foreach ($query->row_array() as $row) {
-				array_push($addresses, $row);
-			}
-			return $addresses;
-	    }
-	    return false;
-	}*/
 
 	//get address
 	function get_address ($user_id, $address_id = null) {
 		$and = '';
-		if ($address_id)
+		if ($address_id) {
 			$and = ' AND `id` = ' . $address_id;
-		$query = $this->db->query('SELECT * FROM `address` WHERE `user_id` = ' . $user_id . $and);
-	    if ($query->num_rows() > 0)
+		}
+		$query = $this->db->query('SELECT * FROM `address` WHERE `user_id` = ' . $user_id . $and . ' LIMIT 1');
+	    if ($query->num_rows() > 0) {
 			return $query->row_array();
+		}
 	    return false;
 	} 
 	 
@@ -557,7 +566,7 @@ class Artists_model extends CI_Model {
 		return false;
 	}
 	
-	function valid_address ($address_id, $user_id) {
+	function valid_address ($user_id, $address_id) {
 	
 		if (isset($address_id) && is_numeric($address_id)) {
 	    	$query = $this->db->query("SELECT COUNT(id) AS address_exists FROM address where id = " . $address_id . " AND user_id = " . $user_id);
@@ -574,17 +583,26 @@ class Artists_model extends CI_Model {
 	}
 	
 	//update address
-	function update_address ($user_id, $address_id, $data) {
-        $this->db->where('user_id', (int) $user_id);
-        $this->db->where('id', (int) $address_id);
-        if ($this->db->update('address', $data))
-        	return TRUE;
-        return FALSE;
+	function update_address ($address_id, $data) {
+
+		if ($this->tank_auth->is_logged_in()) {
+			$user_id = $this->tank_auth->get_user_id();
+	        $this->db->where('user_id', (int) $user_id);
+	        $this->db->where('id', (int) $address_id);
+	        if ($this->db->update('address', $data))
+	        	return true;
+			}
+
+        return false;
 	}
 	
-	function delete_address ($address_id, $user_id) {
-		if ($this->db->delete('address', array('id' => $address_id, 'user_id' => $user_id)))
-			return true;
+	function delete_address ($address_id) {
+		if ($this->tank_auth->is_logged_in()) {
+			$user_id = $this->tank_auth->get_user_id();
+			if ($this->db->delete('address', array('id' => $address_id, 'user_id' => $user_id))) {
+				return true;
+			}
+		}
 		return false;
 	}
 	
@@ -629,30 +647,40 @@ class Artists_model extends CI_Model {
 	*
 	*************************************************************/
 	
-	function create_group ($user_id, $data) 
+	function create_group ($data) 
 	{
-		$data['created_date'] = date('Y-m-d H:i:s');
-		if ($this->db->insert('group', $data)) {
-			$group_users = array(
-				'group_id' => $this->db->insert_id(),
-				'user_id' => $user_id,
-				'join_date' => date('Y-m-d H:i:s'),
-				'rights' => 1
-			);
-			
-			if( $this->db->insert('group_users', $group_users))
-				return true;
+		if ($this->tank_auth->is_logged_in()) {
+			$user_id = $this->tank_auth->get_user_id();
+			$data['created_date'] = date('Y-m-d H:i:s');
+			if ($this->db->insert('group', $data)) {
+				$group_users = array(
+					'group_id' => $this->db->insert_id(),
+					'user_id' => $user_id,
+					'join_date' => date('Y-m-d H:i:s'),
+					'rights' => 1
+				);
+				if( $this->db->insert('group_users', $group_users)) {
+					return true;
+				}
+			}
 		}
+	
 		return false;
 	}
 	
-	function update_group ($user_id, $group_id, $data) {
-		//find out if user is admin
-		if ($this->user_is_group_admin($user_id, $group_id)) {
-        	$this->db->where('id', (int) $group_id);
-	        if ($this->db->update('group', $data))
-	        	return true;
+	function update_group ($group_id, $data) {
+
+		if ($this->tank_auth->is_logged_in()) {
+			$user_id = $this->tank_auth->get_user_id();
+			//find out if user is admin
+			if ($this->user_is_group_admin($user_id, $group_id)) {
+	        	$this->db->where('id', (int) $group_id);
+		        if ($this->db->update('group', $data)) {
+		        	return true;
+		        }
+			}
 		}
+
         return false;
 	}
 	
@@ -714,7 +742,7 @@ class Artists_model extends CI_Model {
 	    return false;
 	}
 	
-	function valid_user_group ($group_id, $user_id) {
+	function valid_user_group ($user_id, $group_id) {
 		if (isset($group_id) && is_numeric($group_id)) {
 	    	$query = $this->db->query("SELECT count(*) as valid_group FROM `group_users`, `group` WHERE `group`.`id` = `group_users`.`group_id` and `group`.`id` = " . $group_id . " AND `group_users`.`user_id` = " . $user_id);
 		    if ($query->num_rows() > 0)
@@ -743,20 +771,28 @@ class Artists_model extends CI_Model {
 	}
 	
 	/*
+		If a user requests to join a group they are in some way connected to we need to handle the correct response.
 		Find out if user is connected to this group in any capacity
 	*/
 	function group_user_request ($user_id, $group_id) {
+	
+		$error = array();
+	
+		//if invalid group, return error message
+		if (! $this->valid_group($group_id)) {
+			$error["message"] = "group does not exist";
+			return $error;
+		}
 	
 	    $query = $this->db->query("SELECT rights, COUNT(*) AS total_groups FROM `group_users` WHERE group_id = " . $group_id . " AND user_id = " . $user_id);
 	
 		//user record already exists, now find out what they are
 		if ($query->num_rows() > 0) {
-		
+
 			$row = $query->row();
 			
 			if($row->total_groups > 0) {
 			
-				$error = array();
 				//is_admin, is_creator, is_member, invited, requested, blocked, declined
 				
 				switch ($row->rights) {
@@ -802,7 +838,7 @@ class Artists_model extends CI_Model {
 	    	}
 	    }
 	    //generic error fallover
-	    return false;
+	    return $error["message"] = "An error with the database has occurred";
 	}
 	
 	function get_all_groups($page = 1, $limit = 5)
@@ -824,10 +860,10 @@ class Artists_model extends CI_Model {
 	    if ($query->num_rows() > 0)
 	    {
 	       $row = $query->row();
-	       return $row->total_groups;
+	       return intval($row->total_groups);
 	    }
 	    
-	    return false;
+	    return 0;
 	}
 	
 	function latest_groups ($limit = 5) {
@@ -912,14 +948,12 @@ class Artists_model extends CI_Model {
 
 			if($this->db->insert('group_users', $group_user)) {
 				return true;
-			} else {
-				return "There was an error with your request";
 			}
 		}
 		return false;
 	}
 	
-	function leave_group($group_id)
+	function leave_group ($group_id)
 	{
 		if ($this->tank_auth->is_logged_in()) {
 			$user_id = $this->tank_auth->get_user_id();
@@ -991,8 +1025,9 @@ class Artists_model extends CI_Model {
 				$data = array('rights' => 7);
 				$this->db->where('user_id', (int) $user_id);
 				$this->db->where('group_id', (int) $group_id);
-		        if ($this->db->update('group_users', $data))
+		        if ($this->db->update('group_users', $data)) {
 		        	return true;
+		        }
 		        return false;
 					//return true
 			} else {
@@ -1041,8 +1076,9 @@ class Artists_model extends CI_Model {
 				$data = array('rights' => 3);
 				$this->db->where('user_id', (int) $user_id);
 				$this->db->where('group_id', (int) $group_id);
-		        if ($this->db->update('group_users', $data))
+		        if ($this->db->update('group_users', $data)) {
 		        	return true;
+		        }
 			} else {
 				return "You have not been invited into this group";
 			}
@@ -1163,7 +1199,7 @@ class Artists_model extends CI_Model {
         return false;
 	}	
 
-	function delete_gallery ($gallery_id, $user_id) 
+	function delete_gallery ($user_id, $gallery_id) 
 	{
 		if ($this->db->delete('gallery', array('id' => $gallery_id, 'user_id' => $user_id)))
 			return true;
@@ -1262,8 +1298,8 @@ class Artists_model extends CI_Model {
         $this->db->where('user_id', (int) $user_id);
         $this->db->where('id', (int) $image_id);
         if ($this->db->update('image', $data))
-        	return TRUE;
-        return FALSE;
+        	return true;
+        return false;
 	}
 
 	function delete_image ($image_id)
@@ -1272,9 +1308,19 @@ class Artists_model extends CI_Model {
 			
 			$user_id = $this->tank_auth->get_user_id();
 			
-			$file_name = $this->get_image_file_name($image_id, $user_id);
+			$file_name = $this->get_image_file_name($user_id, $image_id);
 			
 			$this->db->delete('image', array('id' => $image_id, 'user_id' => $user_id));
+			
+			//if deleted image was current profile image, set avatar in profiles table to NULL
+			$query = $this->db->query('SELECT avatar  FROM `user_profiles` WHERE `user_id` = ' . $user_id);
+			if ($query->num_rows() > 0) {
+				$row = $query->row_array();
+				if ( $row['avatar'] == $image_id) {
+					$this->db->where('user_id', $user_id);
+					$this->db->update('user_profiles', array('avatar' => NULL ));
+				}
+			}
 			
 			//TODO: Handle warning messages
 			//unlink the images
@@ -1315,10 +1361,6 @@ class Artists_model extends CI_Model {
 		return false;
 	}
 
-	function get_profile_image_from_user_id ($image_id) {
-		
-	}
-
 	/*
 	   profile images
 	*/
@@ -1338,9 +1380,23 @@ class Artists_model extends CI_Model {
 	    return false;
     }
 	
-	function set_profile_image ($user_id, $img_id)
+	/*
+		Current logged in user sets his profile image to only his own images
+	*/
+	function set_profile_image ($img_id)
 	{
-		//update user_profiles set avatar to be $img_id where user_id = $user_id
+		if ($this->tank_auth->is_logged_in()) {
+			$user_id = $this->tank_auth->get_user_id();
+			//if image is the current users
+			if($this->valid_image($user_id, $img_id)) {
+				//update user_profiles set avatar to be $img_id where user_id = $user_id
+				$this->db->where('user_id', $user_id);
+				$this->db->update('user_profiles', array('avatar' => $img_id ));
+				return true;			
+			}
+			return false;
+		}
+		return false;
 	}
 
 	function add_profile_image ($user_id, $file)
@@ -1357,9 +1413,10 @@ class Artists_model extends CI_Model {
 		);
 		$this->db->where('user_id', $user_id);
 		$this->db->update('user_profiles', $data);
+		return true;
 	}
 	
-	function get_image_file_name ($image_id, $user_id)
+	function get_image_file_name ($user_id, $image_id)
 	{
 		$query = $this->db->query('SELECT DISTINCT file_name FROM `image` WHERE id = ' . $image_id . ' AND user_id = ' . $user_id);
 		if ($query->num_rows() > 0) {
@@ -1380,7 +1437,7 @@ class Artists_model extends CI_Model {
 	    $results = array();
 	    $query = $this->db->query("SELECT * FROM events ORDER BY id DESC LIMIT " . $limit);
 	    
-	    return $query->result();
+	    return $query->result_array();
 	}
 
 	/****************************** Events section ******************************/

@@ -23,20 +23,20 @@
 				<ul class="search-results">
 					<?php foreach($artists as $row): ?>
 					    <li>
-							<ul class="media-grid">
-							<?php 
-								if ($row->avatar !== null) {
-									echo '<li><a href="' . site_url() . 'artists/' . $row->user_id . '">' . $row->avatar->get_profile_thumb_image('style="width: 60; height: 60px"') . '</a></li>';
-								} else {
-									echo '<li><a href="' . site_url() . 'artists/' . $row->user_id . '"><img class="thumbnail" src="http://placehold.it/60x60" alt="" /></a></li>';
-								} ?>
-							</ul>
+							<?php
+							if ($row->avatar !== null) {
+								echo '<a class="avatar" href="' . site_url() . 'artists/' . $row->user_id . '">' . $row->avatar->get_profile_thumb_image('style="width: 60; height: 60px"') . '</a>';
+							} else {
+								echo '<a class="avatar" href="' . site_url() . 'artists/' . $row->user_id . '"><img class="thumbnail" src="http://placehold.it/60x60" alt="" /></a>';
+							} ?>
 							<h3><a href="<?php echo site_url(); ?>artists/<?php echo $row->user_id; ?>"><?php echo $row->first_name; ?> <?php echo $row->last_name; ?></a></h3>
 							<p><?php echo $row->about_me; ?></p>
 							<?php
-							foreach ($row->interests as $interest) {
-							    echo '<span class="label important">' . $interest . '</span> ';
-							}?>
+							if($row->interests) {
+								foreach ($row->interests as $interest) {
+								    echo '<span class="label important">' . $interest . '</span> ';
+								}
+							} ?>
 							<a class="pull-right" href="<?php echo site_url(); ?>artists/<?php echo $row->user_id; ?>">View profile &raquo;</a>
 					    </li>
 					<?php endforeach; ?>

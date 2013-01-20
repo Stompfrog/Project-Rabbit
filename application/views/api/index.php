@@ -20,7 +20,8 @@
 		<hr />
 		<h3>Images</h3>
 		<ul id="api-links">
-		    <li>Get the all images, page, how many per page = <?php echo anchor('/api/images/latest/1/4', '/api/images/latest/1/4'); ?></li>
+		    <li>Get the all images, page, how many per page = <?php echo anchor('/api/images/latest/1/4/', '/api/images/latest/1/4/'); ?></li>
+		    <li>Set current users' profile image = <?php echo anchor('/api/images/profile/18/', '/api/images/profile/18/'); ?></li>
 		</ul>
 		<hr />
 		<h3>Friends</h3>

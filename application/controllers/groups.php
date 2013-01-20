@@ -28,21 +28,21 @@ class Groups extends CI_Controller
 				$this->create();
 				break;
 			case 'edit_group':
-				if(is_numeric ($this->uri->segment(3)) && $this->artists_model->valid_user_group($this->uri->segment(3), $this->tank_auth->get_user_id())) {
+				if(is_numeric ($this->uri->segment(3)) && $this->artists_model->valid_user_group($this->tank_auth->get_user_id(), $this->uri->segment(3))) {
 					$this->edit_group($this->uri->segment(3));
 				} else {
 					show_404();
 				}
 				break;
 			case 'reassign':
-				if(is_numeric ($this->uri->segment(3)) && $this->artists_model->valid_user_group($this->uri->segment(3), $this->tank_auth->get_user_id())) {
+				if(is_numeric ($this->uri->segment(3)) && $this->artists_model->valid_user_group($this->tank_auth->get_user_id(), $this->uri->segment(3))) {
 					$this->reassign($this->uri->segment(3));
 				} else {
 					show_404();
 				}
 				break;
 			case 'delete':
-				if (is_numeric ($this->uri->segment(3)) && $this->artists_model->valid_user_group($this->uri->segment(3), $this->tank_auth->get_user_id())) {
+				if (is_numeric ($this->uri->segment(3)) && $this->artists_model->valid_user_group($this->tank_auth->get_user_id(), $this->uri->segment(3))) {
 					$this->delete($this->uri->segment(3));
 				} else {
 					show_404();
@@ -132,7 +132,7 @@ class Groups extends CI_Controller
 		    $data['friends'] = $this->artists_model->get_friends($user_id);
 		    $data['pending_friends'] = $this->artists_model->get_pending_friends($user_id);
 		    
-			//if ($this->artists_model->valid_user_group($group_id, $user_id) ) { }
+			//if ($this->artists_model->valid_user_group($user_id, $group_id) ) { }
 			
 		    $group = $this->artists_model->get_group($group_id);
 		    if ($group)
@@ -175,7 +175,7 @@ class Groups extends CI_Controller
 					'group_name' => $this->form_validation->set_value('group_name'),
 					'description' => $this->form_validation->set_value('description'));
 	
-				if($this->artists_model->create_group($user_id, $data))
+				if($this->artists_model->create_group($data))
 				{
 					$data['message'] = 'Group created successfully!';
 					$this->load->view('/auth/create_group', $data);
@@ -224,7 +224,7 @@ class Groups extends CI_Controller
 						'group_name' => $this->form_validation->set_value('group_name'),
 						'description' => $this->form_validation->set_value('description'));
 		
-					if($this->artists_model->update_group($user_id, $group_id, $data))
+					if($this->artists_model->update_group($group_id, $data))
 					{
 						$data['message'] = 'Group updated successfully!';
 						$this->load->view('/auth/edit_group', $data);
@@ -276,7 +276,7 @@ class Groups extends CI_Controller
 			$user_id = $this->tank_auth->get_user_id();
 			//user must be creator to delete group.
 			//Other users must be updated that the group has been deleted			
-			if (($this->artists_model->valid_user_group($group_id, $user_id)) && ($this->artists_model->user_is_group_creator($user_id, $group_id)) ) {
+			if (($this->artists_model->valid_user_group($user_id, $group_id)) && ($this->artists_model->user_is_group_creator($user_id, $group_id)) ) {
 				$this->artists_model->delete_group ($group_id);
 			}
 			

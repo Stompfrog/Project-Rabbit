@@ -69,18 +69,18 @@ body {
         padding:5px 0;
         border-top:1px solid #eee;
 }
-.search-results>li{
-        padding-left:70px;
+
+ul.search-results {
+	margin-left: 10px;
+}
+
+.search-results > li{
         list-style: none;
         position:relative;
         border-bottom:1px solid #eee;
-        padding-bottom:20px;
-        padding-right:20px;
-}
-.search-results .media-grid{
-        position:absolute;
-        top: 0;
-        left:-20px;
+        padding-bottom:30px;
+        margin-bottom:25px;
+        overflow: hidden;
 }
 
 .image-grid {
@@ -131,4 +131,9 @@ textarea{
 
 .address {
 	float: left;
+}
+
+.avatar {
+	float: left;
+    padding-right: 15px;
 }

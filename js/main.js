@@ -31,7 +31,9 @@ require ([
 		                $('#result').text(JSON.stringify(data));
 		        });
 		    });
-		    		    
+		    
+		    
+		    //these could be combined into an 'ajax' class?
 		    $('a.friend').on('click', function (e) {
 			    e.preventDefault();
 			    var parentEl = $(this).parent();
@@ -44,6 +46,17 @@ require ([
 		    });
 		    
 		    $('a.group').on('click', function (e) {
+			    e.preventDefault();
+			    var parentEl = $(this).parent();
+				$.ajax({
+				  url: this.href
+				}).done(function( html ) {
+				  $(this).remove();
+				  $(parentEl).html(html);
+				});
+		    });
+		    
+		    $('a.ajax').on('click', function (e) {
 			    e.preventDefault();
 			    var parentEl = $(this).parent();
 				$.ajax({

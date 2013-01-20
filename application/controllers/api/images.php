@@ -24,6 +24,12 @@ class Images extends CI_Controller
 			case 'latest':
 				$this->latest();
 				break;
+			case ($this->uri->segment(3) && ($this->uri->segment(3) === 'profile')):
+				if (is_numeric ($this->uri->segment(4)))
+					$this->profile($this->uri->segment(4));
+				else
+					show_404();
+				break;	
 			default:
 				show_404();
 				break;
@@ -42,4 +48,15 @@ class Images extends CI_Controller
 	    $data['encoded_data'] = json_encode($images);         
 	    $this->load->view('api/json',$data);
 	}
+	
+	function profile($image_id)
+	{
+	    $images = $this->artists_model->set_profile_image($image_id);
+	    $data['encoded_data'] = json_encode($images);         
+	    $this->load->view('api/json',$data);
+	}
+	
+	//delete
+	
+	//
 }

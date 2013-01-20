@@ -141,10 +141,10 @@ class Groups extends CI_Controller
 		if($this->tank_auth->is_logged_in()) {
 		    $join_result = $this->artists_model->join_group($group_id);
 		    $data['encoded_data'] = json_encode($join_result);
-		    $this->load->view('api/json',$data);
 		} else {
-			$this->load->view('api/json', 'You are not logged in');
+			$data['encoded_data'] = json_encode(false); 
 		}  
+		$this->load->view('api/json',$data);
 	}
 
 	/*
@@ -157,10 +157,10 @@ class Groups extends CI_Controller
 		if($this->tank_auth->is_logged_in()) {
 		    $leave_result = $this->artists_model->leave_group($group_id);
 		    $data['encoded_data'] = json_encode($leave_result);
-		    $this->load->view('api/json',$data);
 		} else {
-			$this->load->view('api/json', 'You are not logged in');
-		}	    
+			$data['encoded_data'] = json_encode(false); 
+		}  
+		$this->load->view('api/json',$data);    
 	}
 	
 	/*
@@ -173,10 +173,10 @@ class Groups extends CI_Controller
 		if($this->tank_auth->is_logged_in()) {
 		    $requests = $this->artists_model->get_group_requests($group_id);
 		    $data['encoded_data'] = json_encode($requests);
-		    $this->load->view('api/json',$data);
 		} else {
-			$this->load->view('api/json', 'You are not logged in');
-		}
+			$data['encoded_data'] = json_encode(false); 
+		}  
+		$this->load->view('api/json',$data);
 	}
 	
 	/*
@@ -189,10 +189,10 @@ class Groups extends CI_Controller
 		if($this->tank_auth->is_logged_in()) {
 		    $invite_result = $this->artists_model->invite_user_to_group($user_id, $group_id);
 		    $data['encoded_data'] = json_encode($invite_result);
-		    $this->load->view('api/json',$data);
 		} else {
-			$this->load->view('api/json', 'You are not logged in');
-		}
+			$data['encoded_data'] = json_encode(false); 
+		}  
+		$this->load->view('api/json',$data);
 	}
 	
 	/*
@@ -205,10 +205,10 @@ class Groups extends CI_Controller
 		if($this->tank_auth->is_logged_in()) {
 			$accepted = $this->artists_model->accept_group_invitation($group_id);
 		    $data['encoded_data'] = json_encode($accepted);
-		    $this->load->view('api/json',$data);
 		} else {
-			$this->load->view('api/json', 'You are not logged in');
-		}
+			$data['encoded_data'] = json_encode(false); 
+		}  
+		$this->load->view('api/json',$data);
 	}
 
 	/*
@@ -221,10 +221,10 @@ class Groups extends CI_Controller
 		if($this->tank_auth->is_logged_in()) {
 			$accepted = $this->artists_model->accept_user_into_group($user_id, $group_id);
 		    $data['encoded_data'] = json_encode($accepted);
-		    $this->load->view('api/json',$data);
 		} else {
-			$this->load->view('api/json', 'You are not logged in');
-		}
+			$data['encoded_data'] = json_encode(false); 
+		}  
+		$this->load->view('api/json',$data);
 	}
 	
 	/*
@@ -237,10 +237,10 @@ class Groups extends CI_Controller
 		if($this->tank_auth->is_logged_in()) {
 			$declined = $this->artists_model->decline_group_invite($group_id);
 		    $data['encoded_data'] = json_encode($declined);
-		    $this->load->view('api/json',$data);
 		} else {
-			$this->load->view('api/json', 'You are not logged in');
-		}
+			$data['encoded_data'] = json_encode(false); 
+		}  
+		$this->load->view('api/json',$data);
 	}
 	
 	/*
@@ -252,10 +252,10 @@ class Groups extends CI_Controller
 		if($this->tank_auth->is_logged_in()) {
 			$declined = $this->artists_model->deny_user_group_entry($user_id, $group_id);
 		    $data['encoded_data'] = json_encode($declined);
-		    $this->load->view('api/json',$data);
 		} else {
-			$this->load->view('api/json', 'You are not logged in');
-		}
+			$data['encoded_data'] = json_encode(false); 
+		}  
+		$this->load->view('api/json',$data);
 	}
 
 	/*
@@ -268,10 +268,10 @@ class Groups extends CI_Controller
 		if($this->tank_auth->is_logged_in()) {
 			$removed = $this->artists_model->remove_user_from_group($user_id, $group_id);
 		    $data['encoded_data'] = json_encode($removed);
-		    $this->load->view('api/json',$data);
 		} else {
-			$this->load->view('api/json', 'You are not logged in');
-		}
+			$data['encoded_data'] = json_encode(false); 
+		}  
+		$this->load->view('api/json',$data);
 	}
 
 	/*
@@ -284,9 +284,9 @@ class Groups extends CI_Controller
 		if($this->tank_auth->is_logged_in()) {
 			$removed = $this->artists_model->reassign_group($user_id, $group_id);
 		    $data['encoded_data'] = json_encode($removed);
-		    $this->load->view('api/json',$data);
 		} else {
-			$this->load->view('api/json', 'You are not logged in');
-		}
+			$data['encoded_data'] = json_encode(false); 
+		}  
+		$this->load->view('api/json',$data);
 	}	
 }

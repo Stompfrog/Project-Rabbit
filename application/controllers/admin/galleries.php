@@ -135,7 +135,7 @@ class Galleries extends CI_Controller
 			redirect('/auth/login/');
 		} else {
 			if (is_numeric ($this->uri->segment(4))) {
-				$this->artists_model->delete_gallery ($this->uri->segment(4), $this->tank_auth->get_user_id());
+				$this->artists_model->delete_gallery ($this->tank_auth->get_user_id(), $this->uri->segment(4));
 			}
 			redirect('/admin/galleries/');
 		}

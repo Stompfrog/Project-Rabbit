@@ -7,7 +7,7 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 <div class="row">
 	<div class="span10">
 
-		<h2>Add Profile Image</h2>
+		<h2>Profile Images</h2>
 		<hr />
 		<?php
 		/*
@@ -32,6 +32,21 @@ $logged_in_user = $this->tank_auth->is_logged_in() && $this->tank_auth->get_user
 		</div>
 		<?php echo form_submit('upload', 'Upload'); ?>
 		<?php echo form_close(); ?>	
+	
+		<?php
+			if (isset($images)) {
+				echo '<ul class="image-grid">';
+				foreach ($images as $image) {
+					echo '<li class="image_list"><dl>';
+					echo '<dt><a href="' . site_url() . 'admin/images/image/' . $image->get_id() . '">' . $image->get_thumb_image() . '</a></dt>';
+					echo '<dd><a href="' . site_url() . 'api/images/profile/' . $image->get_id() . '" class="btn success small" style="margin: 8px;">Set as profule image</a></dd>';
+					echo '<dd><a href="' . site_url() . 'admin/images/edit_image/' . $image->get_id() . '" class="btn success small ajax" style="margin: 8px;">Edit image</a></dd>';
+					echo '<dd><a href="' . site_url() . 'admin/images/delete_image/' . $image->get_id() . '" class="btn danger small" style="margin: 8px;">Delete image</a></dd>';
+					echo '</dl></li>';
+				}
+				echo '</ul>';
+			}
+		?>
 	
 	</div>
 	<?php

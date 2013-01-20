@@ -125,7 +125,7 @@
 		public function get_interests_list()
 		{
 			$int_str = '';
-			if(count($this->interests) > 0)
+			if($this->interests && count($this->interests) > 0)
 			{
 				$int_str .= '<ul>';
 				foreach ($this->interests as $interest) {
