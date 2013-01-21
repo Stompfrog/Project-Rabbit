@@ -139,7 +139,7 @@ class Groups extends CI_Controller
 	function join($group_id)
 	{
 		if($this->tank_auth->is_logged_in()) {
-		    $join_result = $this->artists_model->join_group($group_id);
+		    $join_result = $this->artists_model->join_group($this->tank_auth->get_user_id(), $group_id);
 		    $data['encoded_data'] = json_encode($join_result);
 		} else {
 			$data['encoded_data'] = json_encode(false); 
@@ -155,7 +155,7 @@ class Groups extends CI_Controller
 	function leave($group_id)
 	{
 		if($this->tank_auth->is_logged_in()) {
-		    $leave_result = $this->artists_model->leave_group($group_id);
+		    $leave_result = $this->artists_model->leave_group($this->tank_auth->get_user_id(), $group_id);
 		    $data['encoded_data'] = json_encode($leave_result);
 		} else {
 			$data['encoded_data'] = json_encode(false); 
@@ -187,7 +187,7 @@ class Groups extends CI_Controller
 	function invite($group_id, $user_id)
 	{
 		if($this->tank_auth->is_logged_in()) {
-		    $invite_result = $this->artists_model->invite_user_to_group($user_id, $group_id);
+		    $invite_result = $this->artists_model->invite_user_to_group($this->tank_auth->get_user_id(), $user_id, $group_id);
 		    $data['encoded_data'] = json_encode($invite_result);
 		} else {
 			$data['encoded_data'] = json_encode(false); 
@@ -203,7 +203,7 @@ class Groups extends CI_Controller
 	function accept_group_invitation ($group_id)
 	{
 		if($this->tank_auth->is_logged_in()) {
-			$accepted = $this->artists_model->accept_group_invitation($group_id);
+			$accepted = $this->artists_model->accept_group_invitation($this->tank_auth->get_user_id(), $group_id);
 		    $data['encoded_data'] = json_encode($accepted);
 		} else {
 			$data['encoded_data'] = json_encode(false); 
@@ -219,7 +219,7 @@ class Groups extends CI_Controller
 	function accept($group_id, $user_id)
 	{
 		if($this->tank_auth->is_logged_in()) {
-			$accepted = $this->artists_model->accept_user_into_group($user_id, $group_id);
+			$accepted = $this->artists_model->accept_user_into_group($this->tank_auth->get_user_id(), $user_id, $group_id);
 		    $data['encoded_data'] = json_encode($accepted);
 		} else {
 			$data['encoded_data'] = json_encode(false); 
@@ -235,7 +235,7 @@ class Groups extends CI_Controller
 	function decline($group_id)
 	{
 		if($this->tank_auth->is_logged_in()) {
-			$declined = $this->artists_model->decline_group_invite($group_id);
+			$declined = $this->artists_model->decline_group_invite($this->tank_auth->get_user_id(), $group_id);
 		    $data['encoded_data'] = json_encode($declined);
 		} else {
 			$data['encoded_data'] = json_encode(false); 
@@ -250,7 +250,7 @@ class Groups extends CI_Controller
 	*/
 	function deny ($group_id, $user_id) {
 		if($this->tank_auth->is_logged_in()) {
-			$declined = $this->artists_model->deny_user_group_entry($user_id, $group_id);
+			$declined = $this->artists_model->deny_user_group_entry($this->tank_auth->get_user_id(), $user_id, $group_id);
 		    $data['encoded_data'] = json_encode($declined);
 		} else {
 			$data['encoded_data'] = json_encode(false); 
@@ -266,7 +266,7 @@ class Groups extends CI_Controller
 	function remove ($group_id, $user_id)
 	{
 		if($this->tank_auth->is_logged_in()) {
-			$removed = $this->artists_model->remove_user_from_group($user_id, $group_id);
+			$removed = $this->artists_model->remove_user_from_group($this->tank_auth->get_user_id(), $user_id, $group_id);
 		    $data['encoded_data'] = json_encode($removed);
 		} else {
 			$data['encoded_data'] = json_encode(false); 

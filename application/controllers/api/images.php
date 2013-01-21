@@ -51,9 +51,14 @@ class Images extends CI_Controller
 	
 	function profile($image_id)
 	{
-	    $images = $this->artists_model->set_profile_image($image_id);
-	    $data['encoded_data'] = json_encode($images);         
-	    $this->load->view('api/json',$data);
+		if($this->tank_auth->is_logged_in()) {
+			$images = $this->artists_model->set_profile_image($this->tank_auth->get_user_id(), $image_id);
+		   $data['encoded_data'] = json_encode($images); 
+		} else {
+			$data['encoded_data'] = json_encode(false); 
+		}  
+		$this->load->view('api/json',$data);
+	    
 	}
 	
 	//delete

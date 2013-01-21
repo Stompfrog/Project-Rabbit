@@ -175,7 +175,7 @@ class Images extends CI_Controller
 			redirect('/auth/login/');
 		} else {
 			if (is_numeric ($this->uri->segment(4))) {
-				$this->artists_model->delete_image ((intval($this->uri->segment(4))));
+				$this->artists_model->delete_image ($this->tank_auth->get_user_id(), (intval($this->uri->segment(4))));
 			}
 			redirect('/admin/images/');
 		}

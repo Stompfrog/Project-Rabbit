@@ -47,10 +47,11 @@ class Tests extends CI_Controller
 		echo $this->unit->run($test, 'is_object', $test_name);
 
 		//try invalid characther
+		/*
 		$test = $this->artists_model->get_user('r');
 		$test_name = 'get_user with invalid char';
 		echo $this->unit->run($test, 'is_false', $test_name);
-
+		*/
 		/*
 			@function: get_user_id_from_username
 			@params: (str) user_name
@@ -176,22 +177,31 @@ class Tests extends CI_Controller
 		
 		/*
 			@function: add_friend
-			@params: (int) user_id
+			@params: (int) logged in user_id, (int) friend_id
 			@returns: string
 		*/
-
-		
+		$test = $this->artists_model->add_friend(1, 1);
+		$test_name = 'add_friend';
+		echo $this->unit->run($test, 'is_string', $test_name, $test);
+	
 		/*
 			@function: confirm_friend
-			@params: (int) user_id
-			@returns: string
+			@params: (int) logged in user_id, (int) friend_id
+			@returns: string "you cannot befriend yourself"
 		*/
+		$test = $this->artists_model->confirm_friend(1, 1);
+		$test_name = 'confirm_friend';
+		echo $this->unit->run($test, 'is_string', $test_name, $test);
+		
 		/*
 			@function: unfriend
-			@params: (int) user_id
+			@params: (int) logged in user_id, (int) friend_id
 			@returns: string
 		*/
-		
+		$test = $this->artists_model->unfriend(1, 1);
+		$test_name = 'unfriend';
+		echo $this->unit->run($test, 'is_string', $test_name, $test);
+			
 		/*
 			@function: get_friends
 			@params: (int) user_id, (int) (optional)
@@ -233,19 +243,31 @@ class Tests extends CI_Controller
 		
 		/*
 			@function: already_friends
-			@params: (int) user_id
+			@params: (int) user_id, (int) (optional), (int) (optional)
 			@returns: boolean
 		*/
+		$test = $this->artists_model->already_friends(1, 1);
+		$test_name = 'already_friends';
+		echo $this->unit->run($test, false, $test_name, $test);
+		
 		/*
 			@function: friend_invite
-			@params: (int) user_id
+			@params: (int) logged in user_id, (int) friend_id
 			@returns: boolean
 		*/
+		$test = $this->artists_model->friend_invite(1, 1);
+		$test_name = 'friend_invite';
+		echo $this->unit->run($test, false, $test_name, $test);
+		
 		/*
 			@function: friend_requested
-			@params: (int) user_id
+			@params: (int) logged in user_id, (int) friend_id
 			@returns: boolean
 		*/
+		$test = $this->artists_model->friend_requested(1, 1);
+		$test_name = 'friend_requested';
+		echo $this->unit->run($test, false, $test_name, $test);
+		
 		/*
 			@function: get_total_friends
 			@params: (int) user_id
@@ -318,15 +340,21 @@ class Tests extends CI_Controller
 	
 		/*	
 			@function: update_address
-			@params: (int) address_id, (array) data
+			@params: (int) user_id, (int) address_id, (array) data
 			@returns: boolean
 		*/
+		$test = $this->artists_model->update_address(1, 99, array("", ""));
+		$test_name = "update_address using Mark's id (1) and invalid address_id (99), and empty data array";
+		echo $this->unit->run($test, false, $test_name);
+		
 		/*	
 			@function: delete_address
-			@params: (int) address_id 
+			@params: (int) user_id, (int) address_id 
 			@returns: boolean
 		*/
-		
+		$test = $this->artists_model->delete_address(1, 99);
+		$test_name = "delete_address using Mark's id (1) and invalid address_id (99)";
+		echo $this->unit->run($test, false, $test_name);
 		
 		echo '<h2>Places section</h2>';
 		/*
@@ -353,15 +381,22 @@ class Tests extends CI_Controller
 		
 		/*	
 			@function: update_group
-			@params: (int) group_id, (arra) data
+			@params: (int) user_id, (int) group_id, (arra) data
 			@returns: boolean
 		*/
+		$test = $this->artists_model->update_group(1, 99, array());
+		$test_name = "update_group using Mark's valid user_id, an invalid group_id, and an empty array";
+		echo $this->unit->run($test, false, $test_name);
 		
 		/*	
 			@function: delete_group
-			@params: (int) group_id
+			@params: (int) user_id, (int) group_id
 			@returns: boolean
 		*/
+		$test = $this->artists_model->delete_group(1, 99);
+		$test_name = "delete_group using Mark's valid user_id, an invalid group_id";
+		echo $this->unit->run($test, false, $test_name);
+		
 		/*	
 			@function: get_group_members
 			@params: (int) group_id
@@ -551,14 +586,22 @@ class Tests extends CI_Controller
 		*/
 		/*	
 			@function: join_group
-			@params: (int) group_id
+			@params: (int) user_id, (int) group_id
 			@returns: boolean
 		*/
+		$test = $this->artists_model->join_group(1, 99);
+		$test_name = "join_group using Mark's valid user_id, and invalid group_id (99)";
+		echo $this->unit->run($test, 'is_string', $test_name, $test);
+		
 		/*	
 			@function: leave_group
-			@params: (int) group_id
+			@params: (int) user_id, (int) group_id
 			@returns: string or boolean
 		*/
+		$test = $this->artists_model->leave_group(1, 99);
+		$test_name = "leave_group using Mark's valid user_id, and invalid group_id (99)";
+		echo $this->unit->run($test, 'is_string', $test_name, $test);
+		
 		/*	
 			@function: get_group_requests
 			@params: (int) group_id
@@ -566,34 +609,58 @@ class Tests extends CI_Controller
 		*/
 		/*	
 			@function: invite_user_to_group
-			@params: (int) user_id, (int) group_id
+			@params: (int) inviter_id (current logged in user), (int) user_id, (int) group_id
 			@returns: boolean
 		*/
+		$test = $this->artists_model->invite_user_to_group(1, 99, 99);
+		$test_name = "invite_user_to_group using Mark's valid user_id, an invalud user_id (99), and invalid group_id (99)";
+		echo $this->unit->run($test, 'is_array', $test_name, print_r($test));
+		
 		/*	
 			@function: decline_group_invite
-			@params: (int) group_id
-			@returns: boolean or string
-		*/
-		/*	
-			@function: deny_user_group_entry
 			@params: (int) user_id, (int) group_id
 			@returns: boolean or string
 		*/
+		$test = $this->artists_model->decline_group_invite(1, 99);
+		$test_name = "decline_group_invite using Mark's valid user_id, and invalid group_id (99)";
+		echo $this->unit->run($test, 'is_string', $test_name, $test);
+		
+		/*	
+			@function: deny_user_group_entry
+			@params: (int) admin_id (logged in user_id), (int) user_id, (int) group_id
+			@returns: boolean or string
+		*/
+		$test = $this->artists_model->deny_user_group_entry(1, 1, 99);
+		$test_name = "deny_user_group_entry using Mark's valid admin_id, the same valid user_id, and invalid group_id (99)";
+		echo $this->unit->run($test, 'is_string', $test_name, $test);
+		
 		/*	
 			@function: accept_group_invitation
 			@params: (int) group_id
-			@returns: boolean or string
+			@returns: true or error string
 		*/
+		$test = $this->artists_model->accept_group_invitation(1, 99);
+		$test_name = "accept_group_invitation using Mark's valid user_id, and invalid user_id (99)";
+		echo $this->unit->run($test, 'is_string', $test_name, $test);
+		
 		/*	
 			@function: accept_user_into_group
-			@params: (int) user_id, (int) group_id
+			@params: (int) admin_id (current logged in user), (int) user_id, (int) group_id
 			@returns: boolean or string
 		*/
+		$test = $this->artists_model->accept_user_into_group(1, 99, 99);
+		$test_name = "accept_user_into_group using Mark's valid user_id, and invalid user_id (99), and invalid group_id (99)";
+		echo $this->unit->run($test, 'is_string', $test_name, $test);
+		
 		/*	
 			@function: remove_user_from_group
 			@params: (int) user_id, (int) group_id
 			@returns: boolean or string
 		*/
+		$test = $this->artists_model->remove_user_from_group(1, 99, 99);
+		$test_name = "remove_user_from_group using Mark's valid user_id, and invalid user_id (99), and invalid group_id (99)";
+		echo $this->unit->run($test, 'is_string', $test_name, $test);
+		
 		/*	
 			@function: reassign_group
 			@params: (int) user_id, (int) group_id
@@ -666,9 +733,13 @@ class Tests extends CI_Controller
 		*/
 		/*	
 			@function: delete_image
-			@params: (int) image_id
+			@params: (int) user_id, (int) image_id
 			@returns: true or exception
 		*/
+		$test = $this->artists_model->delete_image(1, 99);
+		$test_name = "delete_image using Mark's valid user_id, and invalid image_id (99))";
+		echo $this->unit->run($test, false, $test_name, $test);
+		
 		/*	
 			@function: valid_image
 			@params: (int) user_id, (int) image_id
@@ -686,9 +757,13 @@ class Tests extends CI_Controller
 		*/
 		/*	
 			@function: set_profile_image
-			@params: (int) image_id
+			@params: (int) user_id, (int) image_id
 			@returns: boolean
 		*/
+		$test = $this->artists_model->set_profile_image(1, 99);
+		$test_name = "set_profile_image using Mark's valid user_id, and invalid image_id (99))";
+		echo $this->unit->run($test, false, $test_name, $test);
+		
 		/*	
 			@function: add_profile_image
 			@params: (int) user_id, (file) file

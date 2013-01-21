@@ -69,7 +69,7 @@ class Friends extends CI_Controller
 	function add()
 	{
 		if ($this->tank_auth->is_logged_in() && $this->uri->segment(4)) {
-			$friend_request_message = $this->artists_model->add_friend($this->uri->segment(4));
+			$friend_request_message = $this->artists_model->add_friend($this->tank_auth->get_user_id(), $this->uri->segment(4));
 			$data['encoded_data'] = json_encode($friend_request_message);
 		} else {
 			$data['encoded_data'] = json_encode(false);
@@ -80,7 +80,7 @@ class Friends extends CI_Controller
 	function confirm($friend_id)
 	{
 		if ($this->tank_auth->is_logged_in()) {
-		    $friend_request_message = $this->artists_model->confirm_friend($friend_id);
+		    $friend_request_message = $this->artists_model->confirm_friend($this->tank_auth->get_user_id(), $friend_id);
 		    $data['encoded_data'] = json_encode($friend_request_message);
 		} else {
 			$data['encoded_data'] = json_encode(false);           
@@ -91,7 +91,7 @@ class Friends extends CI_Controller
 	function unfriend($friend_id)
 	{
 		if ($this->tank_auth->is_logged_in()) {
-			$friend_request_message = $this->artists_model->unfriend($friend_id);
+			$friend_request_message = $this->artists_model->unfriend($this->tank_auth->get_user_id(), $friend_id);
 			$data['encoded_data'] = json_encode($friend_request_message);
 		} else {
 			$data['encoded_data'] = json_encode(false);           
@@ -99,21 +99,34 @@ class Friends extends CI_Controller
 		$this->load->view('api/json',$data);
 	}
 	
-	function already_friends ($friend_id) {
-	    $isfriend_message = $this->artists_model->already_friends($friend_id);
-	    $data['encoded_data'] = json_encode($isfriend_message);         
-	    $this->load->view('api/json',$data);
+	function already_friends ($friend_id)
+	{
+		if ($this->tank_auth->is_logged_in()) {
+		    $isfriend_message = $this->artists_model->already_friends($this->tank_auth->get_user_id(), $friend_id);
+		    $data['encoded_data'] = json_encode($isfriend_message); 
+		} else {
+			$data['encoded_data'] = json_encode(false);           
+		}
+		$this->load->view('api/json',$data);
 	}
 
 	function has_invited ($friend_id) {
-	    $isfriend_message = $this->artists_model->friend_invite($friend_id);
-	    $data['encoded_data'] = json_encode($isfriend_message);         
-	    $this->load->view('api/json',$data);
+		if ($this->tank_auth->is_logged_in()) {
+		    $isfriend_message = $this->artists_model->friend_invite($this->tank_auth->get_user_id(), $friend_id);
+		    $data['encoded_data'] = json_encode($isfriend_message);
+		} else {
+			$data['encoded_data'] = json_encode(false);
+		}
+		 $this->load->view('api/json',$data);
 	}
 	
 	function already_requested ($friend_id) {
-	    $isfriend_message = $this->artists_model->friend_requested($friend_id);
-	    $data['encoded_data'] = json_encode($isfriend_message);         
+		if ($this->tank_auth->is_logged_in()) {
+		    $isfriend_message = $this->artists_model->friend_requested($this->tank_auth->get_user_id(), $friend_id);
+		    $data['encoded_data'] = json_encode($isfriend_message);
+		} else {
+			$data['encoded_data'] = json_encode(false);
+		}
 	    $this->load->view('api/json',$data);
 	}
 }

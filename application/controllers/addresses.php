@@ -165,7 +165,7 @@ class Addresses extends CI_Controller
 						'lat' => $this->form_validation->set_value('lat'),
 						'lon' => $this->form_validation->set_value('lon'));
 		
-					if($this->artists_model->update_address($address_id, $updated_values)) {
+					if($this->artists_model->update_address($user_id, $address_id, $updated_values)) {
 						$data['message'] = 'Your details were updated successfully!';
 						$this->load->view('/addresses/address', $data);
 					} else {
@@ -193,7 +193,7 @@ class Addresses extends CI_Controller
 			redirect('/auth/login/');
 		} else {
 			if (is_numeric ($this->uri->segment(3)) && $this->artists_model->valid_address($this->tank_auth->get_user_id(), $this->uri->segment(3)) ) {
-				$this->artists_model->delete_address ($this->uri->segment(3));
+				$this->artists_model->delete_address ($this->tank_auth->get_user_id(), $this->uri->segment(3));
 			}
 			redirect('/addresses/');
 		}

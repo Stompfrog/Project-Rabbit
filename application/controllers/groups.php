@@ -175,7 +175,7 @@ class Groups extends CI_Controller
 					'group_name' => $this->form_validation->set_value('group_name'),
 					'description' => $this->form_validation->set_value('description'));
 	
-				if($this->artists_model->create_group($data))
+				if($this->artists_model->create_group($user_id, $data))
 				{
 					$data['message'] = 'Group created successfully!';
 					$this->load->view('/auth/create_group', $data);
@@ -224,7 +224,7 @@ class Groups extends CI_Controller
 						'group_name' => $this->form_validation->set_value('group_name'),
 						'description' => $this->form_validation->set_value('description'));
 		
-					if($this->artists_model->update_group($group_id, $data))
+					if($this->artists_model->update_group($user_id, $group_id, $data))
 					{
 						$data['message'] = 'Group updated successfully!';
 						$this->load->view('/auth/edit_group', $data);
@@ -277,7 +277,7 @@ class Groups extends CI_Controller
 			//user must be creator to delete group.
 			//Other users must be updated that the group has been deleted			
 			if (($this->artists_model->valid_user_group($user_id, $group_id)) && ($this->artists_model->user_is_group_creator($user_id, $group_id)) ) {
-				$this->artists_model->delete_group ($group_id);
+				$this->artists_model->delete_group ($user_id, $group_id);
 			}
 			
 			//if an administrator is not the creator of the group but deletes,
